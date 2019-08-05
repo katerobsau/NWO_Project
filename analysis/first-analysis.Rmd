@@ -13,7 +13,7 @@ Look at me learning new things.
 
 I just tried changing the analysis to see how the version control works.
 
-```{r}
+```{r plot_example}
 plot(1:10, -(1:10))
 ```
 
