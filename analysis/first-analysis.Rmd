@@ -1,0 +1,17 @@
+---
+title: "first-analysis"
+author: "katerobsau"
+date: "2019-08-05"
+output: workflowr::wflow_html
+editor_options:
+  chunk_output_type: console
+---
+
+## Introduction
+
+Look at me learning new things
+
+```{r}
+plot(1:10)
+```
+
