@@ -11,3 +11,5 @@ editor_options:
 Welcome to my research website.
 
 Click on this [link](first-analysis.html) to see my results.
+
+Adding a new link: [link](details-on-tidal-summaries.html).
