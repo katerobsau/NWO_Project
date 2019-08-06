@@ -536,10 +536,10 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomkaterobsauNWOProjecttree41427e0abaa6c2311dc0ca0d20b09b49c9d188a5targetblank41427e0a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/katerobsau/NWO_Project/tree/41427e0abaa6c2311dc0ca0d20b09b49c9d188a5" target="_blank">41427e0</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomkaterobsauNWOProjecttreeda17c8899e1926d5fc156a90f6aacc71d9559657targetblankda17c88a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/katerobsau/NWO_Project/tree/da17c8899e1926d5fc156a90f6aacc71d9559657" target="_blank">da17c88</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomkaterobsauNWOProjecttree41427e0abaa6c2311dc0ca0d20b09b49c9d188a5targetblank41427e0a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomkaterobsauNWOProjecttreeda17c8899e1926d5fc156a90f6aacc71d9559657targetblankda17c88a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -594,6 +594,40 @@ Message
 Rmd
 </td>
 <td>
+<a href="https://github.com/katerobsau/NWO_Project/blob/da17c8899e1926d5fc156a90f6aacc71d9559657/analysis/details-on-tidal-summaries.Rmd" target="_blank">da17c88</a>
+</td>
+<td>
+katerobsau
+</td>
+<td>
+2019-08-06
+</td>
+<td>
+Testing funGraphs
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/katerobsau/NWO_Project/2fc8ca3765472a3c4f0ade6071c3090971298ca3/docs/details-on-tidal-summaries.html" target="_blank">2fc8ca3</a>
+</td>
+<td>
+katerobsau
+</td>
+<td>
+2019-08-06
+</td>
+<td>
+Build site.
+</td>
+</tr>
+<tr>
+<td>
+Rmd
+</td>
+<td>
 <a href="https://github.com/katerobsau/NWO_Project/blob/41427e0abaa6c2311dc0ca0d20b09b49c9d188a5/analysis/details-on-tidal-summaries.Rmd" target="_blank">41427e0</a>
 </td>
 <td>
@@ -639,8 +673,16 @@ list.files(package_dir)</code></pre>
 tidalHelpers::hello()</code></pre>
 <pre><code>[1] &quot;Hello, world!&quot;</code></pre>
 </div>
-<div id="workflor" class="section level2">
-<h2>Workflor</h2>
+<div id="workflow" class="section level2">
+<h2>Workflow</h2>
+<pre class="r"><code>bool_install = &quot;funGraphs&quot; %in% rownames(installed.packages())
+if(bool_install == FALSE){
+  devtools::install_github(&quot;kcf-jackson/funGraphs&quot;)
+}
+library(funGraphs)</code></pre>
+<pre class="r"><code># pkg_graph &lt;- funGraphs::build_pkg_graph()
+r_file_dir = paste0(package_dir, &quot;/R/&quot;, sep = &quot;&quot;) 
+pkg_graph &lt;- funGraphs::build_graph_from_dir(dir0 = r_file_dir)</code></pre>
 <div id="htmlwidget-12b1d253ef1078d00bfe" style="width:672px;height:480px;" class="grViz html-widget"></div>
 <script type="application/json" data-for="htmlwidget-12b1d253ef1078d00bfe">{"x":{"diagram":"digraph flowchart {\n      # node definitions with substituted label text\n      node [fontname = Helvetica, shape = rectangle]        \n      tab1 [label = \"get_ensemble_ref()\"]\n      tab2 [label = \"combine_ensemble_data()\"]\n      tab2a [label = \"read_tide_data()\"]\n      tab4 [label = \"preprocess_tide_data()\"]\n      tab5 [label = \"combine_ensemble_data()\"]\n      tab6 [label = \"get_ensemble_summary()\"]\n\n      # edge definitions with the node IDs\n      tab1 -> tab2 -> tab2a -> tab4 -> tab5 -> tab6;\n      }","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
 <p>Show what the data looks like too!!</p>
@@ -667,7 +709,7 @@ attached base packages:
 [1] stats     graphics  grDevices utils     datasets  methods   base     
 
 other attached packages:
-[1] DiagrammeR_1.0.1
+[1] DiagrammeR_1.0.1 funGraphs_0.1.7 
 
 loaded via a namespace (and not attached):
  [1] Rcpp_1.0.1         plyr_1.8.4         compiler_3.5.2    
