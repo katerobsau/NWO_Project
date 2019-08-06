@@ -22,14 +22,28 @@ utils_init()
 * Code to preprocess the data is stored in the directory XXX
 * An overview of the codes workflow is given below
 
-```{r}
+```{r tidal pacakge read}
 package_dir = "code/tidalHelpers"
 list.files(package_dir)
 install.packages(pkgs = "code/tidalHelpers", repos = NULL, type = "source")
 tidalHelpers::hello()
 ```
 
-## Workflor
+## Workflow
+
+```{r install funGraphs package}
+bool_install = "funGraphs" %in% rownames(installed.packages())
+if(bool_install == FALSE){
+  devtools::install_github("kcf-jackson/funGraphs")
+}
+library(funGraphs)
+```
+
+```{r show package graph}
+# pkg_graph <- funGraphs::build_pkg_graph()
+r_file_dir = paste0(package_dir, "/R/", sep = "") 
+pkg_graph <- funGraphs::build_graph_from_dir(dir0 = r_file_dir)
+```
 
 ```{r flowchart, echo = FALSE}
 library(DiagrammeR)
