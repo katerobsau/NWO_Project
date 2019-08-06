@@ -1,0 +1,61 @@
+---
+title: "Reading and preprocessing tidal data"
+author: "katerobsau"
+date: "2019-08-05"
+output: workflowr::wflow_html
+editor_options:
+  chunk_output_type: console
+---
+
+## General Background
+
+* Where is the data stored
+* What is the data - run with which model
+* How did we get the data (save Kiri's script)
+
+## Global Variables
+
+utils_init()
+
+## Code 
+
+* Code to preprocess the data is stored in the directory XXX
+* An overview of the codes workflow is given below
+
+```{r}
+package_dir = "code/tidalHelpers"
+list.files(package_dir)
+install.packages(pkgs = "code/tidalHelpers", repos = NULL, type = "source")
+tidalHelpers::hello()
+```
+
+## Workflor
+
+```{r flowchart, echo = FALSE}
+library(DiagrammeR)
+flow_chart <- grViz("digraph flowchart {
+      # node definitions with substituted label text
+      node [fontname = Helvetica, shape = rectangle]        
+      tab1 [label = '@@1']
+      tab2 [label = '@@2']
+      tab2a [label = '@@3']
+      tab4 [label = '@@4']
+      tab5 [label = '@@5']
+      tab6 [label = '@@6']
+
+      # edge definitions with the node IDs
+      tab1 -> tab2 -> tab2a -> tab4 -> tab5 -> tab6;
+      }
+
+      [1]: 'get_ensemble_ref()'
+      [2]: 'combine_ensemble_data()'
+      [3]: 'read_tide_data()'
+      [4]: 'preprocess_tide_data()'
+      [5]: 'combine_ensemble_data()'
+      [6]: 'get_ensemble_summary()'
+      ")
+
+flow_chart
+```
+
+Show what the data looks like too!!
