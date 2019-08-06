@@ -43,6 +43,7 @@ library(funGraphs)
 # pkg_graph <- funGraphs::build_pkg_graph()
 r_file_dir = paste0(package_dir, "/R/", sep = "") 
 pkg_graph <- funGraphs::build_graph_from_dir(dir0 = r_file_dir)
+pkg_graph
 ```
 
 ```{r flowchart, echo = FALSE}
