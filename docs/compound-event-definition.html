@@ -9,11 +9,9 @@
 <meta name="generator" content="pandoc" />
 
 
-<meta name="author" content="katerobsau" />
 
-<meta name="date" content="2019-08-05" />
 
-<title>first-analysis</title>
+<title>Problem Specification</title>
 
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -414,9 +412,7 @@ div.section {
 
 
 
-<h1 class="title toc-ignore">first-analysis</h1>
-<h4 class="author"><em>katerobsau</em></h4>
-<h4 class="date"><em>2019-08-05</em></h4>
+<h1 class="title toc-ignore">Problem Specification</h1>
 
 </div>
 
@@ -559,7 +555,6 @@ Untracked files:
     Untracked:  code/tidalHelpers/R/utils_ensemble.R
     Untracked:  code/tidalHelpers/R/utils_init.R
     Untracked:  code/tidalHelpers/R/utils_preprocess.R
-    Untracked:  docs/figure/compound-event-definition.Rmd/
 
 Unstaged changes:
     Modified:   code/tidalHelpers/DESCRIPTION
@@ -608,138 +603,19 @@ Message
 <tbody>
 <tr>
 <td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/katerobsau/NWO_Project/2fc8ca3765472a3c4f0ade6071c3090971298ca3/docs/first-analysis.html" target="_blank">2fc8ca3</a>
-</td>
-<td>
-katerobsau
-</td>
-<td>
-2019-08-06
-</td>
-<td>
-Build site.
-</td>
-</tr>
-<tr>
-<td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/katerobsau/NWO_Project/ec1bd70fe0d3b762baafcdc277b4e5bf56b76f4d/docs/first-analysis.html" target="_blank">ec1bd70</a>
-</td>
-<td>
-katerobsau
-</td>
-<td>
-2019-08-05
-</td>
-<td>
-Build site.
-</td>
-</tr>
-<tr>
-<td>
 Rmd
 </td>
 <td>
-<a href="https://github.com/katerobsau/NWO_Project/blob/b27a6e1ad27a631e3f221fc79a6e01ba1328869f/analysis/first-analysis.Rmd" target="_blank">b27a6e1</a>
+<a href="https://github.com/katerobsau/NWO_Project/blob/2117e41f136d1b0517f10ea75faee8a9e7e0a9ac/analysis/compound-event-definition.Rmd" target="_blank">2117e41</a>
 </td>
 <td>
 katerobsau
 </td>
 <td>
-2019-08-05
+2019-08-16
 </td>
 <td>
-Editted my first analysis: Added a title to code
-</td>
-</tr>
-<tr>
-<td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/katerobsau/NWO_Project/d916e1857c7c35f80a2f10879f6fb3c5b33138f8/docs/first-analysis.html" target="_blank">d916e18</a>
-</td>
-<td>
-katerobsau
-</td>
-<td>
-2019-08-05
-</td>
-<td>
-Build site.
-</td>
-</tr>
-<tr>
-<td>
-Rmd
-</td>
-<td>
-<a href="https://github.com/katerobsau/NWO_Project/blob/1e22924eae70d6817e0269fd201ea67eb016cc03/analysis/first-analysis.Rmd" target="_blank">1e22924</a>
-</td>
-<td>
-katerobsau
-</td>
-<td>
-2019-08-05
-</td>
-<td>
-Editted my first analysis
-</td>
-</tr>
-<tr>
-<td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/katerobsau/NWO_Project/24abb5a2fb8192eace8e2430a22dadace218c679/docs/first-analysis.html" target="_blank">24abb5a</a>
-</td>
-<td>
-katerobsau
-</td>
-<td>
-2019-08-05
-</td>
-<td>
-Build site.
-</td>
-</tr>
-<tr>
-<td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/katerobsau/NWO_Project/c5a2ac88afe70b02e02b543f0896e2525dbe1c24/docs/first-analysis.html" target="_blank">c5a2ac8</a>
-</td>
-<td>
-katerobsau
-</td>
-<td>
-2019-08-05
-</td>
-<td>
-Build site.
-</td>
-</tr>
-<tr>
-<td>
-Rmd
-</td>
-<td>
-<a href="https://github.com/katerobsau/NWO_Project/blob/435ab8bbe2a77fcbac0d931ab5c19ce7ea2aadda/analysis/first-analysis.Rmd" target="_blank">435ab8b</a>
-</td>
-<td>
-katerobsau
-</td>
-<td>
-2019-08-05
-</td>
-<td>
-First new commit
+code/*
 </td>
 </tr>
 </tbody>
@@ -749,48 +625,96 @@ First new commit
 </div>
 </div>
 </div>
-<div id="introduction" class="section level2">
-<h2>Introduction</h2>
-<p>Look at me learning new things.</p>
-<p>I just tried changing the analysis to see how the version control works.</p>
-<pre class="r"><code>plot(1:10, -(1:10))</code></pre>
-<p><img src="figure/first-analysis.Rmd/plot_example-1.png" width="672" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-plot_example-1">
-Past versions of plot_example-1.png
-</button>
+<style>
+p.comment {
+background-color: #DBDBDB;
+padding: 10px;
+border: 1px solid black;
+margin-left: 25px;
+border-radius: 5px;
+font-style: italic;
+}
+</style>
+<div id="compound-events" class="section level2">
+<h2>Compound Events</h2>
+<p>Individually, both extreme rainfall and storm surge have the potential to produce flooding. However,compared with either event occurring individual, the potential risk is magnified if these events co-occur. This is what is known as a compound event.</p>
+<p class="comment">
+<strong>Definition 1:</strong> The IPCC SREX (Ref 7, p. 118) defines a compound event as:<br />
+(1) two or more extreme events occurring simultaneously or successively,<br />
+(2) combinations of extreme events with underlying conditions that amplify the impact of the events, or<br />
+(3) combinations of events that are not themselves extremes but lead<br />
+to an extreme event or impact when combined.<br />
+The contributing events can be of similar (clustered multiple events) or different type(s).
 </p>
-<div id="fig-plot_example-1" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
+<!-- <div class="alert alert-info"> -->
+<!--   Different box example -->
+<!-- </div> -->
+</div>
+<div id="rainfall-surge-mechansims" class="section level2">
+<h2>Rainfall-Surge Mechansims</h2>
+<p>Wahl et al. (2015) breaks the compound event involving rainfall-surge down into three mechanism types.</p>
+<p class="comment">
+<strong>Mechanism (1)</strong> in estuarine regions, the joint occurrence of both may elevate water levels to a point where flooding is initiated or its impacts exacerbated.<br />
+<strong>Mechanism (2)</strong> occurs when a destructive storm surge already causes widespread flooding, such that any significant rainfall on top of this—even if it is not an extreme event on its own—increases the flood depth and/or extent of the inundated area.<br />
+<strong>Mechanism (3)</strong> occurs during a moderate storm surge which does not directly cause flooding, but is high enough to fully block or slow down gravity-fed storm water drainage, such that precipitation is more likely to cause flooding.
+</p>
+<p>The risk regions related to these three mechanisms is shown in Figure NULL 1.</p>
+<!-- <a id="my_chunk"></a> -->
+<!-- See [this code chunk](#my_chunk) -->
+<div class="figure" style="text-align: center">
+<img src="figure/compound-event-definition.Rmd/riskregions-1.png" alt=" Examples of risk regions for a Rainfall-Surge compound event" width="500px" height="200px" />
+<p class="caption">
+Examples of risk regions for a Rainfall-Surge compound event
+</p>
+</div>
+<p>Of particular concern in the Netherlands are mechanisms 1 and 3, as flood risk in the canal belt system is heavily mitigated by gravity-based sluices. As these sluices are gravity-based it is only possible to operate them at low tide. The core scenario of concern is therefore when a storm-surge has also occurred during a low tide preventing water release of run-off from heavy rainfall. The storm-surge does not necessarily need to be extreme, but does prevent rainfall run-off discharge.</p>
+</div>
+<div id="event-definition" class="section level2">
+<h2>Event definition</h2>
+<p>In order to estimate the probability of an event occuring in one of the risk regions, we first need to define the set of variables we will use to model the problem. These variables are given in Table NULL 2. We have adopted a similar problem specification to Li et al. 2014, who considered an application of wave heights for Dutch storms. Namely in our specification, we are interested in the duration that the gravity based is not operational. A schematic showing these variables is given in Figure NULL 3.</p>
+<table>
 <thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
+<tr class="header">
+<th align="left">Variable Name</th>
+<th align="left">Variable Type</th>
 </tr>
 </thead>
 <tbody>
-<tr>
-<td>
-<a href="https://github.com/katerobsau/NWO_Project/blob/ec1bd70fe0d3b762baafcdc277b4e5bf56b76f4d/docs/figure/first-analysis.Rmd/plot_example-1.png" target="_blank">ec1bd70</a>
-</td>
-<td>
-katerobsau
-</td>
-<td>
-2019-08-05
-</td>
+<tr class="odd">
+<td align="left">T_s</td>
+<td align="left">Duration of the storm surge</td>
+</tr>
+<tr class="even">
+<td align="left">H_s</td>
+<td align="left">Maximum surge height during T_s</td>
+</tr>
+<tr class="odd">
+<td align="left">H_t</td>
+<td align="left">Threshold water height above which the gravity based sluice can not operate</td>
+</tr>
+<tr class="even">
+<td align="left">T_l</td>
+<td align="left">Duration that the gravity based sluice is not operational</td>
+</tr>
+<tr class="odd">
+<td align="left">T_o</td>
+<td align="left">Duration of overlap between T_s and T_l</td>
+</tr>
+<tr class="even">
+<td align="left">N_l</td>
+<td align="left">Number of low tides where the sluice is not operational during T_l</td>
+</tr>
+<tr class="odd">
+<td align="left">N_s</td>
+<td align="left">Number of low tides where the sluice is not operational during T_l due to storm surge</td>
 </tr>
 </tbody>
 </table>
-</div>
+<div class="figure" style="text-align: center">
+<img src="figure/compound-event-definition.Rmd/schematics-1.png" alt=" Red shaded areas shows the time period that gravity-based sluice was not operational was not operational for these examples. The tidal cycle is shown by the dotted blue line, and the sea level, which is the combined tide and storm surge is shown in solid black. If there is no storm surge, as in Figure 1B, then the two lines are superimposed. The dashed horizontal line shows the maximum water level for sluice operation." width="500px" height="200px" />
+<p class="caption">
+Red shaded areas shows the time period that gravity-based sluice was not operational was not operational for these examples. The tidal cycle is shown by the dotted blue line, and the sea level, which is the combined tide and storm surge is shown in solid black. If there is no storm surge, as in Figure 1B, then the two lines are superimposed. The dashed horizontal line shows the maximum water level for sluice operation.
+</p>
 </div>
 <br>
 <p>
@@ -814,12 +738,25 @@ locale:
 attached base packages:
 [1] stats     graphics  grDevices utils     datasets  methods   base     
 
+other attached packages:
+ [1] knitr_1.21      cowplot_0.9.4   forcats_0.4.0   stringr_1.4.0  
+ [5] dplyr_0.8.0.1   purrr_0.3.2     readr_1.3.1     tidyr_0.8.3    
+ [9] tibble_2.1.1    ggplot2_3.1.1   tidyverse_1.2.1
+
 loaded via a namespace (and not attached):
- [1] workflowr_1.4.0 Rcpp_1.0.1      digest_0.6.18   rprojroot_1.3-2
- [5] backports_1.1.3 git2r_0.24.0    magrittr_1.5    evaluate_0.13  
- [9] stringi_1.4.3   fs_1.2.6        whisker_0.3-2   rmarkdown_1.11 
-[13] tools_3.5.2     stringr_1.4.0   glue_1.3.1      xfun_0.5       
-[17] yaml_2.2.0      compiler_3.5.2  htmltools_0.3.6 knitr_1.21     </code></pre>
+ [1] Rcpp_1.0.1       highr_0.7        cellranger_1.1.0 plyr_1.8.4      
+ [5] pillar_1.3.1     compiler_3.5.2   git2r_0.24.0     workflowr_1.4.0 
+ [9] tools_3.5.2      digest_0.6.18    lubridate_1.7.4  jsonlite_1.6    
+[13] evaluate_0.13    nlme_3.1-137     gtable_0.3.0     lattice_0.20-38 
+[17] pkgconfig_2.0.2  rlang_0.3.4      cli_1.1.0        rstudioapi_0.9.0
+[21] yaml_2.2.0       haven_2.1.0      xfun_0.5         withr_2.1.2     
+[25] xml2_1.2.0       httr_1.4.0       hms_0.4.2        generics_0.0.2  
+[29] fs_1.2.6         rprojroot_1.3-2  grid_3.5.2       tidyselect_0.2.5
+[33] glue_1.3.1       R6_2.4.0         readxl_1.3.0     rmarkdown_1.11  
+[37] modelr_0.1.4     magrittr_1.5     whisker_0.3-2    backports_1.1.3 
+[41] scales_1.0.0     htmltools_0.3.6  rvest_0.3.2      assertthat_0.2.1
+[45] colorspace_1.4-1 labeling_0.3     stringi_1.4.3    lazyeval_0.2.2  
+[49] munsell_0.5.0    broom_0.5.1      crayon_1.3.4    </code></pre>
 </div>
 </div>
 
