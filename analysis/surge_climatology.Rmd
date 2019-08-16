@@ -1,0 +1,89 @@
+---
+title: "Climatology"
+output: html_document
+---
+
+```{r setup, include=FALSE, message = FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+```
+
+```{r pseudoCode, echo = FALSE}
+# Read in climatogolical data (one height, for one time)
+# Set height level
+# Get binary vector of if higher
+# Get time period spent above that level
+# Loop over for different heights
+```
+
+## Observations
+
+We have our observation data
+
+```{r surgeData, echo = FALSE, warning = FALSE, message = FALSE}
+data_dir = "/Users/katesaunders/Documents/Git/StormSurge/Summary_Data/"
+prcp_search_str = "Leeuwarden"
+surge_search_str = "Surge"
+
+summary_files = list.files(data_dir) 
+# print(summary_files)
+summary_paths = paste(data_dir, summary_files, sep = "")
+
+len = length(summary_files)
+summary_data_list <- sapply(summary_paths, readRDS)
+
+# combine together for plotting
+surge_ind = grep(surge_search_str, summary_files)
+if(length(surge_ind) != 2) stop("Assumptions on file name structure for surge are false")
+
+surge_data <- left_join(summary_data_list[[surge_ind[1]]],
+                        summary_data_list[[surge_ind[2]]]) %>%
+                        filter(obs < 99 & wsur < 99)
+
+# fix tide category
+df_catg <- summary_data_list[[surge_ind[2]]] %>%
+  filter(t == 0) %>%
+  mutate(if_else(obs >= 99, NA_real_, obs)) %>%
+  select(date, obs, harm, sur) 
+min_height =  quantile(df_catg$harm, 0.3, na.rm = TRUE) %>% as.numeric()
+surge_data <- surge_data %>%
+  mutate(lower_tide = harm <= min_height)
+
+obs_surge_data <- surge_data %>% 
+  select(date, harm, obs, sur, t)
+
+obs_surge_data %>%
+  head() %>%
+  knitr::kable() #%>%
+  # kable_styling(bootstrap_options = c("striped", "hover", "condensed"))
+```
+
+## By Level
+
+Write some code for how often the water is below a given level
+
+```{r echo = FALSE} 
+h_t_quantile = 0.15
+h_t_level = obs_surge_data %>% 
+  pull(obs) %>% 
+  quantile(probs = h_t_quantile) %>% 
+  as.numeric()
+
+h_t_bool = obs_surge_data %>%
+  mutate(bool_col = obs >= h_t_level) %>%
+  pull(bool_col) 
+
+clusters = rle(h_t_bool) %>%
+    unclass() %>%
+    as.data.frame() %>%
+    mutate(end = cumsum(lengths),
+         start = c(1, dplyr::lag(end)[-1] + 1)) %>%
+    arrange(start)
+
+clusters %>%
+  head() %>%
+  knitr::kable()
+print("Need to specify a minimum interarrival time for discharge water")
+
+```
+

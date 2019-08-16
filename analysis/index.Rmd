@@ -8,8 +8,12 @@ editor_options:
   chunk_output_type: console
 ---
 
-Welcome to my research website.
+Project website for the NWO Grant: XXXX.
 
-Click on this [link](first-analysis.html) to see my results.
+## Part 3: Forecasting Compound Events
+
+[Problem Specification](compound-event-definition.html)
+
+<!-- Click on this [link](first-analysis.html) to see my results. -->
 
 Adding a new link: [link](details-on-tidal-summaries.html).

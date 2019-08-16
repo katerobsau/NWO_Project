@@ -1,0 +1,208 @@
+---
+title: "Problem Specification"
+# author: "katerobsau"
+# date: "2019-08-05"
+output: workflowr::wflow_html
+editor_options:
+  chunk_output_type: console
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(cowplot)
+library(knitr)
+knitr::opts_knit$set(eval.after = 'fig.cap')
+source("code/figure_labels.R")
+```
+
+<style>
+p.comment {
+background-color: #DBDBDB;
+padding: 10px;
+border: 1px solid black;
+margin-left: 25px;
+border-radius: 5px;
+font-style: italic;
+}
+</style>
+
+## Compound Events
+
+Individually, both extreme rainfall and storm surge have the potential to produce flooding. However,compared with either event occurring individual, the potential risk is magnified if these events co-occur. This is what is known as a compound event.
+
+<p class="comment">
+**Definition 1:** The IPCC SREX (Ref 7, p. 118) defines a compound event as:  
+(1) two or more extreme events occurring simultaneously or successively,   
+(2) combinations of extreme events with underlying conditions that amplify the impact of the events, or   
+(3) combinations of events that are not themselves extremes but lead  
+to an extreme event or impact when combined.  
+The contributing events can be of similar (clustered multiple events) or different type(s).
+</p>
+
+<!-- <div class="alert alert-info"> -->
+<!--   Different box example -->
+<!-- </div> -->
+
+## Rainfall-Surge Mechansims
+
+Wahl et al. (2015) breaks the compound event involving rainfall-surge down into three mechanism types. 
+
+<p class="comment">
+**Mechanism (1)** in estuarine regions, the joint occurrence of both may elevate water levels to a point where flooding is initiated or its impacts exacerbated.   
+**Mechanism (2)** occurs when a destructive storm surge already causes widespread flooding, such that any significant rainfall on top of this—even if it is not an extreme event on its own—increases the flood depth and/or extent of the inundated area.   
+**Mechanism (3)** occurs during a moderate storm surge which does not directly cause flooding, but is high enough to fully block or slow down gravity-fed storm water drainage, such that precipitation is more likely to cause flooding.
+</p>
+
+The risk regions related to these three mechanisms is shown in Figure `r figRef("riskregions")`.
+
+```{r region a, echo = FALSE}
+delta = 0.75
+regions <- data.frame(
+  Risk = rep(c("M3: Rain-only", "M1: Both", "M2: Surge-only"), each = 4),
+  x = c(c(0, delta, delta, 0), 
+        c(delta, 1, 1, delta), 
+        c(delta, 1, 1, delta)),
+  y = c(c(delta, delta, 1, 1),
+        c(delta, delta, 1, 1),
+        c(0, 0, delta, delta))
+)
+
+region_a <- ggplot() + 
+  geom_polygon(data = regions, aes(x = x, y = y, fill = Risk), alpha = 0.75) +
+  geom_hline(yintercept = delta) + 
+  geom_vline(xintercept = delta) + 
+  xlim(c(0,1)) +
+  xlab("Surge Height") + 
+  ylab("Rainfall Amount") +
+  ylim(c(0,1)) + 
+  theme_bw() +
+  theme(#axis.title = element_blank(),
+        axis.text = element_blank(), 
+        legend.position = c(0.3, 0.2))
+# region_a
+```
+
+```{r region b, echo = FALSE}
+delta = 0.8
+theta = seq(0, pi/2, length.out = 90)
+theta_rain = theta[theta >= pi/2*3/5]
+theta_surge = theta[theta <= pi/2*2/5]
+theta_both = setdiff(theta, c(theta_rain, theta_surge))
+
+x_rain = c(delta*cos(theta_rain), 0, cos(min(theta_rain)))
+y_rain = c(delta*sin(theta_rain), 1, 1)
+x_surge = c(delta*cos(theta_surge), 1, 1)
+y_surge = c(delta*sin(theta_surge), sin(max(theta_surge)), 0)
+x_both = c(delta*cos(theta_both), cos(max(theta_both)), 1, 1)
+y_both = c(delta*sin(theta_both), 1, 1, sin(min(theta_both)))
+# plot(x_both, y_both)
+            
+regions_circle <- data.frame(
+  Risk = rep(c("M3: Rain-only", "M1: Both", "M2: Surge-only"), 
+             times = c(length(x_rain),length(x_both),length(x_surge))),
+  x = c(x_rain, x_both, x_surge),
+  y = c(y_rain, y_both, y_surge)
+)
+
+region_b <- ggplot() + 
+  geom_polygon(data = regions_circle, aes(x = x, y = y, fill = Risk), alpha = 0.75) +
+  geom_line(data = NULL, aes(x = delta*cos(theta), y = delta*sin(theta))) + 
+  geom_line(data = NULL, aes(x = c(delta*cos(min(theta_rain)), cos(min(theta_rain))),
+                             y = c(delta*sin(min(theta_rain)) , 1))) +
+  geom_line(data = NULL, aes(x = c(delta*cos(max(theta_surge)), 1),
+                             y = c(delta*sin(max(theta_surge)) , sin(max(theta_surge))))) +
+  xlim(c(0,1)) +
+  ylim(c(0,1)) + 
+  xlab("Surge Height") + 
+  ylab("Rainfall Amount") +
+  theme_bw() +
+  theme(#axis.title = element_blank(),
+        axis.text = element_blank(),
+        legend.position = c(0.3, 0.2))
+# region_b
+```
+
+<!-- <a id="my_chunk"></a> -->
+<!-- See [this code chunk](#my_chunk) -->
+
+```{r riskregions, echo = FALSE,  out.width="500px", out.height="200px", fig.cap = figRef("riskregions", cap)}
+plot_grid(region_a, region_b, labels = "AUTO")
+cap <- "Examples of risk regions for a Rainfall-Surge compound event"
+```
+
+Of particular concern in the Netherlands are mechanisms 1 and 3, as flood risk in the canal belt system is heavily mitigated by gravity-based sluices. As these sluices are gravity-based it is only possible to operate them at low tide. The core scenario of concern is therefore when a storm-surge has also occurred during a low tide preventing water release of run-off from heavy rainfall. The storm-surge does not necessarily need to be extreme, but does prevent rainfall run-off discharge.
+
+## Event definition
+
+In order to estimate the probability of an event occuring in one of the risk regions, we first need to define the set of variables we will use to model the problem. These variables are given in Table `r figRef("variables")`. We have adopted a similar problem specification to Li et al. 2014, who considered an application of wave heights for Dutch storms. Namely in our specification, we are interested in the duration that the gravity based is not operational. A schematic showing these variables is given in Figure `r figRef("schematics")`.
+
+```{r variables, echo = F, tab.cap = tabRef("variables", cap)}
+rv_df <- tribble(
+  
+  ~rv,  ~var_type,
+  "T_s", "Duration of the storm surge",
+  "H_s", "Maximum surge height during T_s",
+  # "I", "Interarrival time between surge events",
+  "H_t",  "Threshold water height above which the gravity based sluice can not operate",  
+  "T_l", "Duration that the gravity based sluice is not operational",
+  "T_o", "Duration of overlap between T_s and T_l",
+  "N_l", "Number of low tides where the sluice is not operational during T_l",
+  "N_s", "Number of low tides where the sluice is not operational during T_l due to storm surge"
+  
+) %>% 
+  set_names(. , nm = c("Variable Name", "Variable Type"))
+
+knitr::kable(rv_df)
+```
+
+```{r schematicSurge, echo = FALSE}
+num_pi = 7
+theta = seq(-pi, num_pi*pi, length.out = 360*(num_pi+ 1)/2)
+tide_cycle = sin(theta)
+surge = sin(1/4*theta) + 0.2
+surge = surge*(surge > 0)
+sea_level = tide_cycle + surge
+H_t = -0.6
+surge_df <- data.frame(theta, tide_cycle, sea_level)
+block_x <- theta[range(which(sea_level > H_t & surge > 0))]
+surge_plot <- ggplot() +
+  geom_line(data = surge_df, aes(x = theta, y = tide_cycle), col = "blue", linetype = "dotted") +
+  geom_line(data = surge_df, aes(x = theta, y = sea_level)) + 
+  geom_hline(yintercept = H_t, linetype = "dashed") + 
+  geom_polygon(data = NULL, aes(x = c(block_x, block_x[2:1]), y = c(-1, -1, H_t ,H_t)), 
+            fill = "red", alpha = 0.2) +
+  ylab("Water Level") +
+  ylim(lims = c(-1,2.25)) +
+  xlab("Time") +
+  ggtitle("Example of a storm surge")
+```
+
+```{r schematicKing, echo = FALSE}
+num_pi = 7
+theta = seq(-pi, num_pi*pi, length.out = 360*(num_pi+ 1)/2)
+shift = c(seq(0, 0.4, length.out = 200), seq(0.4, 0.4, length.out = 600),
+                            seq(0.4, 0, length.out = 200),
+                            rep(0, length(theta) - 1000))
+tide_cycle = sin(theta) + shift + 0.1
+sea_level = tide_cycle 
+H_t = -0.6
+close = which(abs(sea_level - H_t) < 0.02)
+block_x = theta[close[diff(close) > 1][2:3]]
+king_df <- data.frame(theta, tide_cycle, sea_level)
+king_plot <- ggplot() +
+  geom_line(data = king_df, aes(x = theta, y = tide_cycle), col = "blue", linetype = "dotted") +
+  geom_line(data = king_df, aes(x = theta, y = sea_level)) + 
+  geom_hline(yintercept = H_t, linetype = "dashed") + 
+  geom_polygon(data = NULL, aes(x = c(block_x, block_x[2:1]), y = c(-1, -1, H_t ,H_t)), 
+            fill = "red", alpha = 0.2) +
+  ylab("Water Level") + 
+  ylim(lims = c(-1,2.25)) +
+  xlab("Time") +
+  ggtitle("King tide with no surge")
+```
+
+```{r schematics, echo = FALSE,  out.width="500px", out.height="200px", fig.cap = figRef("schematics", cap)}
+plot_grid(surge_plot, king_plot, labels = "AUTO")
+cap <- "Red shaded areas shows the time period that gravity-based sluice was not operational was not operational for these examples. The tidal cycle is shown by the dotted blue line, and the sea level, which is the combined tide and storm surge is shown in solid black. If there is no storm surge, as in Figure 1B, then the two lines are superimposed. The dashed horizontal line shows the maximum water level for sluice operation."
+```

@@ -7,6 +7,26 @@ editor_options:
   chunk_output_type: console
 ---
 
+```{r load packages, echo = FALSE, warning = FALSE, message = FALSE}
+library(tidyverse)
+library(DiagrammeR)
+```
+
+```{r tidal pacakge read, echo = FALSE, warning = FALSE, message = FALSE}
+package_dir = "code/tidalHelpers"
+list.files(package_dir)
+install.packages(pkgs = "code/tidalHelpers", repos = NULL, type = "source")
+library(tidalHelpers)
+```
+
+```{r install funGraphs package, echo = FALSE, warning = FALSE, message = FALSE}
+bool_install = "funGraphs" %in% rownames(installed.packages())
+if(bool_install == FALSE){
+  devtools::install_github("kcf-jackson/funGraphs")
+}
+library(funGraphs)
+```
+
 ## General Background
 
 * Where is the data stored
@@ -15,62 +35,32 @@ editor_options:
 
 ## Global Variables
 
-utils_init()
+```{r variables, echo = FALSE, warning = FALSE, message = FALSE}
+tidalHelpers::utils_init()
+```
 
 ## Code 
 
-* Code to preprocess the data is stored in the directory XXX
-* An overview of the codes workflow is given below
+Code to preprocess the tidal data is stored in the associated sub-directory "code/tidalHelpers".
 
-```{r tidal pacakge read}
-package_dir = "code/tidalHelpers"
-list.files(package_dir)
-install.packages(pkgs = "code/tidalHelpers", repos = NULL, type = "source")
-tidalHelpers::hello()
+See files:
+```{r code outline, eval = FALSE}
+write_ensemble_summary_to_file.R
+save_ensemble_summaries.R
+save_obs_summaries.R
 ```
 
-## Workflow
-
-```{r install funGraphs package}
-bool_install = "funGraphs" %in% rownames(installed.packages())
-if(bool_install == FALSE){
-  devtools::install_github("kcf-jackson/funGraphs")
-}
-library(funGraphs)
-```
-
-```{r show package graph}
-# pkg_graph <- funGraphs::build_pkg_graph()
+An overview of the codes workflow and connections is given below.
+```{r show package graph, echo = FALSE}
 r_file_dir = paste0(package_dir, "/R/", sep = "") 
 pkg_graph <- funGraphs::build_graph_from_dir(dir0 = r_file_dir)
-pkg_graph
-```
-
-```{r flowchart, echo = FALSE}
-library(DiagrammeR)
-flow_chart <- grViz("digraph flowchart {
-      # node definitions with substituted label text
-      node [fontname = Helvetica, shape = rectangle]        
-      tab1 [label = '@@1']
-      tab2 [label = '@@2']
-      tab2a [label = '@@3']
-      tab4 [label = '@@4']
-      tab5 [label = '@@5']
-      tab6 [label = '@@6']
-
-      # edge definitions with the node IDs
-      tab1 -> tab2 -> tab2a -> tab4 -> tab5 -> tab6;
-      }
-
-      [1]: 'get_ensemble_ref()'
-      [2]: 'combine_ensemble_data()'
-      [3]: 'read_tide_data()'
-      [4]: 'preprocess_tide_data()'
-      [5]: 'combine_ensemble_data()'
-      [6]: 'get_ensemble_summary()'
-      ")
-
-flow_chart
+node_labels <- paste0(pkg_graph$nodes$label, collapse = ";") 
+edge_dirs <- pkg_graph$edges %>% 
+  apply(1, function(row){paste(row[1], row[2], sep = " -> ")}) %>%
+  str_c(collapse = "\n")
+graph_str <- str_c(c("digraph flowchart {",  node_labels,
+                   "\n", edge_dirs, "}"), collapse = "")
+grViz(graph_str)
 ```
 
 Show what the data looks like too!!
