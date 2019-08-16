@@ -12,8 +12,8 @@ Project website for the NWO Grant: XXXX.
 
 ## Part 3: Forecasting Compound Events
 
-[Problem Specification](compound-event-definition.html)
-[Background to Tidal Data](details-on-tidal-summaries.html).
-[Tidal Climatology](surge_climatology.html).
+* [Problem Specification](compound-event-definition.html)  
+* [Background to Tidal Data](details-on-tidal-summaries.html)  
+* [Tidal Climatology](surge_climatology.html)  
 
 <!-- Click on this [link](first-analysis.html) to see my results. -->
