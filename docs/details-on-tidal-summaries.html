@@ -445,7 +445,7 @@ div.section {
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2019-08-16
+<strong>Last updated:</strong> 2019-08-19
 </p>
 <p>
 <strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 0
@@ -536,10 +536,10 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomkaterobsauNWOProjecttreed55f51383bf96c6b233ecc863a0780865ced702btargetblankd55f513a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/katerobsau/NWO_Project/tree/d55f51383bf96c6b233ecc863a0780865ced702b" target="_blank">d55f513</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomkaterobsauNWOProjecttreef7dd2d909946c9418891fd79ad1869be878c661etargetblankf7dd2d9a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/katerobsau/NWO_Project/tree/f7dd2d909946c9418891fd79ad1869be878c661e" target="_blank">f7dd2d9</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomkaterobsauNWOProjecttreed55f51383bf96c6b233ecc863a0780865ced702btargetblankd55f513a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomkaterobsauNWOProjecttreef7dd2d909946c9418891fd79ad1869be878c661etargetblankf7dd2d9a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -563,9 +563,10 @@ Untracked files:
     Untracked:  code/tidalHelpers/R/utils_ensemble.R
     Untracked:  code/tidalHelpers/R/utils_init.R
     Untracked:  code/tidalHelpers/R/utils_preprocess.R
+    Untracked:  code/tidalHelpers/R/write_ensemble_summary_to_file.R
+    Untracked:  docs/figure/surge_climatology.Rmd/
 
 Unstaged changes:
-    Deleted:    analysis/first-analysis.Rmd
     Modified:   code/tidalHelpers/DESCRIPTION
     Modified:   code/tidalHelpers/NAMESPACE
     Deleted:    code/tidalHelpers/R/hello.R
@@ -610,6 +611,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/katerobsau/NWO_Project/blob/f7dd2d909946c9418891fd79ad1869be878c661e/analysis/details-on-tidal-summaries.Rmd" target="_blank">f7dd2d9</a>
+</td>
+<td>
+katerobsau
+</td>
+<td>
+2019-08-19
+</td>
+<td>
+Code to get clusters written and visualisations made
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/katerobsau/NWO_Project/de0387fa1b73a2179f56924071e14a37705e81ae/docs/details-on-tidal-summaries.html" target="_blank">de0387f</a>
+</td>
+<td>
+katerobsau
+</td>
+<td>
+2019-08-16
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 html
@@ -788,13 +823,12 @@ Editting documentation, and testing package
 </div>
 </div>
 <p>WORK IN PROGRESS</p>
-<pre><code>[1] &quot;DESCRIPTION&quot;        &quot;Helpers&quot;            &quot;man&quot;               
-[4] &quot;NAMESPACE&quot;          &quot;R&quot;                  &quot;tidalHelpers.Rproj&quot;</code></pre>
 <div id="general-background" class="section level2">
 <h2>General Background</h2>
+<p>Add in a section here about:</p>
 <ul>
 <li>Where is the data stored</li>
-<li>What is the data - run with which model</li>
+<li>What is the data - ie. which model was run WAQUA</li>
 <li>How did we get the data (save Kiri’s script)</li>
 </ul>
 </div>
@@ -813,11 +847,17 @@ $init_times
 $main_data_dir
 [1] &quot;/Volumes/My Passport/WAQUA/harlinge_data/ENS/&quot;
 
-$sav_dir
-[1] &quot;../Ensemble_Summary/&quot;
+$save_dir
+[1] &quot;/Users/katesaunders/Documents/No_Back_Up_Data/Tidal_ENS_Summaries/&quot;
 
 $var_names
-[1] &quot;htid&quot; &quot;wtid&quot; &quot;wsur&quot; &quot;wtot&quot;</code></pre>
+[1] &quot;wsur&quot; &quot;wtot&quot; &quot;wtoc&quot;
+
+$const_names
+[1] &quot;wtid&quot; &quot;htid&quot; &quot;harm&quot; &quot;obs&quot;  &quot;sur&quot; 
+
+$rm_names
+[1] &quot;wkal&quot; &quot;wtok&quot; &quot;wtkc&quot;</code></pre>
 </div>
 <div id="code" class="section level2">
 <h2>Code</h2>
@@ -827,7 +867,7 @@ $var_names
 save_ensemble_summaries.R
 save_obs_summaries.R</code></pre>
 <p>An overview of the codes workflow and connections is given below. <div id="htmlwidget-12b1d253ef1078d00bfe" style="width:672px;height:480px;" class="grViz html-widget"></div>
-<script type="application/json" data-for="htmlwidget-12b1d253ef1078d00bfe">{"x":{"diagram":"digraph flowchart {get_ensemble_ref;combine_ensemble_data;get_ensemble_summary;utils_init;read_tide_data;name_vars;add_tide_category;add_peak_tide_category;set_na;preprocess_tide_data\ncombine_ensemble_data -> read_tide_data\ncombine_ensemble_data -> preprocess_tide_data\npreprocess_tide_data -> name_vars\npreprocess_tide_data -> add_tide_category\npreprocess_tide_data -> set_na}","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script></p>
+<script type="application/json" data-for="htmlwidget-12b1d253ef1078d00bfe">{"x":{"diagram":"digraph flowchart {get_ensemble_ref;combine_ensemble_data;get_ensemble_summary;utils_init;read_tide_data;name_vars;add_tide_category;add_peak_tide_category;set_na;preprocess_tide_data;write_ensemble_summary_to_file\ncombine_ensemble_data -> read_tide_data\ncombine_ensemble_data -> preprocess_tide_data\npreprocess_tide_data -> name_vars\npreprocess_tide_data -> add_tide_category\npreprocess_tide_data -> set_na\nwrite_ensemble_summary_to_file -> utils_init\nwrite_ensemble_summary_to_file -> get_ensemble_ref\nwrite_ensemble_summary_to_file -> combine_ensemble_data\nwrite_ensemble_summary_to_file -> get_ensemble_summary}","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script></p>
 <p>Show what the data looks like too!!</p>
 <br>
 <p>
