@@ -3,89 +3,268 @@ title: "Climatology"
 output: html_document
 ---
 
-```{r setup, include=FALSE, message = FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+```{r loadPackages, echo = FALSE, warning = FALSE, message = FALSE}
 library(tidyverse)
+library(cowplot)
 ```
 
-```{r pseudoCode, echo = FALSE}
-# Read in climatogolical data (one height, for one time)
-# Set height level
-# Get binary vector of if higher
-# Get time period spent above that level
-# Loop over for different heights
+```{r tidalPackage read, echo = FALSE, warning = FALSE, message = FALSE}
+package_dir = "code/tidalHelpers"
+install.packages(pkgs = "code/tidalHelpers", repos = NULL, type = "source")
+library(tidalHelpers)
 ```
 
-WORK IN PROGRESS 
+<!-- # ```{r pseudoCode, echo = FALSE} -->
+<!-- # Read in climatogolical data (one height, for one time) -->
+<!-- # Set height level -->
+<!-- # Get binary vector of if higher -->
+<!-- # Get time period spent above that level -->
+<!-- # Loop over for different heights -->
+<!-- ``` -->
+
+**WORK IN PROGRESS**
+
+In this section we familiarise ourselves with the available data and endeavour to understand the conditions under which the sluice is not operational.
 
 ## Observations
 
-We have our observation data
+The follow table and plot shows the first few entries of the observational data.
 
-```{r surgeData, echo = FALSE, warning = FALSE, message = FALSE}
-data_dir = "/Users/katesaunders/Documents/Git/StormSurge/Summary_Data/"
-prcp_search_str = "Leeuwarden"
-surge_search_str = "Surge"
+```{r readObs, echo = FALSE, warning = FALSE, message = FALSE}
+ens_summary_file = "Ensemble_Summary.rds"
+init_var = tidalHelpers::utils_init()
+ens_summary_dir = init_var$save_dir
+ens_summary_path = paste(ens_summary_dir, ens_summary_file, sep = "")
+ens_summary = readRDS(ens_summary_path) 
 
-summary_files = list.files(data_dir) 
-# print(summary_files)
-summary_paths = paste(data_dir, summary_files, sep = "")
+obs_data = ens_summary %>% 
+  dplyr::filter(t < 24) %>%
+  dplyr::mutate(
+    temp_date = gsub("-", " ", date) %>% lubridate::ymd()) %>%
+  dplyr::mutate(
+    temp_time = paste(0, round(t*60), 0, sep = " ") %>% lubridate::hms(roll = TRUE)) %>%
+  dplyr::mutate(ldate = 
+    lubridate::ymd_hms(temp_date + temp_time)) %>%
+  dplyr::select(ldate, harm, obs, sur) %>%
+  dplyr::mutate(obs = if_else(is.na(sur), NA_real_, obs))
 
-len = length(summary_files)
-summary_data_list <- sapply(summary_paths, readRDS)
-
-# combine together for plotting
-surge_ind = grep(surge_search_str, summary_files)
-if(length(surge_ind) != 2) stop("Assumptions on file name structure for surge are false")
-
-surge_data <- left_join(summary_data_list[[surge_ind[1]]],
-                        summary_data_list[[surge_ind[2]]]) %>%
-                        filter(obs < 99 & wsur < 99)
-
-# fix tide category
-df_catg <- summary_data_list[[surge_ind[2]]] %>%
-  filter(t == 0) %>%
-  mutate(if_else(obs >= 99, NA_real_, obs)) %>%
-  select(date, obs, harm, sur) 
-min_height =  quantile(df_catg$harm, 0.3, na.rm = TRUE) %>% as.numeric()
-surge_data <- surge_data %>%
-  mutate(lower_tide = harm <= min_height)
-
-obs_surge_data <- surge_data %>% 
-  select(date, harm, obs, sur, t)
-
-obs_surge_data %>%
-  head() %>%
-  knitr::kable() #%>%
-  # kable_styling(bootstrap_options = c("striped", "hover", "condensed"))
+print("Note: Should add handling of NA Surge values into preprocessing")
 ```
 
-## By Level
-
-Write some code for how often the water is below a given level
-
-```{r echo = FALSE} 
-h_t_quantile = 0.15
-h_t_level = obs_surge_data %>% 
-  pull(obs) %>% 
-  quantile(probs = h_t_quantile) %>% 
-  as.numeric()
-
-h_t_bool = obs_surge_data %>%
-  mutate(bool_col = obs >= h_t_level) %>%
-  pull(bool_col) 
-
-clusters = rle(h_t_bool) %>%
-    unclass() %>%
-    as.data.frame() %>%
-    mutate(end = cumsum(lengths),
-         start = c(1, dplyr::lag(end)[-1] + 1)) %>%
-    arrange(start)
-
-clusters %>%
+```{r tableObs, echo = FALSE}
+obs_data %>%
+  setNames(nm = c("Date", "Harmonic Tide", "Observation", "Surge")) %>%
   head() %>%
   knitr::kable()
-print("Need to specify a minimum interarrival time for discharge water")
-
 ```
 
+```{r plotObs, echo = FALSE}
+len = 5*25*60/10
+ggplot(obs_data[1:len,]) +
+  geom_path(aes(x = ldate, y = harm), col = "blue", linetype = "dashed") + 
+  geom_path(aes(x = ldate, y = obs), col = "black") +
+  geom_path(aes(x = ldate, y = sur), col = "red", linetype = "dotted", size = 1.25) +
+  geom_hline(yintercept = 0, linetype = "dashed", col = "grey") +
+  # geom_hline(yintercept = -0.5, linetype = "dashed") +
+  ylab("Water Level") +
+  xlab("Date") + 
+  theme_bw()
+```
+
+## Summary Information
+
+```{r sluiceHeight, echo = FALSE}
+h_t_level = -0.5
+obs_vec = obs_data %>% pull(obs) 
+h_t_quantile = sum(obs_vec <= h_t_level)/sum(!is.na(obs_vec))
+```
+
+
+Summary of Harlingen observations based on this data:
+
+* The date range of the available observations is `r range(obs_data$ldate)[1]` to `r range(obs_data$ldate)[2]` .
+* There are two years of missing data (will visualise at a later date).
+* The tidal range is `r range(obs_data$harm)` m. 
+* The surge range is `r range(obs_data$sur, na.rm = TRUE)` m. 
+* Largest observated sea level was recorded on `r obs_data$ldate[which.max(obs_data$obs)]` of `r obs_data$obs[which.max(obs_data$obs)]` m corresponding to a `r obs_data$sur[which.max(obs_data$obs)]` m surge.
+* Lowest observated sea level was recorded on `r obs_data$ldate[which.min(obs_data$obs)]` of `r obs_data$obs[which.min(obs_data$obs)]` m corresponding to a `r obs_data$sur[which.min(obs_data$obs)]` m surge.
+* A threshold height of `r h_t_level` corresponds to a quantile of `r h_t_quantile` in observed water levels.
+
+## Sluice Operation 
+
+For a sluice height of `r h_t_level` m based on the historical observation, the histogram shows the number of times and for how long the sluices was not operational.
+
+```{r getClusters, echo = FALSE}
+clusters = obs_data %>%
+  mutate(bool_col = obs >= h_t_level) %>%
+  pull(bool_col) %>%
+  rle() %>%
+  unclass() %>%
+  as.data.frame() %>%
+  mutate(end = cumsum(lengths),
+       start = c(1, dplyr::lag(end)[-1] + 1)) %>%
+  mutate(date_end = obs_data$ldate[end]) %>%
+  mutate(date_start = obs_data$ldate[start]) %>%
+  select(-start, -end) %>%
+  arrange(desc(lengths)) %>%
+  mutate(temp = paste(0, lengths*10, 0, sep = ":")) %>%
+  mutate(time = lubridate::hms(temp, roll = TRUE)) %>%
+  select(-temp) 
+ 
+
+print("Need to specify a minimum interarrival time for discharge water")
+print("Need to check how rle() handles missing data")
+```
+
+```{r displayClusters, echo = FALSE}
+clusters %>%
+  filter(values == TRUE) %>%
+  select(-values, -lengths) %>%
+  select(time, date_start, date_end) %>%
+  head() %>%
+  knitr::kable(align = "l")
+```
+
+```{r histPlot, echo = FALSE}
+plot_data <- clusters %>% 
+  dplyr::filter(values == TRUE) %>% 
+  mutate(lengths = lengths*10/60/24)
+med_len = median(plot_data %>% pull(lengths))
+mean_len = mean(plot_data %>% pull(lengths))
+mean_hms = paste(0, floor(mean_len*24*60), 0, sep = ":") %>% lubridate::hms(roll = TRUE) %>% as.character()
+hist_plot <- ggplot(plot_data) + 
+  geom_histogram(aes(x = lengths), bins = 100) +
+  geom_vline(xintercept = mean_len, 
+             col = "red", linetype = "dotted") +
+  theme_bw() + 
+  xlab("Days")
+hist_plot
+```
+
+There are `r nrow(plot_data)` times that the sluice is not operational, and the average period that the sluice is not in operational is `r mean_hms`. This is intuitive given the average period spent in the high tide cycle. Currently we do not condition on the minimum period the sluice can be operated.
+
+The four longest periods when the sluice was not operational are shown in the below figure. We observe in Figure B there is a problem with the underlying data.
+
+```{r sluiceExamples, echo = FALSE}
+print("Note: Wrap repition of plots in a function")
+lens = clusters$lengths[1:4]
+num_days = (10*24)*60/10 
+
+delta1 = lubridate::minutes(max((num_days - lens[1])/2, 0)*10)
+p1 <- ggplot(obs_data %>% filter(
+    ldate >= (clusters$date_start[1] - delta1) & 
+    ldate <= (clusters$date_end[1] + delta1))) + 
+  geom_path(aes(x = ldate, y = harm), col = "blue", linetype = "dashed") + 
+  geom_path(aes(x = ldate, y = obs), col = "black") +
+  geom_path(aes(x = ldate, y = sur), col = "red", linetype = "dotted", size = 1.25) +
+  geom_hline(yintercept = -0.5, linetype = "dashed") +
+  ylab("Water Level") +
+  xlab("Date") + 
+  ylim(c(-1.5, 3.5)) +
+  theme_bw()
+
+delta2 = lubridate::minutes(max((num_days - lens[2])/2, 0)*10)
+p2 <- ggplot(obs_data %>% filter(
+    ldate >= (clusters$date_start[2] - delta2) & 
+    ldate <= (clusters$date_end[2] + delta2)   )) + 
+  geom_path(aes(x = ldate, y = harm), col = "blue", linetype = "dashed") + 
+  geom_path(aes(x = ldate, y = obs), col = "black") +
+  geom_path(aes(x = ldate, y = sur), col = "red", linetype = "dotted", size = 1.25) +
+  geom_hline(yintercept = -0.5, linetype = "dashed") +
+  ylab("Water Level") +
+  xlab("Date") + 
+  ylim(c(-1.5, 3.5)) +
+  theme_bw()
+
+delta3 = lubridate::minutes(max((num_days - lens[3])/2, 0)*10)
+p3 <- ggplot(obs_data %>% filter(ldate >= (clusters$date_start[3] - delta3) & 
+                          ldate <= (clusters$date_end[3] + delta3)   )) + 
+  geom_path(aes(x = ldate, y = harm), col = "blue", linetype = "dashed") + 
+  geom_path(aes(x = ldate, y = obs), col = "black") +
+  geom_path(aes(x = ldate, y = sur), col = "red", linetype = "dotted", size = 1.25) +
+  geom_hline(yintercept = -0.5, linetype = "dashed") +
+  ylab("Water Level") +
+  xlab("Date") + 
+  ylim(c(-1.5, 3.5)) +
+  theme_bw()
+
+delta4 = lubridate::minutes(max((num_days - lens[4])/2, 0)*10)
+p4 <- ggplot(obs_data %>% filter(ldate >= (clusters$date_start[4] - delta4) & 
+                          ldate <= (clusters$date_end[4] + delta4))) + 
+  geom_path(aes(x = ldate, y = harm), col = "blue", linetype = "dashed") + 
+  geom_path(aes(x = ldate, y = obs), col = "black") +
+  geom_path(aes(x = ldate, y = sur), col = "red", linetype = "dotted", size = 1.25) +
+  geom_hline(yintercept = -0.5, linetype = "dashed") +
+  ylab("Water Level") +
+  xlab("Date") + 
+  ylim(c(-1.5, 3.5)) +
+  theme_bw()
+
+plot_grid(p1, p2, p3, p4, labels = "AUTO", ncol = 2)
+```
+
+## Highest Surges on Record
+
+The four highest surges are shown in the below Figure. One of these corresponds to one of the top four events wehn the sluice was not operational. However, this is also the event where we observed problems with the cylcic nature of the data. 
+
+```{r highestSurges, echo = FALSE}
+delta_day = num_days/2
+num = 4
+bool_val = TRUE
+min_period = 5*24*60/10
+while(bool_val == TRUE){
+  max_surge_i = order(obs_data$sur, decreasing = TRUE)[1:num]
+  diff_i = sort(obs_data$ldate[max_surge_i]) %>% diff()
+  bool_val = sum(diff_i > min_period) != 3
+  num = num + 1
+  # print(num)
+}
+
+temp = sort(obs_data$ldate[max_surge_i])[c(which(diff_i >= min_period), length(max_surge_i))]
+max_surge_i = which(obs_data$ldate %in% temp)
+
+s1 <- ggplot(obs_data[(max_surge_i[1] - delta_day):(max_surge_i[1] + delta_day), ]) + 
+  geom_path(aes(x = ldate, y = harm), col = "blue", linetype = "dashed") + 
+  geom_path(aes(x = ldate, y = obs), col = "black") +
+  geom_path(aes(x = ldate, y = sur), col = "red", linetype = "dotted", size = 1.25) +
+  geom_hline(yintercept = -0.5, linetype = "dashed") +
+  ylab("Water Level") +
+  xlab("Date") + 
+  ylim(c(-1.5, 3.5)) +
+  theme_bw()
+
+s2 <- ggplot(obs_data[(max_surge_i[2] - delta_day):(max_surge_i[2] + delta_day), ]) + 
+  geom_path(aes(x = ldate, y = harm), col = "blue", linetype = "dashed") + 
+  geom_path(aes(x = ldate, y = obs), col = "black") +
+  geom_path(aes(x = ldate, y = sur), col = "red", linetype = "dotted", size = 1.25) +
+  geom_hline(yintercept = -0.5, linetype = "dashed") +
+  ylab("Water Level") +
+  xlab("Date") + 
+  ylim(c(-1.5, 3.5)) +
+  theme_bw()
+
+s3 <- ggplot(obs_data[(max_surge_i[3] - delta_day):(max_surge_i[3] + delta_day), ]) + 
+  geom_path(aes(x = ldate, y = harm), col = "blue", linetype = "dashed") + 
+  geom_path(aes(x = ldate, y = obs), col = "black") +
+  geom_path(aes(x = ldate, y = sur), col = "red", linetype = "dotted", size = 1.25) +
+  geom_hline(yintercept = -0.5, linetype = "dashed") +
+  ylab("Water Level") +
+  xlab("Date") + 
+  ylim(c(-1.5, 3.5)) +
+  theme_bw()
+
+s4 <- ggplot(obs_data[(max_surge_i[4] - delta_day):(max_surge_i[4] + delta_day), ]) + 
+  geom_path(aes(x = ldate, y = harm), col = "blue", linetype = "dashed") + 
+  geom_path(aes(x = ldate, y = obs), col = "black") +
+  geom_path(aes(x = ldate, y = sur), col = "red", linetype = "dotted", size = 1.25) +
+  geom_hline(yintercept = -0.5, linetype = "dashed") +
+  ylab("Water Level") +
+  xlab("Date") + 
+  ylim(c(-1.5, 3.5)) +
+  theme_bw()
+
+plot_grid(s1, s2, s3, s4, labels = "AUTO", ncol = 2)
+```
+
+Next steps: For each cluster get the highest surge, highest tide, highest total.
+Want to examine if the dependence between highest surges, and rainfall is different to period sluice is operational and rainfall.

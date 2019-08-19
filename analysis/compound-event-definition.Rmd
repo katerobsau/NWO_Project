@@ -207,7 +207,7 @@ plot_grid(surge_plot, king_plot, labels = "AUTO")
 cap <- "Red shaded areas shows the time period that gravity-based sluice was not operational was not operational for these examples. The tidal cycle is shown by the dotted blue line, and the sea level, which is the combined tide and storm surge is shown in solid black. If there is no storm surge, as in Figure 1B, then the two lines are superimposed. The dashed horizontal line shows the maximum water level for sluice operation."
 ```
 
-## Next
+## Navigation Links
 
-Move on to background information on the [Tidal Data](details-on-tidal-summaries.html)  
-Continue to details about tidal climate [Tidal Climatology](surge_climatology.html)  
+Continue to background information about the [Tidal Data](details-on-tidal-summaries.html)  
+Continue to analysis about tidal climate [Tidal Climatology](surge_climatology.html)  

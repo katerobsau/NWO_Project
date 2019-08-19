@@ -16,7 +16,6 @@ library(DiagrammeR)
 
 ```{r tidal pacakge read, echo = FALSE, warning = FALSE, message = FALSE}
 package_dir = "code/tidalHelpers"
-list.files(package_dir)
 install.packages(pkgs = "code/tidalHelpers", repos = NULL, type = "source")
 library(tidalHelpers)
 ```
@@ -31,8 +30,10 @@ library(funGraphs)
 
 ## General Background
 
+Add in a section here about:
+
 * Where is the data stored
-* What is the data - run with which model
+* What is the data - ie. which model was run WAQUA
 * How did we get the data (save Kiri's script)
 
 ## Global Variables
