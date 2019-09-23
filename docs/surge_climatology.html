@@ -7,6 +7,7 @@
 <meta charset="utf-8" />
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
 
 
@@ -74,9 +75,7 @@ h6 {
 </style>
 
 
-</head>
 
-<body>
 
 <style type = "text/css">
 .main-container {
@@ -90,7 +89,6 @@ code {
 }
 img {
   max-width:100%;
-  height: auto;
 }
 .tabbed-pane {
   padding-top: 12px;
@@ -195,8 +193,6 @@ $(document).ready(function () {
 });
 </script>
 
-<div class="container-fluid main-container">
-
 <!-- tabsets -->
 
 <style type="text/css">
@@ -253,48 +249,9 @@ $(document).ready(function () {
 }
 </style>
 
-<script>
-$(document).ready(function () {
-  window.buildTabsets("TOC");
-});
-
-$(document).ready(function () {
-  $('.tabset-dropdown > .nav-tabs > li').click(function () {
-    $(this).parent().toggleClass('nav-tabs-open')
-  });
-});
-</script>
-
 <!-- code folding -->
 
 
-
-<script>
-$(document).ready(function ()  {
-
-    // move toc-ignore selectors from section div to header
-    $('div.section.toc-ignore')
-        .removeClass('toc-ignore')
-        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
-
-    // establish options
-    var options = {
-      selectors: "h1,h2,h3",
-      theme: "bootstrap3",
-      context: '.toc-content',
-      hashGenerator: function (text) {
-        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
-      },
-      ignoreSelector: ".toc-ignore",
-      scrollTo: 0
-    };
-    options.showAndHide = true;
-    options.smoothScroll = true;
-
-    // tocify
-    var toc = $("#TOC").tocify(options).data("toc-tocify");
-});
-</script>
 
 <style type="text/css">
 
@@ -343,8 +300,6 @@ div.tocify {
 
 .tocify-subheader .tocify-item {
   font-size: 0.90em;
-  padding-left: 25px;
-  text-indent: 0;
 }
 
 .tocify .list-group-item {
@@ -353,6 +308,16 @@ div.tocify {
 
 
 </style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
 
 <!-- setup 3col/9col grid for toc_float and main content  -->
 <div class="row-fluid">
@@ -437,7 +402,7 @@ div.section {
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2019-08-19
+<strong>Last updated:</strong> 2019-09-23
 </p>
 <p>
 <strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 0
@@ -528,10 +493,10 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomkaterobsauNWOProjecttreef7dd2d909946c9418891fd79ad1869be878c661etargetblankf7dd2d9a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/katerobsau/NWO_Project/tree/f7dd2d909946c9418891fd79ad1869be878c661e" target="_blank">f7dd2d9</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomkaterobsauNWOProjecttreec27e80687bec3f2215e3d8b43e0ef0e6d3bae06atargetblankc27e806a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/katerobsau/NWO_Project/tree/c27e80687bec3f2215e3d8b43e0ef0e6d3bae06a" target="_blank">c27e806</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomkaterobsauNWOProjecttreef7dd2d909946c9418891fd79ad1869be878c661etargetblankf7dd2d9a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomkaterobsauNWOProjecttreec27e80687bec3f2215e3d8b43e0ef0e6d3bae06atargetblankc27e806a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -546,24 +511,9 @@ Ignored files:
     Ignored:    code/tidalHelpers/.Rhistory
     Ignored:    code/tidalHelpers/.Rproj.user/
     Ignored:    code/tidalHelpers/R/.DS_Store
+    Ignored:    code/tidalHelpers/man/
     Ignored:    data/.DS_Store
     Ignored:    docs/assets/
-
-Untracked files:
-    Untracked:  code/figure_labels.R
-    Untracked:  code/tidalHelpers/Helpers/
-    Untracked:  code/tidalHelpers/R/utils_ensemble.R
-    Untracked:  code/tidalHelpers/R/utils_init.R
-    Untracked:  code/tidalHelpers/R/utils_preprocess.R
-    Untracked:  code/tidalHelpers/R/write_ensemble_summary_to_file.R
-
-Unstaged changes:
-    Modified:   code/tidalHelpers/DESCRIPTION
-    Modified:   code/tidalHelpers/NAMESPACE
-    Deleted:    code/tidalHelpers/R/hello.R
-    Deleted:    code/tidalHelpers/R/hello2.R
-    Deleted:    code/tidalHelpers/R/hello3.R
-    Deleted:    code/tidalHelpers/man/hello.Rd
 
 </code></pre>
 <p>
@@ -602,6 +552,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/katerobsau/NWO_Project/blob/c27e80687bec3f2215e3d8b43e0ef0e6d3bae06a/analysis/surge_climatology.Rmd" target="_blank">c27e806</a>
+</td>
+<td>
+katerobsau
+</td>
+<td>
+2019-09-23
+</td>
+<td>
+wflow_publish(“*“)
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/katerobsau/NWO_Project/edc858752b410ec3a3f0f948d5e56e3a0eae0f52/docs/surge_climatology.html" target="_blank">edc8587</a>
+</td>
+<td>
+katerobsau
+</td>
+<td>
+2019-08-19
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -774,6 +758,43 @@ code/*
 </tbody>
 </table>
 <p><img src="figure/surge_climatology.Rmd/plotObs-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-plotObs-1">
+Past versions of plotObs-1.png
+</button>
+</p>
+<div id="fig-plotObs-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/katerobsau/NWO_Project/blob/edc858752b410ec3a3f0f948d5e56e3a0eae0f52/docs/figure/surge_climatology.Rmd/plotObs-1.png" target="_blank">edc8587</a>
+</td>
+<td>
+katerobsau
+</td>
+<td>
+2019-08-19
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="summary-information" class="section level2">
 <h2>Summary Information</h2>
@@ -835,16 +856,128 @@ code/*
 </tbody>
 </table>
 <p><img src="figure/surge_climatology.Rmd/histPlot-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-histPlot-1">
+Past versions of histPlot-1.png
+</button>
+</p>
+<div id="fig-histPlot-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/katerobsau/NWO_Project/blob/edc858752b410ec3a3f0f948d5e56e3a0eae0f52/docs/figure/surge_climatology.Rmd/histPlot-1.png" target="_blank">edc8587</a>
+</td>
+<td>
+katerobsau
+</td>
+<td>
+2019-08-19
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p>There are 4058 times that the sluice is not operational, and the average period that the sluice is not in operational is 9H 39M 0S. This is intuitive given the average period spent in the high tide cycle. Currently we do not condition on the minimum period the sluice can be operated.</p>
 <p>The four longest periods when the sluice was not operational are shown in the below figure. We observe in Figure B there is a problem with the underlying data.</p>
 <pre><code>[1] &quot;Note: Wrap repition of plots in a function&quot;</code></pre>
 <p><img src="figure/surge_climatology.Rmd/sluiceExamples-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-sluiceExamples-1">
+Past versions of sluiceExamples-1.png
+</button>
+</p>
+<div id="fig-sluiceExamples-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/katerobsau/NWO_Project/blob/edc858752b410ec3a3f0f948d5e56e3a0eae0f52/docs/figure/surge_climatology.Rmd/sluiceExamples-1.png" target="_blank">edc8587</a>
+</td>
+<td>
+katerobsau
+</td>
+<td>
+2019-08-19
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="highest-surges-on-record" class="section level2">
 <h2>Highest Surges on Record</h2>
 <p>The four highest surges are shown in the below Figure. One of these corresponds to one of the top four events wehn the sluice was not operational. However, this is also the event where we observed problems with the cylcic nature of the data.</p>
 <p><img src="figure/surge_climatology.Rmd/highestSurges-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-highestSurges-1">
+Past versions of highestSurges-1.png
+</button>
+</p>
+<div id="fig-highestSurges-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/katerobsau/NWO_Project/blob/edc858752b410ec3a3f0f948d5e56e3a0eae0f52/docs/figure/surge_climatology.Rmd/highestSurges-1.png" target="_blank">edc8587</a>
+</td>
+<td>
+katerobsau
+</td>
+<td>
+2019-08-19
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p>Next steps: For each cluster get the highest surge, highest tide, highest total. Want to examine if the dependence between highest surges, and rainfall is different to period sluice is operational and rainfall.</p>
+<p>Ideally also like to wrap plotting code, and to fix dates on axes.</p>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
@@ -868,25 +1001,26 @@ attached base packages:
 [1] stats     graphics  grDevices utils     datasets  methods   base     
 
 other attached packages:
- [1] tidalHelpers_0.1.0 cowplot_0.9.4      forcats_0.4.0     
- [4] stringr_1.4.0      dplyr_0.8.0.1      purrr_0.3.2       
- [7] readr_1.3.1        tidyr_0.8.3        tibble_2.1.1      
-[10] ggplot2_3.1.1      tidyverse_1.2.1   
+ [1] tidalHelpers_0.1.0 cowplot_1.0.0      forcats_0.4.0     
+ [4] stringr_1.4.0      dplyr_0.8.3        purrr_0.3.2       
+ [7] readr_1.3.1        tidyr_1.0.0        tibble_2.1.3      
+[10] ggplot2_3.2.1      tidyverse_1.2.1   
 
 loaded via a namespace (and not attached):
- [1] tidyselect_0.2.5 xfun_0.5         haven_2.1.0      lattice_0.20-38 
- [5] colorspace_1.4-1 generics_0.0.2   htmltools_0.3.6  yaml_2.2.0      
- [9] rlang_0.3.4      pillar_1.3.1     glue_1.3.1       withr_2.1.2     
-[13] modelr_0.1.4     readxl_1.3.0     plyr_1.8.4       munsell_0.5.0   
-[17] gtable_0.3.0     workflowr_1.4.0  cellranger_1.1.0 rvest_0.3.2     
-[21] evaluate_0.13    labeling_0.3     knitr_1.21       highr_0.7       
-[25] broom_0.5.1      Rcpp_1.0.1       scales_1.0.0     backports_1.1.3 
-[29] jsonlite_1.6     fs_1.2.6         hms_0.4.2        digest_0.6.18   
-[33] stringi_1.4.3    grid_3.5.2       rprojroot_1.3-2  cli_1.1.0       
-[37] tools_3.5.2      magrittr_1.5     lazyeval_0.2.2   crayon_1.3.4    
-[41] whisker_0.3-2    pkgconfig_2.0.2  xml2_1.2.0       lubridate_1.7.4 
-[45] assertthat_0.2.1 rmarkdown_1.11   httr_1.4.0       rstudioapi_0.9.0
-[49] R6_2.4.0         nlme_3.1-137     git2r_0.24.0     compiler_3.5.2  </code></pre>
+ [1] tidyselect_0.2.5 xfun_0.9         haven_2.1.1      lattice_0.20-38 
+ [5] colorspace_1.4-1 vctrs_0.2.0      generics_0.0.2   htmltools_0.3.6 
+ [9] yaml_2.2.0       rlang_0.4.0      pillar_1.4.2     glue_1.3.1      
+[13] withr_2.1.2      modelr_0.1.5     readxl_1.3.1     lifecycle_0.1.0 
+[17] munsell_0.5.0    gtable_0.3.0     workflowr_1.4.0  cellranger_1.1.0
+[21] rvest_0.3.4      evaluate_0.14    labeling_0.3     knitr_1.24      
+[25] highr_0.8        broom_0.5.2      Rcpp_1.0.2       scales_1.0.0    
+[29] backports_1.1.4  jsonlite_1.6     fs_1.3.1         hms_0.5.1       
+[33] digest_0.6.20    stringi_1.4.3    grid_3.5.2       rprojroot_1.3-2 
+[37] cli_1.1.0        tools_3.5.2      magrittr_1.5     lazyeval_0.2.2  
+[41] crayon_1.3.4     whisker_0.4      pkgconfig_2.0.2  zeallot_0.1.0   
+[45] xml2_1.2.2       lubridate_1.7.4  assertthat_0.2.1 rmarkdown_1.15  
+[49] httr_1.4.1       rstudioapi_0.10  R6_2.4.0         nlme_3.1-141    
+[53] git2r_0.26.1     compiler_3.5.2  </code></pre>
 </div>
 </div>
 
@@ -920,6 +1054,49 @@ $(document).ready(function () {
 });
 
 
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
 </script>
 
 <!-- dynamically load mathjax for compatibility with self-contained -->
