@@ -7,6 +7,7 @@
 <meta charset="utf-8" />
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
 
 
@@ -74,9 +75,7 @@ h6 {
 </style>
 
 
-</head>
 
-<body>
 
 <style type = "text/css">
 .main-container {
@@ -90,7 +89,6 @@ code {
 }
 img {
   max-width:100%;
-  height: auto;
 }
 .tabbed-pane {
   padding-top: 12px;
@@ -195,8 +193,6 @@ $(document).ready(function () {
 });
 </script>
 
-<div class="container-fluid main-container">
-
 <!-- tabsets -->
 
 <style type="text/css">
@@ -253,48 +249,9 @@ $(document).ready(function () {
 }
 </style>
 
-<script>
-$(document).ready(function () {
-  window.buildTabsets("TOC");
-});
-
-$(document).ready(function () {
-  $('.tabset-dropdown > .nav-tabs > li').click(function () {
-    $(this).parent().toggleClass('nav-tabs-open')
-  });
-});
-</script>
-
 <!-- code folding -->
 
 
-
-<script>
-$(document).ready(function ()  {
-
-    // move toc-ignore selectors from section div to header
-    $('div.section.toc-ignore')
-        .removeClass('toc-ignore')
-        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
-
-    // establish options
-    var options = {
-      selectors: "h1,h2,h3",
-      theme: "bootstrap3",
-      context: '.toc-content',
-      hashGenerator: function (text) {
-        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
-      },
-      ignoreSelector: ".toc-ignore",
-      scrollTo: 0
-    };
-    options.showAndHide = true;
-    options.smoothScroll = true;
-
-    // tocify
-    var toc = $("#TOC").tocify(options).data("toc-tocify");
-});
-</script>
 
 <style type="text/css">
 
@@ -343,8 +300,6 @@ div.tocify {
 
 .tocify-subheader .tocify-item {
   font-size: 0.90em;
-  padding-left: 25px;
-  text-indent: 0;
 }
 
 .tocify .list-group-item {
@@ -353,6 +308,16 @@ div.tocify {
 
 
 </style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
 
 <!-- setup 3col/9col grid for toc_float and main content  -->
 <div class="row-fluid">
@@ -419,7 +384,7 @@ div.section {
 
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-report" data-toggle="collapse" data-target="#workflowr-report">
-<span class="glyphicon glyphicon-list" aria-hidden="true"></span> workflowr <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
+<span class="glyphicon glyphicon-list" aria-hidden="true"></span> workflowr <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span>
 </button>
 </p>
 <div id="workflowr-report" class="collapse">
@@ -428,7 +393,7 @@ div.section {
 <a data-toggle="tab" href="#summary">Summary</a>
 </li>
 <li>
-<a data-toggle="tab" href="#checks"> Checks <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> </a>
+<a data-toggle="tab" href="#checks"> Checks <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> </a>
 </li>
 <li>
 <a data-toggle="tab" href="#versions">Past versions</a>
@@ -437,10 +402,10 @@ div.section {
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2019-08-19
+<strong>Last updated:</strong> 2019-09-23
 </p>
 <p>
-<strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 0
+<strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 6 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 1
 </p>
 <p>
 <strong>Knit directory:</strong> <code>NWO_Project/</code> <span class="glyphicon glyphicon-question-sign" aria-hidden="true" title="This is the local directory in which the code in this file was executed."> </span>
@@ -456,12 +421,12 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguptodate"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>R Markdown file:</strong> up-to-date </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguncommittedchanges"> <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> <strong>R Markdown file:</strong> uncommitted changes </a>
 </p>
 </div>
-<div id="strongRMarkdownfilestronguptodate" class="panel-collapse collapse">
+<div id="strongRMarkdownfilestronguncommittedchanges" class="panel-collapse collapse">
 <div class="panel-body">
-<p>Great! Since the R Markdown file has been committed to the Git repository, you know the exact version of the code that produced these results.</p>
+<p>The R Markdown file has unstaged changes. To know which version of the R Markdown file created these results, you’ll want to first commit it to the Git repo. If you’re still working on the analysis, you can ignore this warning. When you’re finished, you can run <code>wflow_publish</code> to commit the R Markdown file and build the HTML.</p>
 </div>
 </div>
 </div>
@@ -528,10 +493,10 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomkaterobsauNWOProjecttreef7dd2d909946c9418891fd79ad1869be878c661etargetblankf7dd2d9a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/katerobsau/NWO_Project/tree/f7dd2d909946c9418891fd79ad1869be878c661e" target="_blank">f7dd2d9</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomkaterobsauNWOProjecttreeedc858752b410ec3a3f0f948d5e56e3a0eae0f52targetblankedc8587a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/katerobsau/NWO_Project/tree/edc858752b410ec3a3f0f948d5e56e3a0eae0f52" target="_blank">edc8587</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomkaterobsauNWOProjecttreef7dd2d909946c9418891fd79ad1869be878c661etargetblankf7dd2d9a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomkaterobsauNWOProjecttreeedc858752b410ec3a3f0f948d5e56e3a0eae0f52targetblankedc8587a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -551,14 +516,16 @@ Ignored files:
 
 Untracked files:
     Untracked:  code/figure_labels.R
+    Untracked:  code/schematic_sluice.R
     Untracked:  code/tidalHelpers/Helpers/
     Untracked:  code/tidalHelpers/R/utils_ensemble.R
     Untracked:  code/tidalHelpers/R/utils_init.R
     Untracked:  code/tidalHelpers/R/utils_preprocess.R
     Untracked:  code/tidalHelpers/R/write_ensemble_summary_to_file.R
-    Untracked:  docs/figure/surge_climatology.Rmd/
 
 Unstaged changes:
+    Modified:   analysis/compound-event-definition.Rmd
+    Modified:   analysis/surge_climatology.Rmd
     Modified:   code/tidalHelpers/DESCRIPTION
     Modified:   code/tidalHelpers/NAMESPACE
     Deleted:    code/tidalHelpers/R/hello.R
@@ -603,6 +570,23 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/katerobsau/NWO_Project/edc858752b410ec3a3f0f948d5e56e3a0eae0f52/docs/compound-event-definition.html" target="_blank">edc8587</a>
+</td>
+<td>
+katerobsau
+</td>
+<td>
+2019-08-19
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -745,11 +729,11 @@ The contributing events can be of similar (clustered multiple events) or differe
 <strong>Mechanism (2)</strong> occurs when a destructive storm surge already causes widespread flooding, such that any significant rainfall on top of this—even if it is not an extreme event on its own—increases the flood depth and/or extent of the inundated area.<br />
 <strong>Mechanism (3)</strong> occurs during a moderate storm surge which does not directly cause flooding, but is high enough to fully block or slow down gravity-fed storm water drainage, such that precipitation is more likely to cause flooding.
 </p>
-<p>The risk regions related to these three mechanisms is shown in Figure NULL 1.</p>
+<p>An example of the risk regions related to these three mechanisms is shown in Figure NULL 1.</p>
 <!-- <a id="my_chunk"></a> -->
 <!-- See [this code chunk](#my_chunk) -->
 <div class="figure" style="text-align: center">
-<img src="figure/compound-event-definition.Rmd/riskregions-1.png" alt=" Examples of risk regions for a Rainfall-Surge compound event" width="500px" height="200px" />
+<img src="figure/compound-event-definition.Rmd/riskregions-1.png" alt=" Examples of risk regions for a Rainfall-Surge compound event" width="600px" height="400px" />
 <p class="caption">
 Examples of risk regions for a Rainfall-Surge compound event
 </p>
@@ -791,11 +775,18 @@ katerobsau
 </table>
 </div>
 </div>
-<p>Of particular concern in the Netherlands are mechanisms 1 and 3, as flood risk in the canal belt system is heavily mitigated by gravity-based sluices. As these sluices are gravity-based it is only possible to operate them at low tide. The core scenario of concern is therefore when a storm-surge has also occurred during a low tide preventing water release of run-off from heavy rainfall. The storm-surge does not necessarily need to be extreme, but does prevent rainfall run-off discharge.</p>
+<p>Of particular concern in the Netherlands are mechanisms 1 and 3, as flood risk in the canal belt system is heavily mitigated by gravity-based sluices (Figure NULL 2). These sluices are only operational when the internal water level is higher than the external level and the water can be discharged using gravity. For many sluices in the Netherlands, the difference between water levels needed for operation is 0.1 m, any less than this and water can flow in the opposite direction due to density differences between fresh and salt water.</p>
+<p>For flood risk, a core scenario for concern is therefore when excess water in the canal belt system from heavy rainfall can not be discharged due to a storm-surge raising the external water level. The important distinction here is that for this scenario the height of the storm-surge does not necessarily need to be extreme, but the level is high enough that sluice operation is not possible. The statistical problem therefore can be rephrased as a censored problem, where the occurrence of a storm surge exceeding a given level to more important than the amount it exceeds the level. This raises the natural question of how strong is the correlations between the duration of a storm surge and it’s height.</p>
+<div class="figure" style="text-align: center">
+<img src="figure/compound-event-definition.Rmd/sluice-1.png" alt=" Schematic of the gravity based sluice at Harlingen. Water can be discharged from the sluice provided there is a water level on the canal belt side is 0.1 m higher or more than the sea water level. The normal height of water in the canal belt system and optimal for operational purposes is -0.52 m (NAP) (Green dashed line). Operators are concerned for flooding risk when the inland water level is in excess of -0.32 m (NAP) (red dotted line)." width="600px" height="400px" />
+<p class="caption">
+Schematic of the gravity based sluice at Harlingen. Water can be discharged from the sluice provided there is a water level on the canal belt side is 0.1 m higher or more than the sea water level. The normal height of water in the canal belt system and optimal for operational purposes is -0.52 m (NAP) (Green dashed line). Operators are concerned for flooding risk when the inland water level is in excess of -0.32 m (NAP) (red dotted line).
+</p>
+</div>
 </div>
 <div id="event-definition" class="section level2">
 <h2>Event definition</h2>
-<p>In order to estimate the probability of an event occuring in one of the risk regions, we first need to define the set of variables we will use to model the problem. These variables are given in Table NULL 2. We have adopted a similar problem specification to Li et al. 2014, who considered an application of wave heights for Dutch storms. Namely in our specification, we are interested in the duration that the gravity based is not operational. A schematic showing these variables is given in Figure NULL 3.</p>
+<p>In order to estimate the probability of an event occuring in one of the risk regions, we first need to define the set of variables we will use to model the problem. These variables are given in Table NULL 3. We have adopted a similar problem specification to Li et al. 2014, who considered an application of wave heights for Dutch storms. Namely in our specification, we are interested in the duration that the gravity based is not operational. A schematic showing these variables is given in Figure NULL 4.</p>
 <table>
 <thead>
 <tr class="header">
@@ -814,28 +805,24 @@ katerobsau
 </tr>
 <tr class="odd">
 <td align="left">H_t</td>
-<td align="left">Threshold water height above which the gravity based sluice can not operate</td>
+<td align="left">Threshold water level that water needs to be discharged to prevent flood risk</td>
 </tr>
 <tr class="even">
-<td align="left">T_l</td>
+<td align="left">T_d</td>
 <td align="left">Duration that the gravity based sluice is not operational</td>
 </tr>
 <tr class="odd">
-<td align="left">T_o</td>
-<td align="left">Duration of overlap between T_s and T_l</td>
+<td align="left">T_c</td>
+<td align="left">Duration of common period between T_s and T_l</td>
 </tr>
 <tr class="even">
-<td align="left">N_l</td>
-<td align="left">Number of low tides where the sluice is not operational during T_l</td>
-</tr>
-<tr class="odd">
-<td align="left">N_s</td>
-<td align="left">Number of low tides where the sluice is not operational during T_l due to storm surge</td>
+<td align="left">M</td>
+<td align="left">Minimum period of time the sluice needs to be operational to relieve flood risk</td>
 </tr>
 </tbody>
 </table>
 <div class="figure" style="text-align: center">
-<img src="figure/compound-event-definition.Rmd/schematics-1.png" alt=" Red shaded areas shows the time period that gravity-based sluice was not operational was not operational for these examples. The tidal cycle is shown by the dotted blue line, and the sea level, which is the combined tide and storm surge is shown in solid black. If there is no storm surge, as in Figure 1B, then the two lines are superimposed. The dashed horizontal line shows the maximum water level for sluice operation." width="500px" height="200px" />
+<img src="figure/compound-event-definition.Rmd/schematics-1.png" alt=" Red shaded areas shows the time period that gravity-based sluice was not operational was not operational for these examples. The tidal cycle is shown by the dotted blue line, and the sea level, which is the combined tide and storm surge is shown in solid black. If there is no storm surge, as in Figure 1B, then the two lines are superimposed. The dashed horizontal line shows the maximum water level for sluice operation." width="600px" height="400px" />
 <p class="caption">
 Red shaded areas shows the time period that gravity-based sluice was not operational was not operational for these examples. The tidal cycle is shown by the dotted blue line, and the sea level, which is the combined tide and storm surge is shown in solid black. If there is no storm surge, as in Figure 1B, then the two lines are superimposed. The dashed horizontal line shows the maximum water level for sluice operation.
 </p>
@@ -905,24 +892,25 @@ attached base packages:
 [1] stats     graphics  grDevices utils     datasets  methods   base     
 
 other attached packages:
- [1] knitr_1.21      cowplot_0.9.4   forcats_0.4.0   stringr_1.4.0  
- [5] dplyr_0.8.0.1   purrr_0.3.2     readr_1.3.1     tidyr_0.8.3    
- [9] tibble_2.1.1    ggplot2_3.1.1   tidyverse_1.2.1
+ [1] knitr_1.24      cowplot_1.0.0   forcats_0.4.0   stringr_1.4.0  
+ [5] dplyr_0.8.3     purrr_0.3.2     readr_1.3.1     tidyr_1.0.0    
+ [9] tibble_2.1.3    ggplot2_3.2.1   tidyverse_1.2.1
 
 loaded via a namespace (and not attached):
- [1] Rcpp_1.0.1       highr_0.7        cellranger_1.1.0 plyr_1.8.4      
- [5] pillar_1.3.1     compiler_3.5.2   git2r_0.24.0     workflowr_1.4.0 
- [9] tools_3.5.2      digest_0.6.18    lubridate_1.7.4  jsonlite_1.6    
-[13] evaluate_0.13    nlme_3.1-137     gtable_0.3.0     lattice_0.20-38 
-[17] pkgconfig_2.0.2  rlang_0.3.4      cli_1.1.0        rstudioapi_0.9.0
-[21] yaml_2.2.0       haven_2.1.0      xfun_0.5         withr_2.1.2     
-[25] xml2_1.2.0       httr_1.4.0       hms_0.4.2        generics_0.0.2  
-[29] fs_1.2.6         rprojroot_1.3-2  grid_3.5.2       tidyselect_0.2.5
-[33] glue_1.3.1       R6_2.4.0         readxl_1.3.0     rmarkdown_1.11  
-[37] modelr_0.1.4     magrittr_1.5     whisker_0.3-2    backports_1.1.3 
-[41] scales_1.0.0     htmltools_0.3.6  rvest_0.3.2      assertthat_0.2.1
-[45] colorspace_1.4-1 labeling_0.3     stringi_1.4.3    lazyeval_0.2.2  
-[49] munsell_0.5.0    broom_0.5.1      crayon_1.3.4    </code></pre>
+ [1] tidyselect_0.2.5 xfun_0.9         haven_2.1.1      lattice_0.20-38 
+ [5] colorspace_1.4-1 vctrs_0.2.0      generics_0.0.2   htmltools_0.3.6 
+ [9] yaml_2.2.0       rlang_0.4.0      pillar_1.4.2     glue_1.3.1      
+[13] withr_2.1.2      modelr_0.1.5     readxl_1.3.1     lifecycle_0.1.0 
+[17] munsell_0.5.0    gtable_0.3.0     workflowr_1.4.0  cellranger_1.1.0
+[21] rvest_0.3.4      evaluate_0.14    labeling_0.3     highr_0.8       
+[25] broom_0.5.2      Rcpp_1.0.2       scales_1.0.0     backports_1.1.4 
+[29] jsonlite_1.6     fs_1.3.1         hms_0.5.1        digest_0.6.20   
+[33] stringi_1.4.3    grid_3.5.2       rprojroot_1.3-2  cli_1.1.0       
+[37] tools_3.5.2      magrittr_1.5     lazyeval_0.2.2   crayon_1.3.4    
+[41] whisker_0.4      pkgconfig_2.0.2  zeallot_0.1.0    xml2_1.2.2      
+[45] lubridate_1.7.4  assertthat_0.2.1 rmarkdown_1.15   httr_1.4.1      
+[49] rstudioapi_0.10  R6_2.4.0         nlme_3.1-141     git2r_0.26.1    
+[53] compiler_3.5.2  </code></pre>
 </div>
 </div>
 
@@ -956,6 +944,49 @@ $(document).ready(function () {
 });
 
 
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
 </script>
 
 <!-- dynamically load mathjax for compatibility with self-contained -->

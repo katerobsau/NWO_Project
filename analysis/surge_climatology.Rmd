@@ -268,3 +268,5 @@ plot_grid(s1, s2, s3, s4, labels = "AUTO", ncol = 2)
 
 Next steps: For each cluster get the highest surge, highest tide, highest total.
 Want to examine if the dependence between highest surges, and rainfall is different to period sluice is operational and rainfall.
+
+Ideally also like to wrap plotting code, and to fix dates on axes.
