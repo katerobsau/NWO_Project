@@ -1,0 +1,66 @@
+---
+title: "Reading and preprocessing rainfall data"
+author: "katerobsau"
+date: "2019-08-05"
+output: workflowr::wflow_html
+editor_options:
+  chunk_output_type: console
+---
+
+WORK IN PROGRESS
+
+```{r load packages, echo = FALSE, warning = FALSE, message = FALSE}
+library(tidyverse)
+library(DiagrammeR)
+```
+
+```{r tidal pacakge read, echo = FALSE, warning = FALSE, message = FALSE}
+package_dir = "code/rainHelpers"
+install.packages(pkgs = "code/rainHelpers", repos = NULL, type = "source")
+library(rainHelpers)
+```
+
+```{r install funGraphs package, echo = FALSE, warning = FALSE, message = FALSE}
+bool_install = "funGraphs" %in% rownames(installed.packages())
+if(bool_install == FALSE){
+  devtools::install_github("kcf-jackson/funGraphs")
+}
+library(funGraphs)
+```
+
+## General Background
+
+Add in a section here about:
+
+* Where is the data stored
+* What is the data - ie. which model was run, where are the observations from
+
+<!-- ## Global Variables -->
+
+<!-- ```{r variables, echo = FALSE, warning = FALSE, message = FALSE} -->
+<!-- rainHelpers::utils_init() -->
+<!-- ``` -->
+
+## Code 
+
+Code to preprocess the rainfall data is stored in the associated sub-directory "code/rainHelpers".
+
+See helper files:
+```{r code outline, eval = TRUE, echo = FALSE}
+list.files("code/rainHelpers/Helper")
+```
+
+An overview of the codes workflow and connections is given below.
+```{r show package graph, echo = FALSE}
+r_file_dir = paste0(package_dir, "/R/", sep = "") 
+pkg_graph <- funGraphs::build_graph_from_dir(dir0 = r_file_dir)
+node_labels <- paste0(pkg_graph$nodes$label, collapse = ";") 
+edge_dirs <- pkg_graph$edges %>% 
+  apply(1, function(row){paste(row[1], row[2], sep = " -> ")}) %>%
+  str_c(collapse = "\n")
+graph_str <- str_c(c("digraph flowchart {",  node_labels,
+                   "\n", edge_dirs, "}"), collapse = "")
+grViz(graph_str)
+```
+
+Show what the data looks like too!!

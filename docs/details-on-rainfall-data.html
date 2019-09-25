@@ -10,9 +10,11 @@
 <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
 
+<meta name="author" content="katerobsau" />
 
+<meta name="date" content="2019-08-05" />
 
-<title>Surge Climatology</title>
+<title>Reading and preprocessing rainfall data</title>
 
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -26,6 +28,10 @@
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<script src="site_libs/htmlwidgets-1.3/htmlwidgets.js"></script>
+<script src="site_libs/viz-0.3/viz.js"></script>
+<link href="site_libs/DiagrammeR-styles-0.2/styles.css" rel="stylesheet" />
+<script src="site_libs/grViz-binding-1.0.1/grViz.js"></script>
 <link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
 <link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
 
@@ -377,7 +383,9 @@ div.section {
 
 
 
-<h1 class="title toc-ignore">Surge Climatology</h1>
+<h1 class="title toc-ignore">Reading and preprocessing rainfall data</h1>
+<h4 class="author">katerobsau</h4>
+<h4 class="date">2019-08-05</h4>
 
 </div>
 
@@ -426,7 +434,7 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 </div>
 <div id="strongRMarkdownfilestronguncommittedchanges" class="panel-collapse collapse">
 <div class="panel-body">
-<p>The R Markdown file has unstaged changes. To know which version of the R Markdown file created these results, you’ll want to first commit it to the Git repo. If you’re still working on the analysis, you can ignore this warning. When you’re finished, you can run <code>wflow_publish</code> to commit the R Markdown file and build the HTML.</p>
+<p>The R Markdown is untracked by Git. To know which version of the R Markdown file created these results, you’ll want to first commit it to the Git repo. If you’re still working on the analysis, you can ignore this warning. When you’re finished, you can run <code>wflow_publish</code> to commit the R Markdown file and build the HTML.</p>
 </div>
 </div>
 </div>
@@ -519,9 +527,6 @@ Untracked files:
     Untracked:  analysis/details-on-rainfall-data.Rmd
     Untracked:  code/rainHelpers/
 
-Unstaged changes:
-    Modified:   analysis/surge_climatology.Rmd
-
 </code></pre>
 <p>
 Note that any generated files, e.g. HTML, png, CSS, etc., are not included in this status report because it is ok for generated content to have uncommitted changes.
@@ -533,537 +538,35 @@ Note that any generated files, e.g. HTML, png, CSS, etc., are not included in t
 <hr>
 </div>
 <div id="versions" class="tab-pane fade">
-
 <p>
-These are the previous versions of the R Markdown and HTML files. If you’ve configured a remote Git repository (see <code>?wflow_git_remote</code>), click on the hyperlinks in the table below to view them.
+There are no past versions. Publish this analysis with <code>wflow_publish()</code> to start tracking its development.
 </p>
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-File
-</th>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-<th>
-Message
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/katerobsau/NWO_Project/5984d7db1b018fd6b432cd2faaab3926b7d89255/docs/surge_climatology.html" target="_blank">5984d7d</a>
-</td>
-<td>
-katerobsau
-</td>
-<td>
-2019-09-23
-</td>
-<td>
-Build site.
-</td>
-</tr>
-<tr>
-<td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/katerobsau/NWO_Project/92ea93441343da748ebcdf364312230e68330ad0/docs/surge_climatology.html" target="_blank">92ea934</a>
-</td>
-<td>
-katerobsau
-</td>
-<td>
-2019-09-23
-</td>
-<td>
-Build site.
-</td>
-</tr>
-<tr>
-<td>
-Rmd
-</td>
-<td>
-<a href="https://github.com/katerobsau/NWO_Project/blob/c27e80687bec3f2215e3d8b43e0ef0e6d3bae06a/analysis/surge_climatology.Rmd" target="_blank">c27e806</a>
-</td>
-<td>
-katerobsau
-</td>
-<td>
-2019-09-23
-</td>
-<td>
-wflow_publish(“*“)
-</td>
-</tr>
-<tr>
-<td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/katerobsau/NWO_Project/edc858752b410ec3a3f0f948d5e56e3a0eae0f52/docs/surge_climatology.html" target="_blank">edc8587</a>
-</td>
-<td>
-katerobsau
-</td>
-<td>
-2019-08-19
-</td>
-<td>
-Build site.
-</td>
-</tr>
-<tr>
-<td>
-Rmd
-</td>
-<td>
-<a href="https://github.com/katerobsau/NWO_Project/blob/f7dd2d909946c9418891fd79ad1869be878c661e/analysis/surge_climatology.Rmd" target="_blank">f7dd2d9</a>
-</td>
-<td>
-katerobsau
-</td>
-<td>
-2019-08-19
-</td>
-<td>
-Code to get clusters written and visualisations made
-</td>
-</tr>
-<tr>
-<td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/katerobsau/NWO_Project/de0387fa1b73a2179f56924071e14a37705e81ae/docs/surge_climatology.html" target="_blank">de0387f</a>
-</td>
-<td>
-katerobsau
-</td>
-<td>
-2019-08-16
-</td>
-<td>
-Build site.
-</td>
-</tr>
-<tr>
-<td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/katerobsau/NWO_Project/b5e6a36824b2fdfea4d84b929c2e6ebbe22454b3/docs/surge_climatology.html" target="_blank">b5e6a36</a>
-</td>
-<td>
-katerobsau
-</td>
-<td>
-2019-08-16
-</td>
-<td>
-Build site.
-</td>
-</tr>
-<tr>
-<td>
-Rmd
-</td>
-<td>
-<a href="https://github.com/katerobsau/NWO_Project/blob/a6ccf410994bb2011dcd7b0c60d83c7110573c6d/analysis/surge_climatology.Rmd" target="_blank">a6ccf41</a>
-</td>
-<td>
-katerobsau
-</td>
-<td>
-2019-08-16
-</td>
-<td>
-added work in progress references
-</td>
-</tr>
-<tr>
-<td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/katerobsau/NWO_Project/825917f2db14b360dc57df2ba7623908ec7617b5/docs/surge_climatology.html" target="_blank">825917f</a>
-</td>
-<td>
-katerobsau
-</td>
-<td>
-2019-08-16
-</td>
-<td>
-Build site.
-</td>
-</tr>
-<tr>
-<td>
-Rmd
-</td>
-<td>
-<a href="https://github.com/katerobsau/NWO_Project/blob/2117e41f136d1b0517f10ea75faee8a9e7e0a9ac/analysis/surge_climatology.Rmd" target="_blank">2117e41</a>
-</td>
-<td>
-katerobsau
-</td>
-<td>
-2019-08-16
-</td>
-<td>
-code/*
-</td>
-</tr>
-</tbody>
-</table>
-</div>
 <hr>
 </div>
 </div>
 </div>
-<p><strong>WORK IN PROGRESS</strong></p>
-<p>In this section, the available observational data is visualised and the conditions when the sluice is not operational are examined.</p>
-<div id="observations" class="section level2">
-<h2>Observations</h2>
-<p>The following table displays the observed data at the Harlingen station. The storm surge is obtained by subtracting the harmonic tide from the observed sea level, see Figure NULL 1.</p>
-<pre><code>[1] &quot;Check this&quot;</code></pre>
-<pre><code>[1] &quot;Note: Should add handling of NA Surge values into preprocessing&quot;</code></pre>
-<table>
-<thead>
-<tr class="header">
-<th align="left">Date</th>
-<th align="right">Harmonic Tide</th>
-<th align="right">Observation</th>
-<th align="right">Surge</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td align="left">2011-01-01 00:00:00</td>
-<td align="right">-0.81</td>
-<td align="right">-0.95</td>
-<td align="right">-0.14</td>
-</tr>
-<tr class="even">
-<td align="left">2011-01-01 00:10:00</td>
-<td align="right">-0.81</td>
-<td align="right">-0.96</td>
-<td align="right">-0.15</td>
-</tr>
-<tr class="odd">
-<td align="left">2011-01-01 00:20:00</td>
-<td align="right">-0.79</td>
-<td align="right">-0.95</td>
-<td align="right">-0.16</td>
-</tr>
-<tr class="even">
-<td align="left">2011-01-01 00:30:00</td>
-<td align="right">-0.77</td>
-<td align="right">-0.92</td>
-<td align="right">-0.15</td>
-</tr>
-<tr class="odd">
-<td align="left">2011-01-01 00:40:00</td>
-<td align="right">-0.73</td>
-<td align="right">-0.87</td>
-<td align="right">-0.14</td>
-</tr>
-<tr class="even">
-<td align="left">2011-01-01 00:50:00</td>
-<td align="right">-0.68</td>
-<td align="right">-0.80</td>
-<td align="right">-0.12</td>
-</tr>
-</tbody>
-</table>
-<div class="figure" style="text-align: center">
-<img src="figure/surge_climatology.Rmd/plotObs-1.png" alt=" Plot showing the sea level (solid black), harmonic tide (blue dashed) and strom surge (red dotted) observations  Example" width="672" />
-<p class="caption">
-Plot showing the sea level (solid black), harmonic tide (blue dashed) and strom surge (red dotted) observations Example
-</p>
-</div>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-plotObs-1">
-Past versions of plotObs-1.png
-</button>
-</p>
-<div id="fig-plotObs-1" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/katerobsau/NWO_Project/blob/92ea93441343da748ebcdf364312230e68330ad0/docs/figure/surge_climatology.Rmd/plotObs-1.png" target="_blank">92ea934</a>
-</td>
-<td>
-katerobsau
-</td>
-<td>
-2019-09-23
-</td>
-</tr>
-<tr>
-<td>
-<a href="https://github.com/katerobsau/NWO_Project/blob/edc858752b410ec3a3f0f948d5e56e3a0eae0f52/docs/figure/surge_climatology.Rmd/plotObs-1.png" target="_blank">edc8587</a>
-</td>
-<td>
-katerobsau
-</td>
-<td>
-2019-08-19
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-</div>
-<div id="summary-information" class="section level2">
-<h2>Summary Information</h2>
-<p>Summary of Harlingen observational data:</p>
+<p>WORK IN PROGRESS</p>
+<div id="general-background" class="section level2">
+<h2>General Background</h2>
+<p>Add in a section here about:</p>
 <ul>
-<li>The date range of the available observations is 2011-01-01 to 2019-01-01 23:50:00 .</li>
-<li>There are two years of missing data (will visualise at a later date).</li>
-<li>The tidal range is -1.33, 1.36 m.</li>
-<li>The surge range is -1.89, 3.09 m.</li>
-<li>Largest observated sea level was recorded on 2013-12-05 22:00:00 of 3.42 m corresponding to a 2.17 m surge.</li>
-<li>Lowest observated sea level was recorded on 2018-03-01 02:20:00 of -2.45 m corresponding to a -1.43 m surge.</li>
-<li>A threshold height of -0.42 corresponds to a quantile of 0.2844977 in observed water levels.</li>
+<li>Where is the data stored</li>
+<li>What is the data - ie. which model was run, where are the observations from</li>
 </ul>
+<!-- ## Global Variables -->
+<!-- ```{r variables, echo = FALSE, warning = FALSE, message = FALSE} -->
+<!-- rainHelpers::utils_init() -->
+<!-- ``` -->
 </div>
-<div id="sluice-operation" class="section level2">
-<h2>Sluice Operation</h2>
-<p>For a sluice height of -0.42 m based on the historical observation, the histogram shows the number of times and for how long the sluices was not operational.</p>
-<pre><code>[1] &quot;Need to specify a minimum interarrival time for discharge water&quot;</code></pre>
-<pre><code>[1] &quot;Need to check how rle() handles missing data&quot;</code></pre>
-<table>
-<thead>
-<tr class="header">
-<th align="left">time</th>
-<th align="left">date_start</th>
-<th align="left">date_end</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td align="left">116H 40M 0S</td>
-<td align="left">2011-12-02 21:50:00</td>
-<td align="left">2011-12-07 18:20:00</td>
-</tr>
-<tr class="even">
-<td align="left">110H 0M 0S</td>
-<td align="left">2012-01-02 09:20:00</td>
-<td align="left">2012-01-06 23:10:00</td>
-</tr>
-<tr class="odd">
-<td align="left">98H 40M 0S</td>
-<td align="left">2013-10-26 08:30:00</td>
-<td align="left">2013-10-30 11:00:00</td>
-</tr>
-<tr class="even">
-<td align="left">96H 20M 0S</td>
-<td align="left">2018-12-07 04:20:00</td>
-<td align="left">2018-12-11 04:30:00</td>
-</tr>
-<tr class="odd">
-<td align="left">86H 0M 0S</td>
-<td align="left">2015-11-17 07:20:00</td>
-<td align="left">2015-11-20 21:10:00</td>
-</tr>
-<tr class="even">
-<td align="left">85H 0M 0S</td>
-<td align="left">2015-01-10 06:30:00</td>
-<td align="left">2015-01-13 19:20:00</td>
-</tr>
-</tbody>
-</table>
-<p><img src="figure/surge_climatology.Rmd/histPlot-1.png" width="672" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-histPlot-1">
-Past versions of histPlot-1.png
-</button>
-</p>
-<div id="fig-histPlot-1" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/katerobsau/NWO_Project/blob/92ea93441343da748ebcdf364312230e68330ad0/docs/figure/surge_climatology.Rmd/histPlot-1.png" target="_blank">92ea934</a>
-</td>
-<td>
-katerobsau
-</td>
-<td>
-2019-09-23
-</td>
-</tr>
-<tr>
-<td>
-<a href="https://github.com/katerobsau/NWO_Project/blob/edc858752b410ec3a3f0f948d5e56e3a0eae0f52/docs/figure/surge_climatology.Rmd/histPlot-1.png" target="_blank">edc8587</a>
-</td>
-<td>
-katerobsau
-</td>
-<td>
-2019-08-19
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-<p>There are 4138 times that the sluice is not operational, and the average period that the sluice is not in operational is 9H 4M 0S. This is intuitive given the average period spent in the high tide cycle. Currently we do not condition on the minimum period the sluice can be operated.</p>
-</div>
-<div id="longest-periods-above-the-threshold" class="section level2">
-<h2>Longest Periods above the Threshold</h2>
-<p>The four longest periods when the sluice was not operational are shown in the below figure. We observe in Figure B there is a problem with the underlying data.</p>
-<pre><code>[1] &quot;Note: Wrap repition of plots in a function&quot;</code></pre>
-<p><img src="figure/surge_climatology.Rmd/sluiceExamples-1.png" width="672" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-sluiceExamples-1">
-Past versions of sluiceExamples-1.png
-</button>
-</p>
-<div id="fig-sluiceExamples-1" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/katerobsau/NWO_Project/blob/92ea93441343da748ebcdf364312230e68330ad0/docs/figure/surge_climatology.Rmd/sluiceExamples-1.png" target="_blank">92ea934</a>
-</td>
-<td>
-katerobsau
-</td>
-<td>
-2019-09-23
-</td>
-</tr>
-<tr>
-<td>
-<a href="https://github.com/katerobsau/NWO_Project/blob/edc858752b410ec3a3f0f948d5e56e3a0eae0f52/docs/figure/surge_climatology.Rmd/sluiceExamples-1.png" target="_blank">edc8587</a>
-</td>
-<td>
-katerobsau
-</td>
-<td>
-2019-08-19
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-</div>
-<div id="highest-surges-on-record" class="section level2">
-<h2>Highest Surges on Record</h2>
-<p>The four highest surges are shown in the below Figure. One of these corresponds to one of the top four events wehn the sluice was not operational. However, this is also the event where we observed problems with the cylcic nature of the data.</p>
-<p><img src="figure/surge_climatology.Rmd/highestSurges-1.png" width="672" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-highestSurges-1">
-Past versions of highestSurges-1.png
-</button>
-</p>
-<div id="fig-highestSurges-1" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/katerobsau/NWO_Project/blob/92ea93441343da748ebcdf364312230e68330ad0/docs/figure/surge_climatology.Rmd/highestSurges-1.png" target="_blank">92ea934</a>
-</td>
-<td>
-katerobsau
-</td>
-<td>
-2019-09-23
-</td>
-</tr>
-<tr>
-<td>
-<a href="https://github.com/katerobsau/NWO_Project/blob/edc858752b410ec3a3f0f948d5e56e3a0eae0f52/docs/figure/surge_climatology.Rmd/highestSurges-1.png" target="_blank">edc8587</a>
-</td>
-<td>
-katerobsau
-</td>
-<td>
-2019-08-19
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-<p>Next steps: For each cluster get the highest surge, highest tide, highest total. Want to examine if the dependence between highest surges, and rainfall is different to period sluice is operational and rainfall.</p>
-<p>Ideally also like to wrap plotting code, and to fix dates on axes.</p>
+<div id="code" class="section level2">
+<h2>Code</h2>
+<p>Code to preprocess the rainfall data is stored in the associated sub-directory “code/rainHelpers”.</p>
+<p>See helper files:</p>
+<pre><code>[1] &quot;aggregate_ens_forecast.R&quot;      &quot;plot_aggregations_temporary.R&quot;
+[3] &quot;read_stn_observations.R&quot;      </code></pre>
+<p>An overview of the codes workflow and connections is given below. <div id="htmlwidget-12b1d253ef1078d00bfe" style="width:672px;height:480px;" class="grViz html-widget"></div>
+<script type="application/json" data-for="htmlwidget-12b1d253ef1078d00bfe">{"x":{"diagram":"digraph flowchart {wrapper_unzip_and_condense_ens_data;unzip_element_data;Get_cols_for_lead_times;Get_aggr_for_lead_times;Get_member_summary;Aggregate_prcp_ens_single_day;Get_file_name;Get_zip_strings_from_folder;Get_date_str_from_zip_str;Get_zip_str_from_date_str;Get_all_date_strs_for_zip_str;Get_zip_file_name;Get_zip_path;Get_zip_contents;Get_element_list;Convert_element_to_data_frame;Write_element_data;Get_obs_aggr;Wrapper_obs_aggr;Read_daily_stn_obs;Get_subdaily_file_name;Read_subdaily_stn_obs;Address_negative_obs;Convert_subdaily_to_daily;Use_std_date_format;Get_daily_obs\nwrapper_unzip_and_condense_ens_data -> Get_zip_strings_from_folder\nwrapper_unzip_and_condense_ens_data -> Get_all_date_strs_for_zip_str\nwrapper_unzip_and_condense_ens_data -> unzip_element_data\nunzip_element_data -> Get_zip_str_from_date_str\nunzip_element_data -> Get_zip_file_name\nunzip_element_data -> Get_file_name\nunzip_element_data -> Get_zip_contents\nunzip_element_data -> Get_element_list\nunzip_element_data -> Convert_element_to_data_frame\nunzip_element_data -> Write_element_data\nGet_all_date_strs_for_zip_str -> Get_date_str_from_zip_str\nGet_all_date_strs_for_zip_str -> Get_zip_str_from_date_str\nWrapper_obs_aggr -> Get_obs_aggr\nGet_daily_obs -> Get_subdaily_file_name\nGet_daily_obs -> Read_subdaily_stn_obs\nGet_daily_obs -> Address_negative_obs\nGet_daily_obs -> Convert_subdaily_to_daily\nGet_daily_obs -> Use_std_date_format}","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script></p>
+<p>Show what the data looks like too!!</p>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
@@ -1087,26 +590,34 @@ attached base packages:
 [1] stats     graphics  grDevices utils     datasets  methods   base     
 
 other attached packages:
- [1] tidalHelpers_0.1.0 cowplot_1.0.0      forcats_0.4.0     
- [4] stringr_1.4.0      dplyr_0.8.3        purrr_0.3.2       
- [7] readr_1.3.1        tidyr_1.0.0        tibble_2.1.3      
-[10] ggplot2_3.2.1      tidyverse_1.2.1   
+ [1] funGraphs_0.1.7   rainHelpers_0.1.0 DiagrammeR_1.0.1 
+ [4] forcats_0.4.0     stringr_1.4.0     dplyr_0.8.3      
+ [7] purrr_0.3.2       readr_1.3.1       tidyr_1.0.0      
+[10] tibble_2.1.3      ggplot2_3.2.1     tidyverse_1.2.1  
 
 loaded via a namespace (and not attached):
- [1] tidyselect_0.2.5 xfun_0.9         haven_2.1.1      lattice_0.20-38 
- [5] colorspace_1.4-1 vctrs_0.2.0      generics_0.0.2   htmltools_0.3.6 
- [9] yaml_2.2.0       rlang_0.4.0      pillar_1.4.2     glue_1.3.1      
-[13] withr_2.1.2      modelr_0.1.5     readxl_1.3.1     lifecycle_0.1.0 
-[17] munsell_0.5.0    gtable_0.3.0     workflowr_1.4.0  cellranger_1.1.0
-[21] rvest_0.3.4      evaluate_0.14    labeling_0.3     knitr_1.24      
-[25] highr_0.8        broom_0.5.2      Rcpp_1.0.2       scales_1.0.0    
-[29] backports_1.1.4  jsonlite_1.6     fs_1.3.1         hms_0.5.1       
-[33] digest_0.6.20    stringi_1.4.3    grid_3.5.2       rprojroot_1.3-2 
-[37] cli_1.1.0        tools_3.5.2      magrittr_1.5     lazyeval_0.2.2  
-[41] crayon_1.3.4     whisker_0.4      pkgconfig_2.0.2  zeallot_0.1.0   
-[45] xml2_1.2.2       lubridate_1.7.4  assertthat_0.2.1 rmarkdown_1.15  
-[49] httr_1.4.1       rstudioapi_0.10  R6_2.4.0         nlme_3.1-141    
-[53] git2r_0.26.1     compiler_3.5.2  </code></pre>
+ [1] Rcpp_1.0.2         lubridate_1.7.4    lattice_0.20-38   
+ [4] visNetwork_2.0.8   assertthat_0.2.1   zeallot_0.1.0     
+ [7] rprojroot_1.3-2    digest_0.6.20      R6_2.4.0          
+[10] cellranger_1.1.0   backports_1.1.4    evaluate_0.14     
+[13] httr_1.4.1         pillar_1.4.2       rlang_0.4.0       
+[16] lazyeval_0.2.2     readxl_1.3.1       rstudioapi_0.10   
+[19] rmarkdown_1.15     downloader_0.4     htmlwidgets_1.3   
+[22] igraph_1.2.4.1     munsell_0.5.0      broom_0.5.2       
+[25] compiler_3.5.2     influenceR_0.1.0   rgexf_0.15.3      
+[28] modelr_0.1.5       xfun_0.9           pkgconfig_2.0.2   
+[31] htmltools_0.3.6    tidyselect_0.2.5   gridExtra_2.3     
+[34] workflowr_1.4.0    XML_3.98-1.20      viridisLite_0.3.0 
+[37] crayon_1.3.4       withr_2.1.2        grid_3.5.2        
+[40] nlme_3.1-141       jsonlite_1.6       gtable_0.3.0      
+[43] lifecycle_0.1.0    git2r_0.26.1       magrittr_1.5      
+[46] scales_1.0.0       cli_1.1.0          stringi_1.4.3     
+[49] viridis_0.5.1      fs_1.3.1           xml2_1.2.2        
+[52] brew_1.0-6         generics_0.0.2     vctrs_0.2.0       
+[55] RColorBrewer_1.1-2 tools_3.5.2        glue_1.3.1        
+[58] hms_0.5.1          Rook_1.1-1         yaml_2.2.0        
+[61] colorspace_1.4-1   rvest_0.3.4        knitr_1.24        
+[64] haven_2.1.1       </code></pre>
 </div>
 </div>
 
