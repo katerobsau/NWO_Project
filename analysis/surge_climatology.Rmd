@@ -293,7 +293,7 @@ We note that the duration is a continuous random variable, but that due to the u
 
 ## Surge duration
 
-To analyse a random variable that is a bit friendlier in terms of dependence and standard copulas, it is useful to think about how the duration of the surge event is related to the surge height. Exceedance of the threshold is shown here in blue..
+To analyse a random variable that is a bit friendlier in terms of dependence and standard copulas, it is useful to think about how the duration of the surge event is related to the surge height. The points are shaded by the percentage of time spent about the flood risk threshold during each storm surge event.
 
 ```{r clustersSur, echo = FALSE}
 clusters_sur = flood_risk %>%
@@ -334,7 +334,7 @@ plot_clusters_sur <- cbind(clusters_sur, max_height_sur) %>%
 
 duration_vs_sur1 <- ggplot(plot_clusters_sur %>% filter(sur > 0.01)) + 
   geom_point(aes(x = time@hour, y = sur, col = risk), size = 0.75) + #time@hour
-  scale_color_distiller(palette = "Spectral") +
+  scale_color_distiller("Percentage", palette = "Spectral") +
   theme_bw() + 
   xlab("Surge Duration") + 
   ylab("Surge Height") 
