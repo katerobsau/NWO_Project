@@ -49,7 +49,6 @@ obs_data %>%
   setNames(nm = c("Date", "Harmonic Tide", "Observation", "Surge")) %>%
   head() %>%
   knitr::kable()
-
 ```
 
 ```{r plotObs, echo = FALSE, fig.cap = figRef("plotSurgeObs", cap)}
@@ -91,6 +90,7 @@ For a sluice height of `r h_t_level` m based on the historical observation, the 
 ```{r getClusters, echo = FALSE}
 flood_risk = obs_data %>%
   mutate(bool_col = obs >= h_t_level)
+
 clusters = flood_risk %>%
   pull(bool_col) %>%
   rle() %>%
@@ -265,7 +265,7 @@ plot_grid(s1, s2, s3, s4, labels = "AUTO", ncol = 2)
 
 ## Relationship between Duration and Surge 
 
-```{r echo = FALSE}
+```{r echo = FALSE, warnings = FALSE}
 max_height = apply(clusters, 1, function(r, flood_risk, col_names){
   i1 = r[which(col_names == "start")]
   i2 = r[which(col_names == "end")]
@@ -290,6 +290,58 @@ duration_vs_sur
 As the period that the external water level exceeds `r h_t_level` m increases, there is not a strong correlation with an increase in the surge height. This suggests that the important factor for flood mitigation in the instance of the sluice operation, is not infact surge height, but the time period spent above the risk threshold. This is in contrast to the many frameworks who consider the problem of compound events from the perspective of heavy rainfall and high surge combination.
 
 We note that the duration is a continuous random variable, but that due to the underlying influence of the tidal cycle, that the duration values appear binned. This is because the risk period above the threshold often corresponds with the rising tide and the end of the risk period with the outgoing tide. The difference between these cycles is roughly a factor of 12 hours. 
+
+## Surge duration
+
+To analyse a random variable that is a bit friendlier in terms of dependence and standard copulas, it is useful to think about how the duration of the surge event is related to the surge height. Exceedance of the threshold is shown here in blue..
+
+```{r clustersSur, echo = FALSE}
+clusters_sur = flood_risk %>%
+  mutate(bool_sur = sur > 0) %>%
+  pull(bool_sur) %>%
+  rle() %>%
+  unclass() %>%
+  as.data.frame() %>%
+  mutate(end = cumsum(lengths),
+       start = c(1, dplyr::lag(end)[-1] + 1)) %>%
+  mutate(date_end = obs_data$ldate[end]) %>%
+  mutate(date_start = obs_data$ldate[start]) %>%
+  # select(-start, -end) %>%
+  arrange(desc(lengths)) %>%
+  mutate(temp = paste(0, lengths*10, 0, sep = ":")) %>%
+  mutate(time = lubridate::hms(temp, roll = TRUE)) %>%
+  select(-temp) 
+
+max_height_sur = apply(clusters_sur, 1, function(r, flood_risk, col_names){
+  i1 = r[which(col_names == "start")]
+  i2 = r[which(col_names == "end")]
+  flood_risk[i1:i2,] %>%
+    select(harm, obs, sur) %>%
+    apply(., 2, max)
+}, flood_risk, col_names = names(clusters_sur)) 
+max_height_sur = t(max_height_sur)
+
+thres_exceeded = apply(clusters_sur, 1, function(r, flood_risk, col_names){
+  i1 = r[which(col_names == "start")] %>% as.numeric()
+  i2 = r[which(col_names == "end")] %>% as.numeric()
+  temp = flood_risk[i1:i2,] %>%
+    pull(obs)
+  perc = sum(temp > h_t_level)/sum(!is.na(temp))
+}, flood_risk, col_names = names(clusters_sur)) 
+
+plot_clusters_sur <- cbind(clusters_sur, max_height_sur) %>%
+  mutate(risk = thres_exceeded %>% as.numeric())
+
+duration_vs_sur1 <- ggplot(plot_clusters_sur %>% filter(sur > 0.01)) + 
+  geom_point(aes(x = time@hour, y = sur, col = risk), size = 0.75) + #time@hour
+  scale_color_distiller(palette = "Spectral") +
+  theme_bw() + 
+  xlab("Surge Duration") + 
+  ylab("Surge Height") 
+
+duration_vs_sur1
+```
+
 
 <!-- ## To Do: -->
 
