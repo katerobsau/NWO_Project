@@ -150,12 +150,10 @@ rv_df <- tribble(
   
   ~rv,  ~var_type,
   "T_s", "Duration of the storm surge",
-  "H_s", "Maximum surge height during T_s",
-  # "I", "Interarrival time between surge events",
-  "H_t",  "Threshold water level that water needs to be discharged to prevent flood risk",  
+  "M_s", "Maximum surge height during T_s",
+  "h_t",  "Threshold water level that water needs to be discharged to prevent flood risk",  
   "T_d", "Duration that the gravity based sluice is not operational",
-  "T_c", "Duration of common period between T_s and T_l",
-  "M", "Minimum period of time the sluice needs to be operational to relieve flood risk"
+  "T_p", "Minimum period of time the sluice needs to be operational to relieve flood risk"
   
 ) %>% 
   set_names(. , nm = c("Variable Name", "Variable Type"))

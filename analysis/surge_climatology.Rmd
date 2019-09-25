@@ -89,8 +89,9 @@ Summary of Harlingen observational data:
 For a sluice height of `r h_t_level` m based on the historical observation, the histogram shows the number of times and for how long the sluices was not operational.
 
 ```{r getClusters, echo = FALSE}
-clusters = obs_data %>%
-  mutate(bool_col = obs >= h_t_level) %>%
+flood_risk = obs_data %>%
+  mutate(bool_col = obs >= h_t_level)
+clusters = flood_risk %>%
   pull(bool_col) %>%
   rle() %>%
   unclass() %>%
@@ -99,7 +100,7 @@ clusters = obs_data %>%
        start = c(1, dplyr::lag(end)[-1] + 1)) %>%
   mutate(date_end = obs_data$ldate[end]) %>%
   mutate(date_start = obs_data$ldate[start]) %>%
-  select(-start, -end) %>%
+  # select(-start, -end) %>%
   arrange(desc(lengths)) %>%
   mutate(temp = paste(0, lengths*10, 0, sep = ":")) %>%
   mutate(time = lubridate::hms(temp, roll = TRUE)) %>%
@@ -145,6 +146,7 @@ print("Note: Wrap repition of plots in a function")
 lens = clusters$lengths[1:4]
 num_days = (10*24)*60/10 
 
+# delta is used to make the x axis size the same across the four plots
 delta1 = lubridate::minutes(max((num_days - lens[1])/2, 0)*10)
 p1 <- ggplot(obs_data %>% filter(
     ldate >= (clusters$date_start[1] - delta1) & 
@@ -200,7 +202,7 @@ plot_grid(p1, p2, p3, p4, labels = "AUTO", ncol = 2)
 
 ## Highest Surges on Record
 
-The four highest surges are shown in the below Figure. One of these corresponds to one of the top four events wehn the sluice was not operational. However, this is also the event where we observed problems with the cylcic nature of the data. 
+The four highest surges are shown in the below Figure. There is not a one-to-one correspondance with the highest surge events and the longest events that pose flood risk. 
 
 ```{r highestSurges, echo = FALSE}
 delta_day = num_days/2
@@ -261,7 +263,34 @@ s4 <- ggplot(obs_data[(max_surge_i[4] - delta_day):(max_surge_i[4] + delta_day),
 plot_grid(s1, s2, s3, s4, labels = "AUTO", ncol = 2)
 ```
 
-Next steps: For each cluster get the highest surge, highest tide, highest total.
-Want to examine if the dependence between highest surges, and rainfall is different to period sluice is operational and rainfall.
+## Relationship between Duration and Surge 
 
-Ideally also like to wrap plotting code, and to fix dates on axes.
+```{r echo = FALSE}
+max_height = apply(clusters, 1, function(r, flood_risk, col_names){
+  i1 = r[which(col_names == "start")]
+  i2 = r[which(col_names == "end")]
+  flood_risk[i1:i2,] %>%
+    select(harm, obs, sur) %>%
+    apply(., 2, max)
+}, flood_risk, col_names = names(clusters)) 
+max_height = t(max_height)
+
+plot_clusters <- cbind(clusters, max_height) 
+
+duration_vs_sur<- ggplot(plot_clusters) + 
+  geom_point(aes(x = time@hour, y = sur)) + #time@hour
+  geom_vline(xintercept = seq(0, 120, 6),
+             col = "red", linetype = "dotted") +
+  theme_bw() + 
+  xlab("Time in hours") + 
+  ylab("Surge Height") 
+duration_vs_sur
+```
+
+As the period that the external water level exceeds `r h_t_level` m increases, there is not a strong correlation with an increase in the surge height. This suggests that the important factor for flood mitigation in the instance of the sluice operation, is not infact surge height, but the time period spent above the risk threshold. This is in contrast to the many frameworks who consider the problem of compound events from the perspective of heavy rainfall and high surge combination.
+
+We note that the duration is a continuous random variable, but that due to the underlying influence of the tidal cycle, that the duration values appear binned. This is because the risk period above the threshold often corresponds with the rising tide and the end of the risk period with the outgoing tide. The difference between these cycles is roughly a factor of 12 hours. 
+
+<!-- ## To Do: -->
+
+<!-- Ideally also like to wrap plotting code, and to fix dates on axes. -->
