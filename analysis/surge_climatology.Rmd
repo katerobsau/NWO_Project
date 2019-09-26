@@ -15,11 +15,9 @@ install.packages(pkgs = "code/tidalHelpers", repos = NULL, type = "source")
 library(tidalHelpers)
 ```
 
-**WORK IN PROGRESS**
-
 In this section, the available observational data is visualised and the conditions when the sluice is not operational are examined.
 
-## Observations
+## Harlingen Observations
 
 The following table displays the observed data at the Harlingen station. The storm surge is obtained by subtracting the harmonic tide from the observed sea level, see Figure `r figRef("plotSurgeObs")`. 
 
@@ -139,10 +137,10 @@ There are `r nrow(plot_data)` times that the sluice is not operational, and the 
 
 ## Longest Periods above the Threshold
 
-The four longest periods when the sluice was not operational are shown in the below figure. We observe in Figure B there is a problem with the underlying data.
+The four longest periods when the sluice was not operational are shown in the below figure. We observe in Figure B there is a problem with the underlying data, however during this period the sluice was operational due to surge as the plot indicates.
 
 ```{r sluiceExamples, echo = FALSE}
-print("Note: Wrap repition of plots in a function")
+# print("Note: Wrap repition of plots in a function")
 lens = clusters$lengths[1:4]
 num_days = (10*24)*60/10 
 
@@ -202,7 +200,7 @@ plot_grid(p1, p2, p3, p4, labels = "AUTO", ncol = 2)
 
 ## Highest Surges on Record
 
-The four highest surges are shown in the below Figure. There is not a one-to-one correspondance with the highest surge events and the longest events that pose flood risk. 
+The four highest surges are shown in the below Figure. There is not a one-to-one correspondance with the highest surge events and the longest duration events where the sluice was unable to be operated to prevent flood risk. 
 
 ```{r highestSurges, echo = FALSE}
 delta_day = num_days/2
@@ -265,7 +263,7 @@ plot_grid(s1, s2, s3, s4, labels = "AUTO", ncol = 2)
 
 ## Relationship between Duration and Surge 
 
-```{r echo = FALSE, warnings = FALSE}
+```{r echo = FALSE, warning = FALSE}
 max_height = apply(clusters, 1, function(r, flood_risk, col_names){
   i1 = r[which(col_names == "start")]
   i2 = r[which(col_names == "end")]
@@ -282,14 +280,14 @@ duration_vs_sur<- ggplot(plot_clusters) +
   geom_vline(xintercept = seq(0, 120, 6),
              col = "red", linetype = "dotted") +
   theme_bw() + 
-  xlab("Time in hours") + 
+  xlab("Duration external water level exceeded the risk level") + 
   ylab("Surge Height") 
 duration_vs_sur
 ```
 
 As the period that the external water level exceeds `r h_t_level` m increases, there is not a strong correlation with an increase in the surge height. This suggests that the important factor for flood mitigation in the instance of the sluice operation, is not infact surge height, but the time period spent above the risk threshold. This is in contrast to the many frameworks who consider the problem of compound events from the perspective of heavy rainfall and high surge combination.
 
-We note that the duration is a continuous random variable, but that due to the underlying influence of the tidal cycle, that the duration values appear binned. This is because the risk period above the threshold often corresponds with the rising tide and the end of the risk period with the outgoing tide. The difference between these cycles is roughly a factor of 12 hours. 
+We note that although the duration is a continuous random variable, the duration values appear binned due to the underlying influence of the tidal cycle. This is because the period above the risk threshold often corresponds with the rising tide and the end of the risk period with the outgoing tide with some additional variability due to the surge. The difference between these cycles is roughly a 12 hours. 
 
 ## Surge duration
 
@@ -341,6 +339,17 @@ duration_vs_sur1 <- ggplot(plot_clusters_sur %>% filter(sur > 0.01)) +
 
 duration_vs_sur1
 ```
+
+<!-- ```{r} -->
+<!-- duration_vs_sur2 <- ggplot(plot_clusters_sur %>% filter(sur > 0.01)) +  -->
+<!--   geom_point(aes(x = time@hour*risk, y = sur), size = 0.75) + #time@hour -->
+<!--   scale_color_distiller("Percentage", palette = "RdBu") + -->
+<!--   theme_bw() +  -->
+<!--   xlab("Duration above the risk threshold during the Storm Surge") +  -->
+<!--   ylab("Surge Height")  -->
+
+<!-- duration_vs_sur2 -->
+<!-- ``` -->
 
 
 <!-- ## To Do: -->

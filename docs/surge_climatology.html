@@ -384,7 +384,7 @@ div.section {
 
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-report" data-toggle="collapse" data-target="#workflowr-report">
-<span class="glyphicon glyphicon-list" aria-hidden="true"></span> workflowr <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
+<span class="glyphicon glyphicon-list" aria-hidden="true"></span> workflowr <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span>
 </button>
 </p>
 <div id="workflowr-report" class="collapse">
@@ -393,7 +393,7 @@ div.section {
 <a data-toggle="tab" href="#summary">Summary</a>
 </li>
 <li>
-<a data-toggle="tab" href="#checks"> Checks <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> </a>
+<a data-toggle="tab" href="#checks"> Checks <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> </a>
 </li>
 <li>
 <a data-toggle="tab" href="#versions">Past versions</a>
@@ -405,7 +405,7 @@ div.section {
 <strong>Last updated:</strong> 2019-09-26
 </p>
 <p>
-<strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 0
+<strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 6 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 1
 </p>
 <p>
 <strong>Knit directory:</strong> <code>NWO_Project/</code> <span class="glyphicon glyphicon-question-sign" aria-hidden="true" title="This is the local directory in which the code in this file was executed."> </span>
@@ -421,12 +421,12 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguptodate"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>R Markdown file:</strong> up-to-date </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguncommittedchanges"> <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> <strong>R Markdown file:</strong> uncommitted changes </a>
 </p>
 </div>
-<div id="strongRMarkdownfilestronguptodate" class="panel-collapse collapse">
+<div id="strongRMarkdownfilestronguncommittedchanges" class="panel-collapse collapse">
 <div class="panel-body">
-<p>Great! Since the R Markdown file has been committed to the Git repository, you know the exact version of the code that produced these results.</p>
+<p>The R Markdown file has unstaged changes. To know which version of the R Markdown file created these results, you’ll want to first commit it to the Git repo. If you’re still working on the analysis, you can ignore this warning. When you’re finished, you can run <code>wflow_publish</code> to commit the R Markdown file and build the HTML.</p>
 </div>
 </div>
 </div>
@@ -493,10 +493,10 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomkaterobsauNWOProjecttree7120f6611aabdf553d5d84d2ef10fd1aa2160590targetblank7120f66a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/katerobsau/NWO_Project/tree/7120f6611aabdf553d5d84d2ef10fd1aa2160590" target="_blank">7120f66</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomkaterobsauNWOProjecttreee4946eedfa9685e99b71d6a6b8ee742b53fc4465targetblanke4946eea"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/katerobsau/NWO_Project/tree/e4946eedfa9685e99b71d6a6b8ee742b53fc4465" target="_blank">e4946ee</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomkaterobsauNWOProjecttree7120f6611aabdf553d5d84d2ef10fd1aa2160590targetblank7120f66a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomkaterobsauNWOProjecttreee4946eedfa9685e99b71d6a6b8ee742b53fc4465targetblanke4946eea" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -517,6 +517,10 @@ Ignored files:
     Ignored:    code/tidalHelpers/man/
     Ignored:    data/.DS_Store
     Ignored:    docs/assets/
+
+Unstaged changes:
+    Modified:   analysis/compound-event-definition.Rmd
+    Modified:   analysis/surge_climatology.Rmd
 
 </code></pre>
 <p>
@@ -555,6 +559,23 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/katerobsau/NWO_Project/e4946eedfa9685e99b71d6a6b8ee742b53fc4465/docs/surge_climatology.html" target="_blank">e4946ee</a>
+</td>
+<td>
+katerobsau
+</td>
+<td>
+2019-09-26
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -936,10 +957,9 @@ code/*
 </div>
 </div>
 </div>
-<p><strong>WORK IN PROGRESS</strong></p>
 <p>In this section, the available observational data is visualised and the conditions when the sluice is not operational are examined.</p>
-<div id="observations" class="section level2">
-<h2>Observations</h2>
+<div id="harlingen-observations" class="section level2">
+<h2>Harlingen Observations</h2>
 <p>The following table displays the observed data at the Harlingen station. The storm surge is obtained by subtracting the harmonic tide from the observed sea level, see Figure NULL 1.</p>
 <pre><code>[1] &quot;Check this&quot;</code></pre>
 <pre><code>[1] &quot;Note: Should add handling of NA Surge values into preprocessing&quot;</code></pre>
@@ -1169,8 +1189,7 @@ katerobsau
 </div>
 <div id="longest-periods-above-the-threshold" class="section level2">
 <h2>Longest Periods above the Threshold</h2>
-<p>The four longest periods when the sluice was not operational are shown in the below figure. We observe in Figure B there is a problem with the underlying data.</p>
-<pre><code>[1] &quot;Note: Wrap repition of plots in a function&quot;</code></pre>
+<p>The four longest periods when the sluice was not operational are shown in the below figure. We observe in Figure B there is a problem with the underlying data, however during this period the sluice was operational due to surge as the plot indicates.</p>
 <p><img src="figure/surge_climatology.Rmd/sluiceExamples-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-sluiceExamples-1">
@@ -1234,7 +1253,7 @@ katerobsau
 </div>
 <div id="highest-surges-on-record" class="section level2">
 <h2>Highest Surges on Record</h2>
-<p>The four highest surges are shown in the below Figure. There is not a one-to-one correspondance with the highest surge events and the longest events that pose flood risk.</p>
+<p>The four highest surges are shown in the below Figure. There is not a one-to-one correspondance with the highest surge events and the longest duration events where the sluice was unable to be operated to prevent flood risk.</p>
 <p><img src="figure/surge_climatology.Rmd/highestSurges-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-highestSurges-1">
@@ -1287,7 +1306,6 @@ katerobsau
 </div>
 <div id="relationship-between-duration-and-surge" class="section level2">
 <h2>Relationship between Duration and Surge</h2>
-<pre><code>Warning: Removed 1151 rows containing missing values (geom_point).</code></pre>
 <p><img src="figure/surge_climatology.Rmd/unnamed-chunk-1-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-1-1">
@@ -1327,7 +1345,7 @@ katerobsau
 </div>
 </div>
 <p>As the period that the external water level exceeds -0.42 m increases, there is not a strong correlation with an increase in the surge height. This suggests that the important factor for flood mitigation in the instance of the sluice operation, is not infact surge height, but the time period spent above the risk threshold. This is in contrast to the many frameworks who consider the problem of compound events from the perspective of heavy rainfall and high surge combination.</p>
-<p>We note that the duration is a continuous random variable, but that due to the underlying influence of the tidal cycle, that the duration values appear binned. This is because the risk period above the threshold often corresponds with the rising tide and the end of the risk period with the outgoing tide. The difference between these cycles is roughly a factor of 12 hours.</p>
+<p>We note that although the duration is a continuous random variable, the duration values appear binned due to the underlying influence of the tidal cycle. This is because the period above the risk threshold often corresponds with the rising tide and the end of the risk period with the outgoing tide with some additional variability due to the surge. The difference between these cycles is roughly a 12 hours.</p>
 </div>
 <div id="surge-duration" class="section level2">
 <h2>Surge duration</h2>
@@ -1357,6 +1375,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/katerobsau/NWO_Project/blob/e4946eedfa9685e99b71d6a6b8ee742b53fc4465/docs/figure/surge_climatology.Rmd/clustersSur-1.png" target="_blank">e4946ee</a>
+</td>
+<td>
+katerobsau
+</td>
+<td>
+2019-09-26
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/katerobsau/NWO_Project/blob/aac6065bf4e5f2dc12e63f9eca1b1276eb39aae5/docs/figure/surge_climatology.Rmd/clustersSur-1.png" target="_blank">aac6065</a>
 </td>
 <td>
@@ -1381,6 +1410,15 @@ katerobsau
 </table>
 </div>
 </div>
+<!-- ```{r} -->
+<!-- duration_vs_sur2 <- ggplot(plot_clusters_sur %>% filter(sur > 0.01)) +  -->
+<!--   geom_point(aes(x = time@hour*risk, y = sur), size = 0.75) + #time@hour -->
+<!--   scale_color_distiller("Percentage", palette = "RdBu") + -->
+<!--   theme_bw() +  -->
+<!--   xlab("Duration above the risk threshold during the Storm Surge") +  -->
+<!--   ylab("Surge Height")  -->
+<!-- duration_vs_sur2 -->
+<!-- ``` -->
 <!-- ## To Do: -->
 <!-- Ideally also like to wrap plotting code, and to fix dates on axes. -->
 <br>

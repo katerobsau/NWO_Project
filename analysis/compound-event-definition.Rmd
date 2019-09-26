@@ -147,20 +147,20 @@ Given the operation of these sluices, the surge-rainfall mechanisms of 1 and 3 a
 num_pi = 7
 theta = seq(0, num_pi*pi, length.out = 360*(num_pi+ 1)/2)
 tide_cycle = sin(theta)
-surge = sin(1/4*theta) + 0.2
+surge = sin(1/4*theta) + 0.35
 surge = surge*(surge > 0)
 sea_level = tide_cycle + surge
 H_t = -0.42
 surge_df <- data.frame(theta, tide_cycle, sea_level, surge)
 clusters = rle(sea_level > H_t)
 i = 1:(clusters$length[1])
-block_x <- range(theta[i])
+block_x_sur <- range(theta[i])
 surge_plot <- ggplot() +
   geom_line(data = surge_df, aes(x = theta, y = surge), col = "red", linetype = "dotted") +
   geom_line(data = surge_df, aes(x = theta, y = tide_cycle), col = "blue", linetype = "dashed") +
   geom_line(data = surge_df, aes(x = theta, y = sea_level)) + 
   geom_hline(yintercept = H_t, linetype = "dashed") + 
-  geom_polygon(data = NULL, aes(x = c(block_x, block_x[2:1]), y = c(-1, -1, H_t ,H_t)), 
+  geom_polygon(data = NULL, aes(x = c(block_x_sur, block_x_sur[2:1]), y = c(-1, -1, H_t ,H_t)), 
             fill = "red", alpha = 0.2) +
   ylab("Water Level") +
   ylim(lims = c(-1,2.25)) +
@@ -175,10 +175,10 @@ theta = seq(0, num_pi*pi, length.out = 360*(num_pi+ 1)/2)
 shift = c(seq(0, 0.4, length.out = 200), seq(0.4, 0.4, length.out = 600),
                             seq(0.4, 0, length.out = 200),
                             rep(0, length(theta) - 1000))
-tide_cycle = sin(theta) + shift + 0.1
+tide_cycle = sin(theta) + shift + 0.2
 sea_level = tide_cycle 
-surge = rep(0, length(sea_level))
-H_t = -0.6
+surge = rep(0, length(sea_level)) 
+H_t = -0.42
 close = which(abs(sea_level - H_t) < 0.02)
 clusters = rle(sea_level > H_t)
 i = 1:(clusters$length[1])
@@ -239,5 +239,7 @@ knitr::kable(rv_df)
 
 ## Navigation Links
 
-Continue to background information about the [Tidal Data](details-on-tidal-summaries.html)  
-Continue to analysis about tidal climate [Surge Climatology](surge_climatology.html)  
+* [Project Overview](index.html)  
+* [Sea Level Metadata and Preprocessing](details-on-tidal-summaries.html)  
+* [Rainfall Metadata and Preprocessing ](details-on-rainfall-data.html)  
+* [Surge Climatology](surge_climatology.html)  
