@@ -384,7 +384,7 @@ div.section {
 
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-report" data-toggle="collapse" data-target="#workflowr-report">
-<span class="glyphicon glyphicon-list" aria-hidden="true"></span> workflowr <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
+<span class="glyphicon glyphicon-list" aria-hidden="true"></span> workflowr <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span>
 </button>
 </p>
 <div id="workflowr-report" class="collapse">
@@ -393,7 +393,7 @@ div.section {
 <a data-toggle="tab" href="#summary">Summary</a>
 </li>
 <li>
-<a data-toggle="tab" href="#checks"> Checks <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> </a>
+<a data-toggle="tab" href="#checks"> Checks <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> </a>
 </li>
 <li>
 <a data-toggle="tab" href="#versions">Past versions</a>
@@ -402,10 +402,10 @@ div.section {
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2019-09-25
+<strong>Last updated:</strong> 2019-09-26
 </p>
 <p>
-<strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 0
+<strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 6 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 1
 </p>
 <p>
 <strong>Knit directory:</strong> <code>NWO_Project/</code> <span class="glyphicon glyphicon-question-sign" aria-hidden="true" title="This is the local directory in which the code in this file was executed."> </span>
@@ -421,12 +421,12 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguptodate"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>R Markdown file:</strong> up-to-date </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguncommittedchanges"> <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> <strong>R Markdown file:</strong> uncommitted changes </a>
 </p>
 </div>
-<div id="strongRMarkdownfilestronguptodate" class="panel-collapse collapse">
+<div id="strongRMarkdownfilestronguncommittedchanges" class="panel-collapse collapse">
 <div class="panel-body">
-<p>Great! Since the R Markdown file has been committed to the Git repository, you know the exact version of the code that produced these results.</p>
+<p>The R Markdown file has unstaged changes. To know which version of the R Markdown file created these results, you’ll want to first commit it to the Git repo. If you’re still working on the analysis, you can ignore this warning. When you’re finished, you can run <code>wflow_publish</code> to commit the R Markdown file and build the HTML.</p>
 </div>
 </div>
 </div>
@@ -493,10 +493,10 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomkaterobsauNWOProjecttreeb3b7e73299847c21fedf0683db73ff5fa968ddf1targetblankb3b7e73a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/katerobsau/NWO_Project/tree/b3b7e73299847c21fedf0683db73ff5fa968ddf1" target="_blank">b3b7e73</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomkaterobsauNWOProjecttreeaac6065bf4e5f2dc12e63f9eca1b1276eb39aae5targetblankaac6065a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/katerobsau/NWO_Project/tree/aac6065bf4e5f2dc12e63f9eca1b1276eb39aae5" target="_blank">aac6065</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomkaterobsauNWOProjecttreeb3b7e73299847c21fedf0683db73ff5fa968ddf1targetblankb3b7e73a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomkaterobsauNWOProjecttreeaac6065bf4e5f2dc12e63f9eca1b1276eb39aae5targetblankaac6065a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -508,6 +508,7 @@ Ignored files:
     Ignored:    .Rproj.user/
     Ignored:    code/.DS_Store
     Ignored:    code/rainHelpers/.DS_Store
+    Ignored:    code/rainHelpers/.Rhistory
     Ignored:    code/rainHelpers/.Rproj.user/
     Ignored:    code/tidalHelpers/.DS_Store
     Ignored:    code/tidalHelpers/.Rhistory
@@ -516,6 +517,10 @@ Ignored files:
     Ignored:    code/tidalHelpers/man/
     Ignored:    data/.DS_Store
     Ignored:    docs/assets/
+
+Unstaged changes:
+    Modified:   analysis/compound-event-definition.Rmd
+    Modified:   analysis/surge_climatology.Rmd
 
 </code></pre>
 <p>
@@ -554,6 +559,23 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/katerobsau/NWO_Project/ef9f65b7c77d330b8222175ccb070563d5800c75/docs/compound-event-definition.html" target="_blank">ef9f65b</a>
+</td>
+<td>
+katerobsau
+</td>
+<td>
+2019-09-25
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -889,8 +911,10 @@ katerobsau
 </table>
 </div>
 </div>
-<p>Of particular concern in the Netherlands are mechanisms 1 and 3, as flood risk in the canal belt system is heavily mitigated by gravity-based sluices (Figure NULL 2). These sluices are only operational when the internal water level is higher than the external level and the water can be discharged using gravity. For many sluices in the Netherlands, the difference between water levels needed for operation is 0.1 m, any less than this and water can flow in the opposite direction due to density differences between fresh and salt water.</p>
-<p>For flood risk, a core scenario of concern is therefore when excess water in the canal belt system from heavy rainfall can not be discharged due to a storm-surge raising the external water level. The important distinction here is that for this scenario the height of the storm-surge does not necessarily need to be extreme, but the level is high enough that sluice operation is not possible. The statistical problem therefore can be rephrased as a censored problem, where the occurrence of a storm surge exceeding a given level to more important than the amount it exceeds the level. This raises the natural question of how strong is the correlations between the duration of a storm surge and it’s height.</p>
+</div>
+<div id="mechanisms-in-the-netherlands" class="section level2">
+<h2>Mechanisms in the Netherlands</h2>
+<p>In the Netherlands, flood risk in the canal belt system is heavily mitigated by gravity-based sluices (Figure NULL 2). These sluices are only operational when the internal water level is higher than the external level and the water can be discharged using gravity. For many sluices in the Netherlands, the difference between water levels needed for operation is 0.1 m, any less than this and water can flow in the opposite direction due to density differences between fresh and salt water.</p>
 <div class="figure" style="text-align: center">
 <img src="figure/compound-event-definition.Rmd/sluice-1.png" alt=" Schematic of the gravity based sluice at Harlingen. Water can be discharged from the sluice provided there is a water level on the canal belt side is 0.1 m higher or more than the sea water level. The normal height of water in the canal belt system and optimal for operational purposes is -0.52 m (NAP) (Green dashed line). Operators are concerned for flooding risk when the inland water level is in excess of -0.32 m (NAP) (red dotted line)." width="600px" height="400px" />
 <p class="caption">
@@ -934,44 +958,11 @@ katerobsau
 </table>
 </div>
 </div>
-</div>
-<div id="event-definition" class="section level2">
-<h2>Event definition</h2>
-<p>In order to estimate the probability of an event occuring in one of the risk regions, we first need to define the set of variables we will use to model the problem. These variables are given in Table NULL 3. We have adopted a similar problem specification to Li et al. 2014, who considered an application of wave heights for Dutch storms. Namely in our specification, we are interested in the duration that the gravity based is not operational. A schematic showing these variables is given in Figure NULL 4.</p>
-<table>
-<thead>
-<tr class="header">
-<th align="left">Variable Name</th>
-<th align="left">Variable Type</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td align="left">T_s</td>
-<td align="left">Duration of the storm surge</td>
-</tr>
-<tr class="even">
-<td align="left">M_s</td>
-<td align="left">Maximum surge height during T_s</td>
-</tr>
-<tr class="odd">
-<td align="left">h_t</td>
-<td align="left">Threshold water level that water needs to be discharged to prevent flood risk</td>
-</tr>
-<tr class="even">
-<td align="left">T_d</td>
-<td align="left">Duration that the gravity based sluice is not operational</td>
-</tr>
-<tr class="odd">
-<td align="left">T_p</td>
-<td align="left">Minimum period of time the sluice needs to be operational to relieve flood risk</td>
-</tr>
-</tbody>
-</table>
+<p>Given the operation of these sluices, the surge-rainfall mechanisms of 1 and 3 are of primary concern to the Netherlands. In these instances, the sluice is not operational. Figure NULL 3 shows two simple examples where the external water level prevents the release of water; one due to a surge evenet and the other due to a high tide.</p>
 <div class="figure" style="text-align: center">
-<img src="figure/compound-event-definition.Rmd/schematics-1.png" alt=" Red shaded areas shows the time period that gravity-based sluice was not operational was not operational for these examples. The tidal cycle is shown by the dotted blue line, and the sea level, which is the combined tide and storm surge is shown in solid black. If there is no storm surge, as in Figure 1B, then the two lines are superimposed. The dashed horizontal line shows the maximum water level for sluice operation." width="600px" height="400px" />
+<img src="figure/compound-event-definition.Rmd/schematics-1.png" alt=" Two examples showing when the sea level (solid back) exceeds the flood risk level (dashed black). The red shaded areas show the period when the gravity-based sluice was not operational. Here the tidal cycle is shown by the dashed blue line, and the surge in the red dotted line. The tide and surge combined give the total level. If there is no storm surge, as in Figure 1B, then the two lines are superimposed. " width="600px" height="400px" />
 <p class="caption">
-Red shaded areas shows the time period that gravity-based sluice was not operational was not operational for these examples. The tidal cycle is shown by the dotted blue line, and the sea level, which is the combined tide and storm surge is shown in solid black. If there is no storm surge, as in Figure 1B, then the two lines are superimposed. The dashed horizontal line shows the maximum water level for sluice operation.
+Two examples showing when the sea level (solid back) exceeds the flood risk level (dashed black). The red shaded areas show the period when the gravity-based sluice was not operational. Here the tidal cycle is shown by the dashed blue line, and the surge in the red dotted line. The tide and surge combined give the total level. If there is no storm surge, as in Figure 1B, then the two lines are superimposed.
 </p>
 </div>
 <p>
@@ -1023,10 +1014,55 @@ katerobsau
 </div>
 </div>
 </div>
+<div id="rethinking-the-risk-framework" class="section level2">
+<h2>Rethinking the Risk Framework</h2>
+<p>An important distinction when assessing the risk of rainfall-surge events is that in the Netherlands the height of the storm-surge does not necessarily need to be extreme. Instead, of concern is</p>
+<ul>
+<li><p>Does the total sea level (tide + surge) exceed the risk threshold?</p></li>
+<li><p>How long does the total level stay above this risk thresehold, preventing discharge from the sluice?</p></li>
+</ul>
+<p>In this sense the statistical problem becomes a censored one as we are not concerned with the extemeness of the surge height. Once the surge contributes to the total level exceeding the risk threshold, it doesn’t matter by how much the threshold is exceeded. Either way, water can not be discharged. This requires a fundamental reframing of the statistical problem, and move away from the traditional statistical approach of assessing risk by modelling the dependence between surge heights and rainfall amounts.</p>
+<p>The reframing of the problem may also be advantageous. In misspecifying the problem, risk is not reliably assessed. Additionally, the dependence between extreme rainfall and extreme surge heights is asymptotically weak at many locations throughout the world, including the Netherlands. (cite wahl, westra, bevacqua). This weak dependence is difficult to accurately estimate (westra). A rephrasing of the problem may improve the reliability of the estimates for the dependence parameters.</p>
+<!-- This raises the natural question of how strong is the correlations between the duration of a storm surge and it's height. -->
+</div>
+<div id="event-definition" class="section level2">
+<h2>Event Definition</h2>
+<p>In order to estimate the probability of the compound-event occuring, a set of variables needs to be defined to model the problem. These variables are given in Table NULL 4. We have adopted a similar problem specification to Li et al. 2014, who considered an application of wave heights for Dutch storms. Namely in our specification, we are interested in the duration that the gravity based is not operational.</p>
+<table>
+<thead>
+<tr class="header">
+<th align="left">Variable Name</th>
+<th align="left">Variable Type</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">T_s</td>
+<td align="left">Duration of the storm surge</td>
+</tr>
+<tr class="even">
+<td align="left">M_s</td>
+<td align="left">Maximum surge height during T_s</td>
+</tr>
+<tr class="odd">
+<td align="left">h_t</td>
+<td align="left">Threshold water level that water needs to be discharged to prevent flood risk</td>
+</tr>
+<tr class="even">
+<td align="left">T_d</td>
+<td align="left">Duration that the gravity based sluice is not operational</td>
+</tr>
+<tr class="odd">
+<td align="left">T_p</td>
+<td align="left">Minimum period of time the sluice needs to be operational to relieve flood risk</td>
+</tr>
+</tbody>
+</table>
+</div>
 <div id="navigation-links" class="section level2">
 <h2>Navigation Links</h2>
 <p>Continue to background information about the <a href="details-on-tidal-summaries.html">Tidal Data</a><br />
-Continue to analysis about tidal climate <a href="surge_climatology.html">Tidal Climatology</a></p>
+Continue to analysis about tidal climate <a href="surge_climatology.html">Surge Climatology</a></p>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">

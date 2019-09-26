@@ -131,9 +131,9 @@ plot_grid(region_a, region_b, labels = "AUTO")
 cap <- "Examples of risk regions for a Rainfall-Surge compound event"
 ```
 
-Of particular concern in the Netherlands are mechanisms 1 and 3, as flood risk in the canal belt system is heavily mitigated by gravity-based sluices (Figure `r figRef("sluice")`). These sluices are only operational when the internal water level is higher than the external level and the water can be discharged using gravity. For many sluices in the Netherlands, the difference between water levels needed for operation is 0.1 m, any less than this and water can flow in the opposite direction due to density differences between fresh and salt water. 
+## Mechanisms in the Netherlands
 
-For flood risk, a core scenario of concern is therefore when excess water in the canal belt system from heavy rainfall can not be discharged due to a storm-surge raising the external water level. The important distinction here is that for this scenario the height of the storm-surge does not necessarily need to be extreme, but the level is high enough that sluice operation is not possible. The statistical problem therefore can be rephrased as a censored problem, where the occurrence of a storm surge exceeding a given level to more important than the amount it exceeds the level. This raises the natural question of how strong is the correlations between the duration of a storm surge and it's height.
+In the Netherlands, flood risk in the canal belt system is heavily mitigated by gravity-based sluices (Figure `r figRef("sluice")`). These sluices are only operational when the internal water level is higher than the external level and the water can be discharged using gravity. For many sluices in the Netherlands, the difference between water levels needed for operation is 0.1 m, any less than this and water can flow in the opposite direction due to density differences between fresh and salt water. 
 
 ```{r sluice, echo = FALSE,  out.width="600px", out.height="400px", fig.cap = figRef("sluice", cap)}
 source("code/schematic_sluice.R")
@@ -141,9 +141,85 @@ sluice_plot
 cap <- "Schematic of the gravity based sluice at Harlingen. Water can be discharged from the sluice provided there is a water level on the canal belt side is 0.1 m higher or more than the sea water level. The normal height of water in the canal belt system and optimal for operational purposes is -0.52 m (NAP) (Green dashed line). Operators are concerned for flooding risk when the inland water level is in excess of -0.32 m (NAP) (red dotted line)." 
 ```
 
-## Event definition
+Given the operation of these sluices, the surge-rainfall mechanisms of 1 and 3 are of primary concern to the Netherlands. In these instances, the sluice is not operational. Figure `r figRef("schematics")` shows two simple examples where the external water level prevents the release of water; one due to a surge evenet and the other due to a high tide.
 
-In order to estimate the probability of an event occuring in one of the risk regions, we first need to define the set of variables we will use to model the problem. These variables are given in Table `r figRef("variables")`. We have adopted a similar problem specification to Li et al. 2014, who considered an application of wave heights for Dutch storms. Namely in our specification, we are interested in the duration that the gravity based is not operational. A schematic showing these variables is given in Figure `r figRef("schematics")`.
+```{r schematicSurge, echo = FALSE}
+num_pi = 7
+theta = seq(0, num_pi*pi, length.out = 360*(num_pi+ 1)/2)
+tide_cycle = sin(theta)
+surge = sin(1/4*theta) + 0.2
+surge = surge*(surge > 0)
+sea_level = tide_cycle + surge
+H_t = -0.42
+surge_df <- data.frame(theta, tide_cycle, sea_level, surge)
+clusters = rle(sea_level > H_t)
+i = 1:(clusters$length[1])
+block_x <- range(theta[i])
+surge_plot <- ggplot() +
+  geom_line(data = surge_df, aes(x = theta, y = surge), col = "red", linetype = "dotted") +
+  geom_line(data = surge_df, aes(x = theta, y = tide_cycle), col = "blue", linetype = "dashed") +
+  geom_line(data = surge_df, aes(x = theta, y = sea_level)) + 
+  geom_hline(yintercept = H_t, linetype = "dashed") + 
+  geom_polygon(data = NULL, aes(x = c(block_x, block_x[2:1]), y = c(-1, -1, H_t ,H_t)), 
+            fill = "red", alpha = 0.2) +
+  ylab("Water Level") +
+  ylim(lims = c(-1,2.25)) +
+  xlab("Time") +
+  ggtitle("Example of a storm surge") + 
+  theme_bw()
+```
+
+```{r schematicKing, echo = FALSE}
+num_pi = 7
+theta = seq(0, num_pi*pi, length.out = 360*(num_pi+ 1)/2)
+shift = c(seq(0, 0.4, length.out = 200), seq(0.4, 0.4, length.out = 600),
+                            seq(0.4, 0, length.out = 200),
+                            rep(0, length(theta) - 1000))
+tide_cycle = sin(theta) + shift + 0.1
+sea_level = tide_cycle 
+surge = rep(0, length(sea_level))
+H_t = -0.6
+close = which(abs(sea_level - H_t) < 0.02)
+clusters = rle(sea_level > H_t)
+i = 1:(clusters$length[1])
+block_x <- range(theta[i])
+king_df <- data.frame(theta, tide_cycle, sea_level, surge)
+king_plot <- ggplot() +
+  geom_line(data = king_df, aes(x = theta, y = tide_cycle), col = "blue", linetype = "dashed") +
+  geom_line(data = king_df, aes(x = theta, y = surge), col = "red", linetype = "dotted") +
+  geom_line(data = king_df, aes(x = theta, y = sea_level)) + 
+  geom_hline(yintercept = H_t, linetype = "dashed") + 
+  geom_polygon(data = NULL, aes(x = c(block_x, block_x[2:1]), y = c(-1, -1, H_t ,H_t)), 
+            fill = "red", alpha = 0.2) +
+  ylab("Water Level") + 
+  ylim(lims = c(-1,2.25)) +
+  xlab("Time") +
+  ggtitle("King tide with no surge") + 
+  theme_bw()
+```
+
+```{r schematics, echo = FALSE,  out.width="600px", out.height="400px", fig.cap = figRef("schematics", cap)}
+plot_grid(surge_plot, king_plot, labels = "AUTO")
+cap <- "Two examples showing when the sea level (solid back) exceeds the flood risk level (dashed black). The red shaded areas show the period when the gravity-based sluice was not operational. Here the tidal cycle is shown by the dashed blue line, and the surge in the red dotted line. The tide and surge combined give the total level. If there is no storm surge, as in Figure 1B, then the two lines are superimposed. "
+```
+
+## Rethinking the Risk Framework 
+
+An important distinction when assessing the risk of rainfall-surge events is that in the Netherlands the height of the storm-surge does not necessarily need to be extreme. Instead, of concern is 
+
+* Does the total sea level (tide + surge) exceed the risk threshold?
+
+* How long does the total level stay above this risk thresehold, preventing discharge from the sluice?
+
+In this sense the statistical problem becomes a censored one as we are not concerned with the extemeness of the surge height. Once the surge contributes to the total level exceeding the risk threshold, it doesn't matter by how much the threshold is exceeded. Either way, water can not be discharged. This requires a fundamental reframing of the statistical problem, and move away from the traditional statistical approach of assessing risk by modelling the dependence between surge heights and rainfall amounts.
+
+The reframing of the problem may also be advantageous. In misspecifying the problem, risk is not reliably assessed. Additionally, the dependence between extreme rainfall and extreme surge heights is asymptotically weak at many locations throughout the world, including the Netherlands. (cite wahl, westra, bevacqua). This weak dependence is difficult to accurately estimate (westra). A rephrasing of the problem may improve the reliability of the estimates for the dependence parameters. 
+
+<!-- This raises the natural question of how strong is the correlations between the duration of a storm surge and it's height. -->
+
+## Event Definition
+
+In order to estimate the probability of the compound-event occuring, a set of variables needs to be defined to model the problem. These variables are given in Table `r figRef("variables")`. We have adopted a similar problem specification to Li et al. 2014, who considered an application of wave heights for Dutch storms. Namely in our specification, we are interested in the duration that the gravity based is not operational.
 
 ```{r variables, echo = F, tab.cap = tabRef("variables", cap)}
 rv_df <- tribble(
@@ -161,58 +237,7 @@ rv_df <- tribble(
 knitr::kable(rv_df)
 ```
 
-```{r schematicSurge, echo = FALSE}
-num_pi = 7
-theta = seq(-pi, num_pi*pi, length.out = 360*(num_pi+ 1)/2)
-tide_cycle = sin(theta)
-surge = sin(1/4*theta) + 0.2
-surge = surge*(surge > 0)
-sea_level = tide_cycle + surge
-H_t = -0.6
-surge_df <- data.frame(theta, tide_cycle, sea_level)
-block_x <- theta[range(which(sea_level > H_t & surge > 0))]
-surge_plot <- ggplot() +
-  geom_line(data = surge_df, aes(x = theta, y = tide_cycle), col = "blue", linetype = "dotted") +
-  geom_line(data = surge_df, aes(x = theta, y = sea_level)) + 
-  geom_hline(yintercept = H_t, linetype = "dashed") + 
-  geom_polygon(data = NULL, aes(x = c(block_x, block_x[2:1]), y = c(-1, -1, H_t ,H_t)), 
-            fill = "red", alpha = 0.2) +
-  ylab("Water Level") +
-  ylim(lims = c(-1,2.25)) +
-  xlab("Time") +
-  ggtitle("Example of a storm surge")
-```
-
-```{r schematicKing, echo = FALSE}
-num_pi = 7
-theta = seq(-pi, num_pi*pi, length.out = 360*(num_pi+ 1)/2)
-shift = c(seq(0, 0.4, length.out = 200), seq(0.4, 0.4, length.out = 600),
-                            seq(0.4, 0, length.out = 200),
-                            rep(0, length(theta) - 1000))
-tide_cycle = sin(theta) + shift + 0.1
-sea_level = tide_cycle 
-H_t = -0.6
-close = which(abs(sea_level - H_t) < 0.02)
-block_x = theta[close[diff(close) > 1][2:3]]
-king_df <- data.frame(theta, tide_cycle, sea_level)
-king_plot <- ggplot() +
-  geom_line(data = king_df, aes(x = theta, y = tide_cycle), col = "blue", linetype = "dotted") +
-  geom_line(data = king_df, aes(x = theta, y = sea_level)) + 
-  geom_hline(yintercept = H_t, linetype = "dashed") + 
-  geom_polygon(data = NULL, aes(x = c(block_x, block_x[2:1]), y = c(-1, -1, H_t ,H_t)), 
-            fill = "red", alpha = 0.2) +
-  ylab("Water Level") + 
-  ylim(lims = c(-1,2.25)) +
-  xlab("Time") +
-  ggtitle("King tide with no surge")
-```
-
-```{r schematics, echo = FALSE,  out.width="600px", out.height="400px", fig.cap = figRef("schematics", cap)}
-plot_grid(surge_plot, king_plot, labels = "AUTO")
-cap <- "Red shaded areas shows the time period that gravity-based sluice was not operational was not operational for these examples. The tidal cycle is shown by the dotted blue line, and the sea level, which is the combined tide and storm surge is shown in solid black. If there is no storm surge, as in Figure 1B, then the two lines are superimposed. The dashed horizontal line shows the maximum water level for sluice operation."
-```
-
 ## Navigation Links
 
 Continue to background information about the [Tidal Data](details-on-tidal-summaries.html)  
-Continue to analysis about tidal climate [Tidal Climatology](surge_climatology.html)  
+Continue to analysis about tidal climate [Surge Climatology](surge_climatology.html)  

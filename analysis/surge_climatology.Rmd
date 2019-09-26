@@ -334,7 +334,7 @@ plot_clusters_sur <- cbind(clusters_sur, max_height_sur) %>%
 
 duration_vs_sur1 <- ggplot(plot_clusters_sur %>% filter(sur > 0.01)) + 
   geom_point(aes(x = time@hour, y = sur, col = risk), size = 0.75) + #time@hour
-  scale_color_distiller("Percentage", palette = "Spectral") +
+  scale_color_distiller("Percentage", palette = "RdBu") +
   theme_bw() + 
   xlab("Surge Duration") + 
   ylab("Surge Height") 
