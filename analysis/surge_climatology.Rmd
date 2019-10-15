@@ -339,3 +339,11 @@ duration_vs_sur1
 <!-- ## To Do: -->
 
 <!-- Ideally also like to wrap plotting code, and to fix dates on axes. -->
+
+## Navigation Links
+
+* [Project Overview](index.html)  
+* [Sea Level Metadata and Preprocessing](details-on-tidal-summaries.html)  
+* [Rainfall Metadata and Preprocessing ](details-on-rainfall-data.html)  
+* [Surge Climatology](surge_climatology.html)  
+* [Surge Seasonality](surge-seasonality.html)  

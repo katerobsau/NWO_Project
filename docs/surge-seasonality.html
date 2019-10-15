@@ -426,7 +426,7 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 </div>
 <div id="strongRMarkdownfilestronguncommittedchanges" class="panel-collapse collapse">
 <div class="panel-body">
-<p>The R Markdown is untracked by Git. To know which version of the R Markdown file created these results, you’ll want to first commit it to the Git repo. If you’re still working on the analysis, you can ignore this warning. When you’re finished, you can run <code>wflow_publish</code> to commit the R Markdown file and build the HTML.</p>
+<p>The R Markdown file has unstaged changes. To know which version of the R Markdown file created these results, you’ll want to first commit it to the Git repo. If you’re still working on the analysis, you can ignore this warning. When you’re finished, you can run <code>wflow_publish</code> to commit the R Markdown file and build the HTML.</p>
 </div>
 </div>
 </div>
@@ -493,10 +493,10 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomkaterobsauNWOProjecttree8bf498af1694c6524fe578b30407687591f27446targetblank8bf498aa"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/katerobsau/NWO_Project/tree/8bf498af1694c6524fe578b30407687591f27446" target="_blank">8bf498a</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomkaterobsauNWOProjecttreec4d702f0a6b917b466f94dc9f44d4be08356ae1etargetblankc4d702fa"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/katerobsau/NWO_Project/tree/c4d702f0a6b917b466f94dc9f44d4be08356ae1e" target="_blank">c4d702f</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomkaterobsauNWOProjecttree8bf498af1694c6524fe578b30407687591f27446targetblank8bf498aa" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomkaterobsauNWOProjecttreec4d702f0a6b917b466f94dc9f44d4be08356ae1etargetblankc4d702fa" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -518,11 +518,9 @@ Ignored files:
     Ignored:    data/.DS_Store
     Ignored:    docs/assets/
 
-Untracked files:
-    Untracked:  analysis/surge-ensemble.Rmd
-    Untracked:  analysis/surge-seasonality.Rmd
-    Untracked:  code/source/
-    Untracked:  docs/figure/surge-seasonality.Rmd/
+Unstaged changes:
+    Modified:   analysis/surge-seasonality.Rmd
+    Modified:   analysis/surge_climatology.Rmd
 
 </code></pre>
 <p>
@@ -535,9 +533,69 @@ Note that any generated files, e.g. HTML, png, CSS, etc., are not included in t
 <hr>
 </div>
 <div id="versions" class="tab-pane fade">
+
 <p>
-There are no past versions. Publish this analysis with <code>wflow_publish()</code> to start tracking its development.
+These are the previous versions of the R Markdown and HTML files. If you’ve configured a remote Git repository (see <code>?wflow_git_remote</code>), click on the hyperlinks in the table below to view them.
 </p>
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+File
+</th>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+<th>
+Message
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/katerobsau/NWO_Project/blob/b4869bcc471d1700bcf17a8202a6c540ee125fa1/analysis/surge-seasonality.Rmd" target="_blank">b4869bc</a>
+</td>
+<td>
+Kate Saunders
+</td>
+<td>
+2019-10-15
+</td>
+<td>
+Added a min cluster size and min period between clusters
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/katerobsau/NWO_Project/b4869bcc471d1700bcf17a8202a6c540ee125fa1/docs/surge-seasonality.html" target="_blank">b4869bc</a>
+</td>
+<td>
+Kate Saunders
+</td>
+<td>
+2019-10-15
+</td>
+<td>
+Added a min cluster size and min period between clusters
+</td>
+</tr>
+</tbody>
+</table>
+</div>
 <hr>
 </div>
 </div>
@@ -548,13 +606,87 @@ There are no past versions. Publish this analysis with <code>wflow_publish()</co
 [1] &quot;Need to check how rle() handles missing data&quot;
 [1] &quot;Need to specify a minimum interarrival time for discharge water&quot;
 [1] &quot;Need to check how rle() handles missing data&quot;</code></pre>
-<p>NEED TO FIX THE DEFINITION OF WHAT A SURGE IS IE. I MUST DEFINE A MINIMUM PERIOD TO CLASSIFY A SURGE AND I MUST DEFINE A MINIMUM PERIOD IN BETWEEN SURGES</p>
+<p><strong>WORK IN PROGRESS</strong></p>
 <p>The number of surges per day of the year:</p>
 <pre class="r"><code>plot_num_surge_by_date</code></pre>
 <p><img src="figure/surge-seasonality.Rmd/unnamed-chunk-1-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-1-1">
+Past versions of unnamed-chunk-1-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-1-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/katerobsau/NWO_Project/blob/b4869bcc471d1700bcf17a8202a6c540ee125fa1/docs/figure/surge-seasonality.Rmd/unnamed-chunk-1-1.png" target="_blank">b4869bc</a>
+</td>
+<td>
+Kate Saunders
+</td>
+<td>
+2019-10-15
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p>The average height of surges by month:</p>
 <pre class="r"><code>plot_avr_surge_month</code></pre>
 <p><img src="figure/surge-seasonality.Rmd/unnamed-chunk-2-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-2-1">
+Past versions of unnamed-chunk-2-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-2-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/katerobsau/NWO_Project/blob/b4869bcc471d1700bcf17a8202a6c540ee125fa1/docs/figure/surge-seasonality.Rmd/unnamed-chunk-2-1.png" target="_blank">b4869bc</a>
+</td>
+<td>
+Kate Saunders
+</td>
+<td>
+2019-10-15
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
@@ -594,9 +726,10 @@ loaded via a namespace (and not attached):
 [29] generics_0.0.2   fs_1.3.1         vctrs_0.2.0      rprojroot_1.3-2 
 [33] grid_3.5.2       tidyselect_0.2.5 glue_1.3.1       R6_2.4.0        
 [37] readxl_1.3.1     rmarkdown_1.16   modelr_0.1.5     magrittr_1.5    
-[41] backports_1.1.5  scales_1.0.0     htmltools_0.4.0  rvest_0.3.4     
-[45] assertthat_0.2.1 colorspace_1.4-1 labeling_0.3     stringi_1.4.3   
-[49] lazyeval_0.2.2   munsell_0.5.0    broom_0.5.2      crayon_1.3.4    </code></pre>
+[41] whisker_0.4      backports_1.1.5  scales_1.0.0     htmltools_0.4.0 
+[45] rvest_0.3.4      assertthat_0.2.1 colorspace_1.4-1 labeling_0.3    
+[49] stringi_1.4.3    lazyeval_0.2.2   munsell_0.5.0    broom_0.5.2     
+[53] crayon_1.3.4    </code></pre>
 </div>
 
 
