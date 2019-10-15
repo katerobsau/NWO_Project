@@ -384,7 +384,7 @@ div.section {
 
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-report" data-toggle="collapse" data-target="#workflowr-report">
-<span class="glyphicon glyphicon-list" aria-hidden="true"></span> workflowr <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span>
+<span class="glyphicon glyphicon-list" aria-hidden="true"></span> workflowr <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
 </button>
 </p>
 <div id="workflowr-report" class="collapse">
@@ -393,7 +393,7 @@ div.section {
 <a data-toggle="tab" href="#summary">Summary</a>
 </li>
 <li>
-<a data-toggle="tab" href="#checks"> Checks <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> </a>
+<a data-toggle="tab" href="#checks"> Checks <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> </a>
 </li>
 <li>
 <a data-toggle="tab" href="#versions">Past versions</a>
@@ -405,7 +405,7 @@ div.section {
 <strong>Last updated:</strong> 2019-10-15
 </p>
 <p>
-<strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 6 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 1
+<strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 0
 </p>
 <p>
 <strong>Knit directory:</strong> <code>NWO_Project/</code> <span class="glyphicon glyphicon-question-sign" aria-hidden="true" title="This is the local directory in which the code in this file was executed."> </span>
@@ -421,12 +421,12 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguncommittedchanges"> <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> <strong>R Markdown file:</strong> uncommitted changes </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguptodate"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>R Markdown file:</strong> up-to-date </a>
 </p>
 </div>
-<div id="strongRMarkdownfilestronguncommittedchanges" class="panel-collapse collapse">
+<div id="strongRMarkdownfilestronguptodate" class="panel-collapse collapse">
 <div class="panel-body">
-<p>The R Markdown file has unstaged changes. To know which version of the R Markdown file created these results, you’ll want to first commit it to the Git repo. If you’re still working on the analysis, you can ignore this warning. When you’re finished, you can run <code>wflow_publish</code> to commit the R Markdown file and build the HTML.</p>
+<p>Great! Since the R Markdown file has been committed to the Git repository, you know the exact version of the code that produced these results.</p>
 </div>
 </div>
 </div>
@@ -493,10 +493,10 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomkaterobsauNWOProjecttree8bf498af1694c6524fe578b30407687591f27446targetblank8bf498aa"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/katerobsau/NWO_Project/tree/8bf498af1694c6524fe578b30407687591f27446" target="_blank">8bf498a</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomkaterobsauNWOProjecttree8794d5e00198dbde3828322b6448564bd48a001atargetblank8794d5ea"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/katerobsau/NWO_Project/tree/8794d5e00198dbde3828322b6448564bd48a001a" target="_blank">8794d5e</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomkaterobsauNWOProjecttree8bf498af1694c6524fe578b30407687591f27446targetblank8bf498aa" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomkaterobsauNWOProjecttree8794d5e00198dbde3828322b6448564bd48a001atargetblank8794d5ea" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -506,7 +506,6 @@ Ignored files:
     Ignored:    .DS_Store
     Ignored:    .Rhistory
     Ignored:    .Rproj.user/
-    Ignored:    analysis/figure/
     Ignored:    code/.DS_Store
     Ignored:    code/rainHelpers/.DS_Store
     Ignored:    code/rainHelpers/.Rhistory
@@ -518,15 +517,6 @@ Ignored files:
     Ignored:    code/tidalHelpers/man/
     Ignored:    data/.DS_Store
     Ignored:    docs/assets/
-
-Untracked files:
-    Untracked:  analysis/surge-ensemble.Rmd
-    Untracked:  analysis/surge-seasonality.Rmd
-    Untracked:  code/source/
-    Untracked:  docs/figure/surge-seasonality.Rmd/
-
-Unstaged changes:
-    Modified:   analysis/surge_climatology.Rmd
 
 </code></pre>
 <p>
@@ -565,6 +555,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/katerobsau/NWO_Project/blob/b4869bcc471d1700bcf17a8202a6c540ee125fa1/analysis/surge_climatology.Rmd" target="_blank">b4869bc</a>
+</td>
+<td>
+Kate Saunders
+</td>
+<td>
+2019-10-15
+</td>
+<td>
+Added a min cluster size and min period between clusters
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/katerobsau/NWO_Project/b4869bcc471d1700bcf17a8202a6c540ee125fa1/docs/surge_climatology.html" target="_blank">b4869bc</a>
+</td>
+<td>
+Kate Saunders
+</td>
+<td>
+2019-10-15
+</td>
+<td>
+Added a min cluster size and min period between clusters
+</td>
+</tr>
 <tr>
 <td>
 html
@@ -1246,6 +1270,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/katerobsau/NWO_Project/blob/b4869bcc471d1700bcf17a8202a6c540ee125fa1/docs/figure/surge_climatology.Rmd/histPlot-1.png" target="_blank">b4869bc</a>
+</td>
+<td>
+Kate Saunders
+</td>
+<td>
+2019-10-15
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/katerobsau/NWO_Project/blob/8a01d4547ef385c4991bfcdfdaa3d959f25779d6/docs/figure/surge_climatology.Rmd/histPlot-1.png" target="_blank">8a01d45</a>
 </td>
 <td>
@@ -1309,6 +1344,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/katerobsau/NWO_Project/blob/b4869bcc471d1700bcf17a8202a6c540ee125fa1/docs/figure/surge_climatology.Rmd/sluiceExamples-1.png" target="_blank">b4869bc</a>
+</td>
+<td>
+Kate Saunders
+</td>
+<td>
+2019-10-15
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/katerobsau/NWO_Project/blob/8a01d4547ef385c4991bfcdfdaa3d959f25779d6/docs/figure/surge_climatology.Rmd/sluiceExamples-1.png" target="_blank">8a01d45</a>
@@ -1427,6 +1473,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/katerobsau/NWO_Project/blob/b4869bcc471d1700bcf17a8202a6c540ee125fa1/docs/figure/surge_climatology.Rmd/unnamed-chunk-1-1.png" target="_blank">b4869bc</a>
+</td>
+<td>
+Kate Saunders
+</td>
+<td>
+2019-10-15
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/katerobsau/NWO_Project/blob/d56e9e83e06744817be7244ecfdad502401d21ae/docs/figure/surge_climatology.Rmd/unnamed-chunk-1-1.png" target="_blank">d56e9e8</a>
 </td>
 <td>
@@ -1480,6 +1537,17 @@ Date
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+<a href="https://github.com/katerobsau/NWO_Project/blob/b4869bcc471d1700bcf17a8202a6c540ee125fa1/docs/figure/surge_climatology.Rmd/clustersSur-1.png" target="_blank">b4869bc</a>
+</td>
+<td>
+Kate Saunders
+</td>
+<td>
+2019-10-15
+</td>
+</tr>
 <tr>
 <td>
 <a href="https://github.com/katerobsau/NWO_Project/blob/e4946eedfa9685e99b71d6a6b8ee742b53fc4465/docs/figure/surge_climatology.Rmd/clustersSur-1.png" target="_blank">e4946ee</a>
