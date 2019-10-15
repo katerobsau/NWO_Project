@@ -384,7 +384,7 @@ div.section {
 
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-report" data-toggle="collapse" data-target="#workflowr-report">
-<span class="glyphicon glyphicon-list" aria-hidden="true"></span> workflowr <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
+<span class="glyphicon glyphicon-list" aria-hidden="true"></span> workflowr <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span>
 </button>
 </p>
 <div id="workflowr-report" class="collapse">
@@ -393,7 +393,7 @@ div.section {
 <a data-toggle="tab" href="#summary">Summary</a>
 </li>
 <li>
-<a data-toggle="tab" href="#checks"> Checks <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> </a>
+<a data-toggle="tab" href="#checks"> Checks <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> </a>
 </li>
 <li>
 <a data-toggle="tab" href="#versions">Past versions</a>
@@ -402,10 +402,10 @@ div.section {
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2019-10-14
+<strong>Last updated:</strong> 2019-10-15
 </p>
 <p>
-<strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 0
+<strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 6 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 1
 </p>
 <p>
 <strong>Knit directory:</strong> <code>NWO_Project/</code> <span class="glyphicon glyphicon-question-sign" aria-hidden="true" title="This is the local directory in which the code in this file was executed."> </span>
@@ -421,12 +421,12 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguptodate"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>R Markdown file:</strong> up-to-date </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguncommittedchanges"> <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> <strong>R Markdown file:</strong> uncommitted changes </a>
 </p>
 </div>
-<div id="strongRMarkdownfilestronguptodate" class="panel-collapse collapse">
+<div id="strongRMarkdownfilestronguncommittedchanges" class="panel-collapse collapse">
 <div class="panel-body">
-<p>Great! Since the R Markdown file has been committed to the Git repository, you know the exact version of the code that produced these results.</p>
+<p>The R Markdown file has unstaged changes. To know which version of the R Markdown file created these results, you’ll want to first commit it to the Git repo. If you’re still working on the analysis, you can ignore this warning. When you’re finished, you can run <code>wflow_publish</code> to commit the R Markdown file and build the HTML.</p>
 </div>
 </div>
 </div>
@@ -493,10 +493,10 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomkaterobsauNWOProjecttree92eed5ee009f9106c2186c06ed678393f705c998targetblank92eed5ea"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/katerobsau/NWO_Project/tree/92eed5ee009f9106c2186c06ed678393f705c998" target="_blank">92eed5e</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomkaterobsauNWOProjecttree8bf498af1694c6524fe578b30407687591f27446targetblank8bf498aa"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/katerobsau/NWO_Project/tree/8bf498af1694c6524fe578b30407687591f27446" target="_blank">8bf498a</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomkaterobsauNWOProjecttree92eed5ee009f9106c2186c06ed678393f705c998targetblank92eed5ea" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomkaterobsauNWOProjecttree8bf498af1694c6524fe578b30407687591f27446targetblank8bf498aa" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -506,6 +506,7 @@ Ignored files:
     Ignored:    .DS_Store
     Ignored:    .Rhistory
     Ignored:    .Rproj.user/
+    Ignored:    analysis/figure/
     Ignored:    code/.DS_Store
     Ignored:    code/rainHelpers/.DS_Store
     Ignored:    code/rainHelpers/.Rhistory
@@ -517,6 +518,15 @@ Ignored files:
     Ignored:    code/tidalHelpers/man/
     Ignored:    data/.DS_Store
     Ignored:    docs/assets/
+
+Untracked files:
+    Untracked:  analysis/surge-ensemble.Rmd
+    Untracked:  analysis/surge-seasonality.Rmd
+    Untracked:  code/source/
+    Untracked:  docs/figure/surge-seasonality.Rmd/
+
+Unstaged changes:
+    Modified:   analysis/surge_climatology.Rmd
 
 </code></pre>
 <p>
@@ -555,6 +565,23 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/katerobsau/NWO_Project/8bf498af1694c6524fe578b30407687591f27446/docs/surge_climatology.html" target="_blank">8bf498a</a>
+</td>
+<td>
+Kate Saunders
+</td>
+<td>
+2019-10-14
+</td>
+<td>
+checking threshold
+</td>
+</tr>
 <tr>
 <td>
 html
@@ -1004,12 +1031,16 @@ code/*
 </div>
 </div>
 </div>
+<pre><code>[1] &quot;Check this&quot;
+[1] &quot;Note: Should add handling of NA Surge values into preprocessing&quot;
+[1] &quot;Need to specify a minimum interarrival time for discharge water&quot;
+[1] &quot;Need to check how rle() handles missing data&quot;
+[1] &quot;Need to specify a minimum interarrival time for discharge water&quot;
+[1] &quot;Need to check how rle() handles missing data&quot;</code></pre>
 <p>In this section, the available observational data is visualised and the conditions when the sluice is not operational are examined.</p>
 <div id="harlingen-observations" class="section level2">
 <h2>Harlingen Observations</h2>
 <p>The following table displays the observed data at the Harlingen station. The storm surge is obtained by subtracting the harmonic tide from the observed sea level, see Figure NULL 1.</p>
-<pre><code>[1] &quot;Check this&quot;</code></pre>
-<pre><code>[1] &quot;Note: Should add handling of NA Surge values into preprocessing&quot;</code></pre>
 <table>
 <thead>
 <tr class="header">
@@ -1129,8 +1160,26 @@ katerobsau
 <div id="sluice-operation" class="section level2">
 <h2>Sluice Operation</h2>
 <p>For a sluice height of -0.42 m based on the historical observation, the histogram shows the number of times and for how long the sluices was not operational.</p>
-<pre><code>[1] &quot;Need to specify a minimum interarrival time for discharge water&quot;</code></pre>
-<pre><code>[1] &quot;Need to check how rle() handles missing data&quot;</code></pre>
+<!-- ```{r getClusters, echo = FALSE} -->
+<!-- flood_risk = obs_data %>% -->
+<!--   mutate(bool_col = obs >= h_t_level) -->
+<!-- clusters = flood_risk %>% -->
+<!--   pull(bool_col) %>% -->
+<!--   rle() %>% -->
+<!--   unclass() %>% -->
+<!--   as.data.frame() %>% -->
+<!--   mutate(end = cumsum(lengths), -->
+<!--        start = c(1, dplyr::lag(end)[-1] + 1)) %>% -->
+<!--   mutate(date_end = obs_data$ldate[end]) %>% -->
+<!--   mutate(date_start = obs_data$ldate[start]) %>% -->
+<!--   # select(-start, -end) %>% -->
+<!--   arrange(desc(lengths)) %>% -->
+<!--   mutate(temp = paste(0, lengths*10, 0, sep = ":")) %>% -->
+<!--   mutate(time = lubridate::hms(temp, roll = TRUE)) %>% -->
+<!--   select(-temp)  -->
+<!-- print("Need to specify a minimum interarrival time for discharge water") -->
+<!-- print("Need to check how rle() handles missing data") -->
+<!-- ``` -->
 <table>
 <thead>
 <tr class="header">
@@ -1141,34 +1190,34 @@ katerobsau
 </thead>
 <tbody>
 <tr class="odd">
+<td align="left">122H 50M 0S</td>
+<td align="left">2015-11-17 07:20:00</td>
+<td align="left">2015-11-22 10:00:00</td>
+</tr>
+<tr class="even">
+<td align="left">121H 40M 0S</td>
+<td align="left">2012-01-01 21:40:00</td>
+<td align="left">2012-01-06 23:10:00</td>
+</tr>
+<tr class="odd">
 <td align="left">116H 40M 0S</td>
 <td align="left">2011-12-02 21:50:00</td>
 <td align="left">2011-12-07 18:20:00</td>
 </tr>
 <tr class="even">
-<td align="left">110H 0M 0S</td>
-<td align="left">2012-01-02 09:20:00</td>
-<td align="left">2012-01-06 23:10:00</td>
-</tr>
-<tr class="odd">
 <td align="left">98H 40M 0S</td>
 <td align="left">2013-10-26 08:30:00</td>
 <td align="left">2013-10-30 11:00:00</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left">96H 20M 0S</td>
 <td align="left">2018-12-07 04:20:00</td>
 <td align="left">2018-12-11 04:30:00</td>
 </tr>
-<tr class="odd">
-<td align="left">86H 0M 0S</td>
-<td align="left">2015-11-17 07:20:00</td>
-<td align="left">2015-11-20 21:10:00</td>
-</tr>
 <tr class="even">
-<td align="left">85H 0M 0S</td>
-<td align="left">2015-01-10 06:30:00</td>
-<td align="left">2015-01-13 19:20:00</td>
+<td align="left">86H 10M 0S</td>
+<td align="left">2015-12-20 10:40:00</td>
+<td align="left">2015-12-24 00:40:00</td>
 </tr>
 </tbody>
 </table>
@@ -1232,7 +1281,7 @@ katerobsau
 </table>
 </div>
 </div>
-<p>There are 4138 times that the sluice is not operational, and the average period that the sluice is not in operational is 9H 4M 0S. This is intuitive given the average period spent in the high tide cycle. Currently we do not condition on the minimum period the sluice can be operated.</p>
+<p>There are 4033 times that the sluice is not operational, and the average period that the sluice is not in operational is 9H 19M 0S. This is intuitive given the average period spent in the high tide cycle. Currently we do not condition on the minimum period the sluice can be operated.</p>
 </div>
 <div id="longest-periods-above-the-threshold" class="section level2">
 <h2>Longest Periods above the Threshold</h2>

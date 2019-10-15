@@ -7,6 +7,7 @@ output: html_document
 library(tidyverse)
 library(cowplot)
 source("code/figure_labels.R")
+source("code/source/surge_exploratory_analyis.R")
 ```
 
 ```{r tidalPackage read, echo = FALSE, warning = FALSE, message = FALSE}
@@ -20,27 +21,6 @@ In this section, the available observational data is visualised and the conditio
 ## Harlingen Observations
 
 The following table displays the observed data at the Harlingen station. The storm surge is obtained by subtracting the harmonic tide from the observed sea level, see Figure `r figRef("plotSurgeObs")`. 
-
-```{r readObs, echo = FALSE, warning = FALSE, message = FALSE}
-ens_summary_file = "Ensemble_Summary.rds"
-init_var = tidalHelpers::utils_init()
-ens_summary_dir = init_var$save_dir
-ens_summary_path = paste(ens_summary_dir, ens_summary_file, sep = "")
-ens_summary = readRDS(ens_summary_path) 
-
-obs_data = ens_summary %>% 
-  dplyr::filter(t < 24) %>%
-  dplyr::mutate(
-    temp_date = gsub("-", " ", date) %>% lubridate::ymd()) %>%
-  dplyr::mutate(
-    temp_time = paste(0, round(t*60), 0, sep = " ") %>% lubridate::hms(roll = TRUE)) %>%
-  dplyr::mutate(ldate = 
-    lubridate::ymd_hms(temp_date + temp_time)) %>%
-  dplyr::select(ldate, harm, obs, sur) %>%
-  dplyr::mutate(obs = if_else(is.na(sur), NA_real_, obs))
-
-print("Note: Should add handling of NA Surge values into preprocessing")
-```
 
 ```{r tableObs, echo = FALSE}
 obs_data %>%
@@ -66,7 +46,8 @@ cap <- "Plot showing the sea level (solid black), harmonic tide (blue dashed) an
 ## Summary Information
 
 ```{r sluiceHeight, echo = FALSE}
-h_t_level = -0.42
+#h_t_level = -0.42 
+# included in exploratory analysis
 obs_vec = obs_data %>% pull(obs) 
 h_t_quantile = sum(obs_vec <= h_t_level, na.rm = TRUE)/sum(!is.na(obs_vec))
 ```
@@ -85,32 +66,32 @@ Summary of Harlingen observational data:
 
 For a sluice height of `r h_t_level` m based on the historical observation, the histogram shows the number of times and for how long the sluices was not operational.
 
-```{r getClusters, echo = FALSE}
-flood_risk = obs_data %>%
-  mutate(bool_col = obs >= h_t_level)
+<!-- ```{r getClusters, echo = FALSE} -->
+<!-- flood_risk = obs_data %>% -->
+<!--   mutate(bool_col = obs >= h_t_level) -->
 
-clusters = flood_risk %>%
-  pull(bool_col) %>%
-  rle() %>%
-  unclass() %>%
-  as.data.frame() %>%
-  mutate(end = cumsum(lengths),
-       start = c(1, dplyr::lag(end)[-1] + 1)) %>%
-  mutate(date_end = obs_data$ldate[end]) %>%
-  mutate(date_start = obs_data$ldate[start]) %>%
-  # select(-start, -end) %>%
-  arrange(desc(lengths)) %>%
-  mutate(temp = paste(0, lengths*10, 0, sep = ":")) %>%
-  mutate(time = lubridate::hms(temp, roll = TRUE)) %>%
-  select(-temp) 
+<!-- clusters = flood_risk %>% -->
+<!--   pull(bool_col) %>% -->
+<!--   rle() %>% -->
+<!--   unclass() %>% -->
+<!--   as.data.frame() %>% -->
+<!--   mutate(end = cumsum(lengths), -->
+<!--        start = c(1, dplyr::lag(end)[-1] + 1)) %>% -->
+<!--   mutate(date_end = obs_data$ldate[end]) %>% -->
+<!--   mutate(date_start = obs_data$ldate[start]) %>% -->
+<!--   # select(-start, -end) %>% -->
+<!--   arrange(desc(lengths)) %>% -->
+<!--   mutate(temp = paste(0, lengths*10, 0, sep = ":")) %>% -->
+<!--   mutate(time = lubridate::hms(temp, roll = TRUE)) %>% -->
+<!--   select(-temp)  -->
 
-print("Need to specify a minimum interarrival time for discharge water")
-print("Need to check how rle() handles missing data")
-```
+<!-- print("Need to specify a minimum interarrival time for discharge water") -->
+<!-- print("Need to check how rle() handles missing data") -->
+<!-- ``` -->
 
 ```{r displayClusters, echo = FALSE}
-clusters %>%
-  filter(values == TRUE) %>%
+clusters_risk_threshold %>%
+  # filter(values == TRUE) %>%
   select(-values, -lengths) %>%
   select(time, date_start, date_end) %>%
   head() %>%
@@ -118,8 +99,8 @@ clusters %>%
 ```
 
 ```{r histPlot, echo = FALSE}
-plot_data <- clusters %>% 
-  dplyr::filter(values == TRUE) %>% 
+plot_data <- clusters_risk_threshold %>% 
+  # dplyr::filter(values == TRUE) %>% 
   mutate(lengths = lengths*10/60/24)
 med_len = median(plot_data %>% pull(lengths))
 mean_len = mean(plot_data %>% pull(lengths))
@@ -131,6 +112,9 @@ hist_plot <- ggplot(plot_data) +
   theme_bw() + 
   xlab("Days")
 hist_plot
+
+clusters = clusters_risk_threshold
+
 ```
 
 There are `r nrow(plot_data)` times that the sluice is not operational, and the average period that the sluice is not in operational is `r mean_hms`. This is intuitive given the average period spent in the high tide cycle. Currently we do not condition on the minimum period the sluice can be operated.
@@ -264,14 +248,14 @@ plot_grid(s1, s2, s3, s4, labels = "AUTO", ncol = 2)
 ## Relationship between Duration and Surge 
 
 ```{r echo = FALSE, warning = FALSE}
-max_height = apply(clusters, 1, function(r, flood_risk, col_names){
-  i1 = r[which(col_names == "start")]
-  i2 = r[which(col_names == "end")]
-  flood_risk[i1:i2,] %>%
-    select(harm, obs, sur) %>%
-    apply(., 2, max)
-}, flood_risk, col_names = names(clusters)) 
-max_height = t(max_height)
+# max_height = apply(clusters, 1, function(r, flood_risk, col_names){
+#   i1 = r[which(col_names == "start")]
+#   i2 = r[which(col_names == "end")]
+#   flood_risk[i1:i2,] %>%
+#     select(harm, obs, sur) %>%
+#     apply(., 2, max)
+# }, flood_risk, col_names = names(clusters)) 
+# max_height = t(max_height)
 
 plot_clusters <- cbind(clusters, max_height) 
 
@@ -294,38 +278,38 @@ We note that although the duration is a continuous random variable, the duration
 To analyse a random variable that is a bit friendlier in terms of dependence and standard copulas, it is useful to think about how the duration of the surge event is related to the surge height. The points are shaded by the percentage of time spent about the flood risk threshold during each storm surge event.
 
 ```{r clustersSur, echo = FALSE}
-clusters_sur = flood_risk %>%
-  mutate(bool_sur = sur > 0) %>%
-  pull(bool_sur) %>%
-  rle() %>%
-  unclass() %>%
-  as.data.frame() %>%
-  mutate(end = cumsum(lengths),
-       start = c(1, dplyr::lag(end)[-1] + 1)) %>%
-  mutate(date_end = obs_data$ldate[end]) %>%
-  mutate(date_start = obs_data$ldate[start]) %>%
-  # select(-start, -end) %>%
-  arrange(desc(lengths)) %>%
-  mutate(temp = paste(0, lengths*10, 0, sep = ":")) %>%
-  mutate(time = lubridate::hms(temp, roll = TRUE)) %>%
-  select(-temp) 
-
-max_height_sur = apply(clusters_sur, 1, function(r, flood_risk, col_names){
-  i1 = r[which(col_names == "start")]
-  i2 = r[which(col_names == "end")]
-  flood_risk[i1:i2,] %>%
-    select(harm, obs, sur) %>%
-    apply(., 2, max)
-}, flood_risk, col_names = names(clusters_sur)) 
-max_height_sur = t(max_height_sur)
-
-thres_exceeded = apply(clusters_sur, 1, function(r, flood_risk, col_names){
-  i1 = r[which(col_names == "start")] %>% as.numeric()
-  i2 = r[which(col_names == "end")] %>% as.numeric()
-  temp = flood_risk[i1:i2,] %>%
-    pull(obs)
-  perc = sum(temp > h_t_level)/sum(!is.na(temp))
-}, flood_risk, col_names = names(clusters_sur)) 
+# clusters_sur = flood_risk %>%
+#   mutate(bool_sur = sur > 0) %>%
+#   pull(bool_sur) %>%
+#   rle() %>%
+#   unclass() %>%
+#   as.data.frame() %>%
+#   mutate(end = cumsum(lengths),
+#        start = c(1, dplyr::lag(end)[-1] + 1)) %>%
+#   mutate(date_end = obs_data$ldate[end]) %>%
+#   mutate(date_start = obs_data$ldate[start]) %>%
+#   # select(-start, -end) %>%
+#   arrange(desc(lengths)) %>%
+#   mutate(temp = paste(0, lengths*10, 0, sep = ":")) %>%
+#   mutate(time = lubridate::hms(temp, roll = TRUE)) %>%
+#   select(-temp) 
+# 
+# max_height_sur = apply(clusters_sur, 1, function(r, flood_risk, col_names){
+#   i1 = r[which(col_names == "start")]
+#   i2 = r[which(col_names == "end")]
+#   flood_risk[i1:i2,] %>%
+#     select(harm, obs, sur) %>%
+#     apply(., 2, max)
+# }, flood_risk, col_names = names(clusters_sur)) 
+# max_height_sur = t(max_height_sur)
+# 
+# thres_exceeded = apply(clusters_sur, 1, function(r, flood_risk, col_names){
+#   i1 = r[which(col_names == "start")] %>% as.numeric()
+#   i2 = r[which(col_names == "end")] %>% as.numeric()
+#   temp = flood_risk[i1:i2,] %>%
+#     pull(obs)
+#   perc = sum(temp > h_t_level)/sum(!is.na(temp))
+# }, flood_risk, col_names = names(clusters_sur)) 
 
 plot_clusters_sur <- cbind(clusters_sur, max_height_sur) %>%
   mutate(risk = thres_exceeded %>% as.numeric())

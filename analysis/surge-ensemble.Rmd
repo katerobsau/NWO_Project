@@ -1,0 +1,18 @@
+---
+title: "Surge Ensemble"
+output: html_document
+---
+
+```{r loadPackages, echo = FALSE, warning = FALSE, message = FALSE}
+library(tidyverse)
+library(cowplot)
+source("code/figure_labels.R")
+```
+
+```{r tidalPackage read, echo = FALSE, warning = FALSE, message = FALSE}
+package_dir = "code/tidalHelpers"
+install.packages(pkgs = "code/tidalHelpers", repos = NULL, type = "source")
+library(tidalHelpers)
+```
+
+
