@@ -1,0 +1,27 @@
+---
+title: "Surge Seasonality"
+output: html_document
+---
+
+```{r loadPackages, echo = FALSE, warning = FALSE, message = FALSE}
+library(tidyverse)
+source("code/figure_labels.R")
+source("code/source/surge_exploratory_analyis.R")
+```
+
+NEED TO FIX THE DEFINITION OF WHAT A SURGE IS
+IE. I MUST DEFINE A MINIMUM PERIOD TO CLASSIFY A SURGE
+AND I MUST DEFINE A MINIMUM PERIOD IN BETWEEN SURGES
+
+The number of surges per day of the year:
+```{r}
+plot_num_surge_by_date
+```
+
+The average height of surges by month:
+```{r}
+plot_avr_surge_month
+```
+
+
+
