@@ -257,10 +257,11 @@ plot_grid(s1, s2, s3, s4, labels = "AUTO", ncol = 2)
 # }, flood_risk, col_names = names(clusters)) 
 # max_height = t(max_height)
 
-plot_clusters <- cbind(clusters, max_height) 
+plot_clusters <- cbind(clusters_risk_threshold, max_height) 
 
 duration_vs_sur<- ggplot(plot_clusters) + 
   geom_point(aes(x = time@hour, y = sur)) + #time@hour
+  # geom_smooth(aes(x = time@hour, y = sur)) +
   geom_vline(xintercept = seq(0, 120, 6),
              col = "red", linetype = "dotted") +
   theme_bw() + 
