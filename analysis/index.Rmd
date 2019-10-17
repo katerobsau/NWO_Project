@@ -17,4 +17,5 @@ Wetterskip Fryslân, one of the Dutch water boards, and is interested in forecas
 * [Problem Specification](compound-event-definition.html)  
 * [Background to Tidal Data](details-on-tidal-summaries.html)  
 * [Tidal Climatology](surge_climatology.html)  
+* [Event Based Verification](event-based-verification.html)
 
