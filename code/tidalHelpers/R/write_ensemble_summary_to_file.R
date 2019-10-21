@@ -8,6 +8,7 @@ write_ensemble_summary_to_file <- function(main_data_dir, save_dir, var_names,
   if(!dir.exists(main_data_dir)){
     stop("The main data directory is incorrectly defined")
   }
+  #  add in an exception handler for the last character in the string as "/"
   if(missing(save_dir)){save_dir = init_var$save_dir}
   if(missing(var_names)){var_names = init_var$var_names}
   rm_names = init_var$rm_names
