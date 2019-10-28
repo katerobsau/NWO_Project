@@ -203,40 +203,123 @@ wrapper_ensemble_members <- function(i, scenarios,
                            sd = par[[1]]$sigma,
                            MoreArgs = list(n = num_members))
 
-  return(sampled_members)
+  return(rbind(y_obs, sampled_members))
 
 }
+
+pars = lapply(1:nrow(cv_scenarios),
+              function(i, ngr_predictions, cv_scenarios){
+                l = ngr_predictions[[i]]
+                mu = l$mu
+                sigma = l$sigma
+                year = cv_scenarios$year[i]
+                lead_time = cv_scenarios$lead_time[i]
+                y_obs <- season_data %>%
+                  dplyr::filter(lubridate::year(date) == year) %>%
+                  dplyr::filter(!is.na(mean_wsur) & !is.na(sur) & !is.na(sd_wsur)) %>%
+                  dplyr::filter(t == lead_time) %>%
+                  pull(sur)
+
+                df  = data.frame(obs = y_obs, mu , sigma,
+                                 year = rep(year, length(mu)),
+                                 lead_time = rep(lead_time, length(mu)))
+
+                return(df)
+              }, ngr_predictions = ngr_predictions,
+              cv_scenarios = cv_scenarios) %>%
+  bind_rows()
 
 ensemble_members <- lapply(1:nrow(cv_scenarios),
                               wrapper_ensemble_members,
                               scenarios = cv_scenarios,
                               ngr_predictions = ngr_predictions) %>%
-                      as.data.frame()
+                      as.data.frame() %>% t() %>% as.data.frame()
+names(ensemble_members) = c("obs",
+      paste0("fc", formatC(1:50, width = 3, flag = "0")))
 
-wrapper_observations <- function(i, scenarios, season_data){
+crps_summary = NULL
+for(t in lead_times){
+  crps_data = cbind(pars,
+                  ensemble_members %>% dplyr::select(-obs)) %>%
+    dplyr::filter(lead_time == t)
+  dim(crps_data)
 
-  year = scenarios$year[i]
-  lead_time = scenarios$lead_time[i]
+  ens_members = crps_data %>%
+    dplyr::select(matches("fc"))
+  observation = crps_data %>% pull(obs)
 
-  y_obs <- season_data %>%
-    dplyr::filter(lubridate::year(date) == year) %>%
-    dplyr::filter(!is.na(mean_wsur) & !is.na(sur) & !is.na(sd_wsur)) %>%
-    dplyr::filter(t == lead_time) %>%
-    pull(sur)
-
-  return(y_obs)
-
+  crps <- crps_ensemble(as.matrix(ens_members), as.numeric(observation))
+  crps_summary <- rbind(crps_summary,summary(crps))
 }
 
-observations <- lapply(1:nrow(cv_scenarios),
-                           wrapper_observations,
-                           scenarios = cv_scenarios,
-                           season_data) %>%
-  as.data.frame()
+crps_summary <- crps_summary %>%
+  as.data.frame() %>%
+  dplyr::mutate(lead_time = lead_times)
 
-lead_time = 24*6
-i = which(scenarios$lead_time == lead_time)
-ens_members = ensemble_members[,i]
-observation = observations[i]
+ggplot(crps_summary) +
+  # geom_ribbon(aes(x = lead_time , ymin = `Min.`, ymax = `Max.`),
+  #             alpha = 0.1, fill = "blue") +
+  geom_ribbon(aes(x = lead_time , ymin = `1st Qu.`, ymax = `3rd Qu.`),
+              alpha = 0.2, fill = "blue") +
+  geom_point(aes(x = lead_time, y = Median)) +
+  geom_point(aes(x = lead_time, y = Mean), col = "blue", shape = 3) +
+  theme_bw() +
+  ylim(0,0.25)
 
-crps <- crps_ensemble(as.matrix(ens_members), as.numeric(observation))
+# -----------------------------------------------------------------------------
+time1 = Sys.time()
+print("Note to self, didn't account for NAs when I did my std dev.")
+ensemble_data_filtered <- NULL
+for(date_val in dates_vec){
+
+  print(date_val)
+  # date_val = dates_vec[i]  #"2011112900" #"2012010200" #
+  data_dir = paste(main_data_dir, date_val, "/", sep = "")
+
+  # Get Ensemble data
+  ensemble_data = combine_ensemble_data(date_val, lead_time = "00000",
+                                        member_ref = member_ref,
+                                        data_dir = data_dir)
+
+  if(is.null(ensemble_data)) next
+
+  ensemble_data = ensemble_data %>%
+    dplyr::select(t, harm, sur, obs, htid, wtid, wsur, wtot, wtoc, wsur, member) %>%
+    dplyr::mutate(harm = ifelse(harm >= na_value, NA_real_, harm)) %>%
+    dplyr::mutate(sur = ifelse(sur >= na_value, NA_real_, sur)) %>%
+    dplyr::mutate(obs = ifelse(obs >= na_value, NA_real_, obs)) %>%
+    dplyr::mutate(wtot = ifelse(wtot >= na_value, NA_real_, wtot)) %>%
+    dplyr::mutate(wtoc = ifelse(wtoc >= na_value, NA_real_, wtoc)) %>%
+    dplyr::mutate(wsur = ifelse(wsur >= na_value, NA_real_, wsur)) %>%
+    dplyr::filter(t %in% lead_times) %>%
+    dplyr::mutate(date = date_val)
+
+  ensemble_data_filtered = ensemble_data  %>%
+    dplyr::select(sur, wsur, date, t, member) %>%
+    rbind(ensemble_data_filtered, .)
+
+}
+time2 = Sys.time()
+
+crps_summary_raw = NULL
+for(t in lead_times){
+
+  ens_members_raw <- ensemble_data_filtered %>%
+    dplyr::filter(t == lead_time, member != "obs") %>%
+    pivot_wider(names_from = member, values_from = wsur) %>%
+    dplyr::select(matches("fc"))
+
+  observation_raw = ensemble_data_filtered %>%
+    dplyr::filter(t == lead_time, member == "obs") %>%
+    purrr:pull(sur)
+
+  crps_raw <- crps_ensemble(as.matrix(ens_members_raw),
+                        as.numeric(observation_raw))
+  crps_summary <- rbind(crps_summary, summary(crps_raw))
+}
+
+crps_summary <- crps_summary %>%
+  as.data.frame() %>%
+  dplyr::mutate(lead_time = lead_times)
+# -----------------------------------------------------------------------------
+

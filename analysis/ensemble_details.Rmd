@@ -1,0 +1,123 @@
+---
+title: "Ensemble Details"
+output: html_document
+---
+
+```{r tidalPackage read, echo = FALSE, warning = FALSE, message = FALSE}
+package_dir = "code/tidalHelpers"
+install.packages(pkgs = "code/tidalHelpers", repos = NULL, type = "source")
+library(tidalHelpers)
+```
+
+```{r ensembleData, echo = FALSE, warning = FALSE, message = FALSE}
+
+quiet <- function(x) { 
+  sink(tempfile()) 
+  on.exit(sink()) 
+  invisible(force(x)) 
+} 
+
+na_value = 99
+init_var = quiet(utils_init())
+main_data_dir = "/Users/katesaunders/Documents/No_Back_Up_Data/ENS/"
+dates_vec = list.files(main_data_dir)
+member_ref = get_ensemble_ref(init_var$num_members)
+risk_level = -0.42
+
+traj_date_val = "2011112900" #"2012010200" #
+data_dir = paste(main_data_dir, traj_date_val, "/", sep = "")
+
+# Get Ensemble data
+traj_ensemble_data = quiet(combine_ensemble_data(date_val = traj_date_val, 
+                                                 lead_time = "00000",
+                                      member_ref = member_ref,
+                                      data_dir = data_dir)) %>%
+  mutate(obs = ifelse(obs >= na_value, NA_real_, obs)) %>%
+  mutate(wtot = ifelse(wtot >= na_value, NA_real_, wtot)) %>%
+  mutate(wtoc = ifelse(wtoc >= na_value, NA_real_, wtoc)) %>%
+  mutate(obs = ifelse(obs >= na_value, NA_real_, obs)) %>%
+  mutate(wsur = ifelse(obs >= na_value, NA_real_, wsur))
+```
+
+The following shows examples of the ensemble forecast for `r substr(traj_date_val, 1, 8) %>% lubridate::as_date()`. We observe that 
+at short lead times (< 48 hours) the forecast is underdispersed and that trajectory of the observation is outside that of the raw ensemble. At longer lead times variability within the ensemble increases and there is decrease in skill in the forecast. As a consequence the second peak of the observed surge is not captured. Some skill remains however in that the surge will positively contributes to the total level. 
+
+```{r trajectory_sur, echo = FALSE, warning = FALSE, message = FALSE}
+  ggplot(data = traj_ensemble_data) +
+    geom_line(aes(x = t, y = wsur, group = member), col = "gray", size = 0.1) +
+    geom_line(aes(x = t, y = sur), col = "red", linetype = "dotted", size = 0.3) +
+    geom_hline(yintercept = 0, col = "gray", linetype = "dashed") +
+    theme_bw() +
+    ylim(c(-0.5,3)) + 
+    ylab("Surge Height (m)") + 
+    xlab("Lead Time (hrs)")
+```
+
+To fully understand the risk from storm surge, and extension compound events, we are interested in the ability of individual members to replicate features of the observation trajectory. The spaghetti plot of ensemble members is informative of the increasing variability at longer lead times, but it is difficult to distinguish between individual trajectories. For this reason we have visualised some individual trajectories. These members were chosen as they capture the largest surge height later in the forecast period. Member 46 is the closest to capturing the secondary surge event, however at earliear lead times does not mirror the ensemble trajectory. This is similar for member 49. This suggests that features of the forecast needs to be considered as part of the whole trajectory not piecewise, otherwise we may falsely assume we have predictability when there is none.
+
+```{r trajectory_members_sur, echo = FALSE, warning = FALSE, message = FALSE}
+top_members <- traj_ensemble_data %>% 
+  filter(t > 200) %>% 
+  arrange(desc(wsur)) %>% 
+  select(member) %>%
+  distinct() %>%
+  top_n(9) %>%
+  pull()
+
+  ggplot(data = traj_ensemble_data %>% 
+         filter(member %in% top_members)) +
+    geom_line(aes(x = t, y = wsur, col = member)) +
+    geom_line(aes(x = t, y = sur), col = "red", linetype = "dotted", size = 0.3) +
+    geom_hline(yintercept = 0, col = "gray", linetype = "dashed") +
+    facet_wrap(~member) + 
+    theme_bw() +
+    theme(legend.position = "none") +
+    ylim(c(-0.5, 3))
+```
+
+For the problem of sluice operation, we are concerned with the total water level not just the surge height. The plot below shows ensemble members relative to the observation trajectory for the total water level. 
+
+```{r trajectory_total, echo = FALSE, warning = FALSE, message = FALSE}
+  # Plot the trajectory
+  ggplot(data = traj_ensemble_data) +
+    geom_line(aes(x = t, y = wtot, group = member), col = "gray", size = 0.1) +
+    geom_line(aes(x = t, y = obs, group = member), col = "black", size = 0.3) +
+    geom_hline(yintercept = 0, col = "gray", linetype = "dashed") +
+    geom_hline(yintercept = -0.42, linetype = "dashed") +
+    # geom_point(aes(x = hour, y = wtot), col = "gray") +
+    theme_bw() +
+    ylim(c(-4,4))
+```
+
+Although ensemble variable increases at longer lead times, there is still some predictability in whether the total level is above the risk threshold. This is visualised in the figure below. The top row is the observations, second row is the deterministic forecast from the ensemble mean, and the remaining rows show the members. We observe in general there is good agreement between the ensemble mean and the observations.
+
+```{r trajectory_bool, echo = FALSE, warning = FALSE, message = FALSE}
+  traj_bool = traj_ensemble_data %>% 
+    mutate(bool = wtot > risk_level)  %>%
+    select(t, bool, member)
+
+  traj_obs <- traj_ensemble_data %>%
+    select(t, obs) %>%
+    mutate(bool = obs > risk_level) %>%
+    distinct()
+  
+  traj_mean = traj_bool %>% 
+    group_by(t) %>%
+    summarise(ens_mean = mean(bool)) %>%
+    ungroup()
+  
+  # Plot the trajectory
+  ggplot() +
+    geom_raster(data = traj_bool,
+                aes(x = t, y = member, fill = as.factor(bool))) +
+    geom_raster(data = traj_obs,
+                aes(x = t, y = "obs", fill = as.factor(bool)),
+                col = "black") +
+    geom_raster(data = traj_mean, 
+                aes(x = t, y = "mean", fill = as.factor(as.logical(round(ens_mean))))) + 
+    scale_fill_discrete("Above Risk Threshold") +
+    theme_minimal() +
+    theme(axis.text.x = element_blank(), 
+          axis.text.y = element_blank())
+```
+
