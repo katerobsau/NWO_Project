@@ -3,3 +3,70 @@ title: "Univariate Post-processing"
 output: html_document
 ---
 
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+library(tidyverse)
+```
+
+## Event Definition
+
+In order to forecast the probability of the compound-event occuring, a set of variables needs to be defined in order to model the problem. We have adopted a similar problem appraoch to Li et al. 2014, who considered an application of wave heights for Dutch storms. Namely that we define a minimum duration for a storm surge of 1 hour and a minimum period between storm surges of 1 hour.
+
+Let ${S_t}$ for $t \in \mathbb{R}^+$ be the stochastic process representing the storm surge height and let ${s_t}$ be the related time-series of observations. Similarly define ${h_t}$ as the height of the harmonic tide, where ${h_t}$ is deterministic.[^1] Further, let $S_{t+k}$ be the random variable for the forecast initialised at time $t$ and with lead time $k$. A realisation of the forecast is then given by $\hat{s}^{(m)}_{t+k | t}$, where $m$ is the ensemble member. The corresponding predictive density of that forecast is $\hat{f}_{t+k|t}$, with distribution function $\hat{F}_{t+k|t}$. 
+
+Consider a set of lead times, $t + 1,\, t + 2,\, \dots t + K$. These lead times are regularly sampled in this instance, however this does not need to be true in generality. The multivariate random variable  representing the temporal trajectory of the storm surge can be defined by $\mathbf{S}_t = \left( S_{t+1}, S_{t+2}, \dots, S_{t+K} \right)$. The trajectories of the ensemble members are then given by $\hat{\mathbf{s}}^{(m)}_t = \left( \hat{s}^{(m)}_{t+1}, \hat{s}^{(m)}_{t+2}, \dots, \hat{s}^{(m)}_{t+K} \right)$. The corresponding vector of observations is  $\mathbf{s}_t = \left( s_{t+1}, s_{t+2}, \dots, s_{t+K} \right)$. 
+
+<!-- ```{r variables, echo = F} -->
+<!-- rv_df <- tribble( -->
+
+<!--   ~rv,  ~var_type, -->
+<!--   "S_t", "Stochastic process of the storm surge at time $t$", -->
+<!--   "s_t", "Observations of the storm surge at time $t$", -->
+<!--   "h_t", "Time series for the harmonic tide at time $t$",  -->
+<!--   "D_s", "Duration of the storm surge (positive)", -->
+<!--   "M_s", "Maximum surge height corresponding to D_s", -->
+<!--   "T_s", "Time the maximum surge height, M_s, occurs", -->
+<!--   "D_g", "Duration that the gravity based sluice is not operational", -->
+<!--   "T_p", "Minimum period of time the sluice needs to be operational to relieve flood risk", -->
+<!--   "M_p", "Minimum period above the threshold to be considered" -->
+
+<!-- ) %>%  -->
+<!--   set_names(. , nm = c("Variable Name", "Variable Type")) -->
+
+<!-- knitr::kable(rv_df) -->
+<!-- ``` -->
+
+## Univariate post-processing
+
+Ensemble forecasts are commonly subject to errors related to bias and dispersion. Non-homogeneous Guassian regression (NGR) is one of the simplest methods available to correct these errors, and we will use this as a baseline to perform univariate post-processing.  
+
+The NGR method assumes the distribution of our storm surge observations are normally distributed. This is a reasonable starting assumption for surge observations, therefore for a given lead time let the distribution of $s_t$ be
+$$ s_t \sim N\left( \mu_t, \sigma^2_t \right), $$
+where the parameters of this distribution are modelled as a function of the ensemble members 
+\begin{align}
+  \mu_t &= a_t + b_t \bar{x}_t \quad & \bar{x}_t &= \dfrac{1}{m}\sum_{k = 1}^m x_{t,k}, \\
+  \sigma_t^2 &= c_t + d_t \bar{s}_t^2 \quad & \bar{s}_t^2 &= \dfrac{1}{m}\sum_{k = 1}^m (x_{t,k} - \bar{x}_t)^2.
+\end{align}
+
+We can use the package gamlss in R to fit this distribution.[^3]
+Summer and Winter are considered separately given seasonality and the results for Winter are displayed below.
+
+## Calibration
+
+Rank histograms are commonly used to assess the calibration of the post-processed distribution to the real observations. When the rank histogram is flat, and the forecast distribution and  observation distribution have equal dispersion of observations the method is well-calibrated. Here we observe that this shape at earlier lead times, but at longer times there is a hump in the graph shapes suggesting under dispersion in the forecast distribution.
+
+![](assets/rank_histograms.png)
+
+<!-- Give a citation for the rank histogam and explain it is averaged over all days -->
+
+## Accuracy
+
+Using the CRPS we can compare the accuracy of the predictive distribution and its associated observation. There is a closed form CRPS that can be used for comparision (cite), however to avoid sampling impacts due to the finite size of the ensemble, members were drawn from the predictive distribution and an empirical form of the CRPS was used (cite). A plot of the CRPS summarised over all winter days is given below; the dots are the median CRPS and crosses are the mean CRPS. As the CRPS is a negatively orientated score, lower values indicate greater accuracy. 
+
+![](assets/CRPS.png)
+
+In the plot the raw ensemble is shown in red, and the post-processed results are shown in blue. We observe the post-processed distribution improves on the accuracy of hte raw ensemble. Also as expected, at longer lead times the CRPS is higher indicating a reduction in predictive skill. The CRPS results for the mean and median are not equal. This suggests that the fitted predictive distribution is skewed relative to the observations, and the Guassian assumptions of underlying the post-processing model may not be satisfied. [^4] 
+
+[^1]: Used this variable more than once fix
+[^3]: Include/reference to these fit functions
+[^4]: Fix figure labels

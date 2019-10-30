@@ -126,10 +126,10 @@ region_b <- ggplot() +
 <!-- <a id="my_chunk"></a> -->
 <!-- See [this code chunk](#my_chunk) -->
 
-```{r riskregions, echo = FALSE,  out.width="600px", out.height="400px", fig.cap = figRef("riskregions", cap)}
-plot_grid(region_a, region_b, labels = "AUTO")
-cap <- "Examples of risk regions for a Rainfall-Surge compound event"
-```
+<!-- ```{r riskregions, echo = FALSE,  out.width="600px", out.height="400px", fig.cap = figRef("riskregions", cap)} -->
+<!-- plot_grid(region_a, region_b, labels = "AUTO") -->
+<!-- cap <- "Examples of risk regions for a Rainfall-Surge compound event" -->
+<!-- ``` -->
 
 ## Mechanisms in the Netherlands
 
@@ -138,10 +138,10 @@ In the Netherlands, flood risk in the canal belt system is heavily mitigated by 
 ```{r sluice, echo = FALSE,  out.width="600px", out.height="400px", fig.cap = figRef("sluice", cap)}
 source("code/schematic_sluice.R")
 sluice_plot
-cap <- "Schematic of the gravity based sluice at Harlingen. Water can be discharged from the sluice provided there is a water level on the canal belt side is 0.1 m higher or more than the sea water level. The normal height of water in the canal belt system and optimal for operational purposes is -0.52 m (NAP) (Green dashed line). Operators are concerned for flooding risk when the inland water level is in excess of -0.32 m (NAP) (red dotted line)." 
+cap <- "Schematic of the gravity based sluice at Harlingen. The normal height of water in the canal belt system and optimal for operational purposes is -0.52 m (NAP) (Green dashed line). Operators are alert for flooding risk when the inland water level is in excess of -0.32 m (NAP) (red dotted line)." 
 ```
 
-Given the operation of these sluices, the surge-rainfall mechanisms of 1 and 3 are of primary concern to the Netherlands. In these instances, the sluice is not operational. Figure `r figRef("schematics")` shows two simple examples where the external water level prevents the release of water; one due to a surge evenet and the other due to a high tide.
+Given the operation of these sluices, the surge-rainfall mechanisms of 1 and 3 are of primary concern to the Netherlands. In these instances, the sluice is not operational. Figure `r figRef("schematics")` shows two simple examples where the external water level prevents the release of water; one due to a surge event and the other due to a high tide.
 
 ```{r schematicSurge, echo = FALSE}
 num_pi = 7
@@ -209,37 +209,17 @@ An important distinction when assessing the risk of rainfall-surge events is tha
 
 * Does the total sea level (tide + surge) exceed the risk threshold?
 
-* How long does the total level stay above this risk thresehold, preventing discharge from the sluice?
+* How long does the total level stay above this risk threshold, preventing discharge from the sluice?
 
-In this sense the statistical problem becomes a censored one as we are not concerned with the extemeness of the surge height. Once the surge contributes to the total level exceeding the risk threshold, it doesn't matter by how much the threshold is exceeded. Either way, water can not be discharged. This requires a fundamental reframing of the statistical problem, and move away from the traditional statistical approach of assessing risk by modelling the dependence between surge heights and rainfall amounts.
+In this sense the statistical problem becomes a censored one, as we are not concerned with the extremeness of the surge height. Once the surge contributes to the total level exceeding the risk threshold, it doesn't matter by how much the threshold is exceeded, the sluice is not operational. This requires a fundamental reframing of the statistical problem, and move away from the traditional statistical approach of assessing risk by modelling the dependence between storm surge heights and rainfall amounts.
 
-The reframing of the problem may also be advantageous. In misspecifying the problem, risk is not reliably assessed. Additionally, the dependence between extreme rainfall and extreme surge heights is asymptotically weak at many locations throughout the world, including the Netherlands. (cite wahl, westra, bevacqua). This weak dependence is difficult to accurately estimate (westra). A rephrasing of the problem may improve the reliability of the estimates for the dependence parameters. 
-
-<!-- This raises the natural question of how strong is the correlations between the duration of a storm surge and it's height. -->
-
-## Event Definition
-
-In order to estimate the probability of the compound-event occuring, a set of variables needs to be defined to model the problem. These variables are given in Table `r figRef("variables")`. We have adopted a similar problem specification to Li et al. 2014, who considered an application of wave heights for Dutch storms. Namely in our specification, we are interested in the duration that the gravity based is not operational.
-
-```{r variables, echo = F, tab.cap = tabRef("variables", cap)}
-rv_df <- tribble(
-  
-  ~rv,  ~var_type,
-  "T_s", "Duration of the storm surge",
-  "M_s", "Maximum surge height during T_s",
-  "h_t",  "Threshold water level that water needs to be discharged to prevent flood risk",  
-  "T_d", "Duration that the gravity based sluice is not operational",
-  "T_p", "Minimum period of time the sluice needs to be operational to relieve flood risk"
-  
-) %>% 
-  set_names(. , nm = c("Variable Name", "Variable Type"))
-
-knitr::kable(rv_df)
-```
+The reframing of the problem may also be advantageous. In misspecifying the problem, risk is not reliably assessed. Additionally, the dependence between extreme rainfall and extreme surge heights is asymptotically weak at many locations throughout the world, including the Netherlands. (cite Wahl, Westra, Bevacqua). This weak dependence is difficult to accurately estimate (Westra) and as a consequence it may even be beneficial to model the events independently despite the compound nature of their impacts. A rephrasing of the problem may be beneficial to improving estimates of dependence parameters and quantifying risk. 
 
 ## Navigation Links
 
-* [Project Overview](index.html)  
-* [Sea Level Metadata and Preprocessing](details-on-tidal-summaries.html)  
-* [Rainfall Metadata and Preprocessing ](details-on-rainfall-data.html)  
-* [Surge Climatology](surge_climatology.html)  
+* [Problem Specification](compound-event-definition.html)  
+* [Background to Tidal Data](details-on-tidal-summaries.html)
+* [Tidal Climatology](surge_climatology.html)  
+* [Storm Surge Ensemble](ensemble_details.html)  
+* [Univariate Post-Processing](univariate_pp.html)  
+* [Event Based Verification](event-based-verification.html)

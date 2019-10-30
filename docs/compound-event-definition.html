@@ -384,7 +384,7 @@ div.section {
 
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-report" data-toggle="collapse" data-target="#workflowr-report">
-<span class="glyphicon glyphicon-list" aria-hidden="true"></span> workflowr <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
+<span class="glyphicon glyphicon-list" aria-hidden="true"></span> workflowr <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span>
 </button>
 </p>
 <div id="workflowr-report" class="collapse">
@@ -393,7 +393,7 @@ div.section {
 <a data-toggle="tab" href="#summary">Summary</a>
 </li>
 <li>
-<a data-toggle="tab" href="#checks"> Checks <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> </a>
+<a data-toggle="tab" href="#checks"> Checks <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> </a>
 </li>
 <li>
 <a data-toggle="tab" href="#versions">Past versions</a>
@@ -402,10 +402,10 @@ div.section {
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2019-09-26
+<strong>Last updated:</strong> 2019-10-30
 </p>
 <p>
-<strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 0
+<strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 6 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 1
 </p>
 <p>
 <strong>Knit directory:</strong> <code>NWO_Project/</code> <span class="glyphicon glyphicon-question-sign" aria-hidden="true" title="This is the local directory in which the code in this file was executed."> </span>
@@ -421,12 +421,12 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguptodate"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>R Markdown file:</strong> up-to-date </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguncommittedchanges"> <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> <strong>R Markdown file:</strong> uncommitted changes </a>
 </p>
 </div>
-<div id="strongRMarkdownfilestronguptodate" class="panel-collapse collapse">
+<div id="strongRMarkdownfilestronguncommittedchanges" class="panel-collapse collapse">
 <div class="panel-body">
-<p>Great! Since the R Markdown file has been committed to the Git repository, you know the exact version of the code that produced these results.</p>
+<p>The R Markdown file has unstaged changes. To know which version of the R Markdown file created these results, you’ll want to first commit it to the Git repo. If you’re still working on the analysis, you can ignore this warning. When you’re finished, you can run <code>wflow_publish</code> to commit the R Markdown file and build the HTML.</p>
 </div>
 </div>
 </div>
@@ -493,10 +493,10 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomkaterobsauNWOProjecttreed56e9e83e06744817be7244ecfdad502401d21aetargetblankd56e9e8a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/katerobsau/NWO_Project/tree/d56e9e83e06744817be7244ecfdad502401d21ae" target="_blank">d56e9e8</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomkaterobsauNWOProjecttree60e3ebfeb0dd319417c7d118566a39ca3c722918targetblank60e3ebfa"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/katerobsau/NWO_Project/tree/60e3ebfeb0dd319417c7d118566a39ca3c722918" target="_blank">60e3ebf</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomkaterobsauNWOProjecttreed56e9e83e06744817be7244ecfdad502401d21aetargetblankd56e9e8a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomkaterobsauNWOProjecttree60e3ebfeb0dd319417c7d118566a39ca3c722918targetblank60e3ebfa" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -516,7 +516,23 @@ Ignored files:
     Ignored:    code/tidalHelpers/R/.DS_Store
     Ignored:    code/tidalHelpers/man/
     Ignored:    data/.DS_Store
-    Ignored:    docs/assets/
+    Ignored:    docs/.DS_Store
+    Ignored:    todo/.DS_Store
+
+Untracked files:
+    Untracked:  docs/assets/
+
+Unstaged changes:
+    Modified:   analysis/compound-event-definition.Rmd
+    Modified:   analysis/ensemble_details.Rmd
+    Modified:   analysis/event-based-verification.Rmd
+    Modified:   analysis/index.Rmd
+    Modified:   analysis/univariate_pp.Rmd
+    Modified:   todo/devlist.fdb_latexmk
+    Modified:   todo/devlist.log
+    Modified:   todo/devlist.pdf
+    Modified:   todo/devlist.synctex.gz
+    Modified:   todo/devlist.tex
 
 </code></pre>
 <p>
@@ -555,6 +571,23 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/katerobsau/NWO_Project/92eed5ee009f9106c2186c06ed678393f705c998/docs/compound-event-definition.html" target="_blank">92eed5e</a>
+</td>
+<td>
+katerobsau
+</td>
+<td>
+2019-09-26
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -938,68 +971,18 @@ The contributing events can be of similar (clustered multiple events) or differe
 <p>An example of the risk regions related to these three mechanisms is shown in Figure NULL 1.</p>
 <!-- <a id="my_chunk"></a> -->
 <!-- See [this code chunk](#my_chunk) -->
-<div class="figure" style="text-align: center">
-<img src="figure/compound-event-definition.Rmd/riskregions-1.png" alt=" Examples of risk regions for a Rainfall-Surge compound event" width="600px" height="400px" />
-<p class="caption">
-Examples of risk regions for a Rainfall-Surge compound event
-</p>
-</div>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-riskregions-1">
-Past versions of riskregions-1.png
-</button>
-</p>
-<div id="fig-riskregions-1" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/katerobsau/NWO_Project/blob/c27e80687bec3f2215e3d8b43e0ef0e6d3bae06a/docs/figure/compound-event-definition.Rmd/riskregions-1.png" target="_blank">c27e806</a>
-</td>
-<td>
-katerobsau
-</td>
-<td>
-2019-09-23
-</td>
-</tr>
-<tr>
-<td>
-<a href="https://github.com/katerobsau/NWO_Project/blob/825917f2db14b360dc57df2ba7623908ec7617b5/docs/figure/compound-event-definition.Rmd/riskregions-1.png" target="_blank">825917f</a>
-</td>
-<td>
-katerobsau
-</td>
-<td>
-2019-08-16
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
+<!-- ```{r riskregions, echo = FALSE,  out.width="600px", out.height="400px", fig.cap = figRef("riskregions", cap)} -->
+<!-- plot_grid(region_a, region_b, labels = "AUTO") -->
+<!-- cap <- "Examples of risk regions for a Rainfall-Surge compound event" -->
+<!-- ``` -->
 </div>
 <div id="mechanisms-in-the-netherlands" class="section level2">
 <h2>Mechanisms in the Netherlands</h2>
 <p>In the Netherlands, flood risk in the canal belt system is heavily mitigated by gravity-based sluices (Figure NULL 2). These sluices are only operational when the internal water level is higher than the external level and the water can be discharged using gravity. For many sluices in the Netherlands, the difference between water levels needed for operation is 0.1 m, any less than this and water can flow in the opposite direction due to density differences between fresh and salt water.</p>
 <div class="figure" style="text-align: center">
-<img src="figure/compound-event-definition.Rmd/sluice-1.png" alt=" Schematic of the gravity based sluice at Harlingen. Water can be discharged from the sluice provided there is a water level on the canal belt side is 0.1 m higher or more than the sea water level. The normal height of water in the canal belt system and optimal for operational purposes is -0.52 m (NAP) (Green dashed line). Operators are concerned for flooding risk when the inland water level is in excess of -0.32 m (NAP) (red dotted line)." width="600px" height="400px" />
+<img src="figure/compound-event-definition.Rmd/sluice-1.png" alt=" Schematic of the gravity based sluice at Harlingen. The normal height of water in the canal belt system and optimal for operational purposes is -0.52 m (NAP) (Green dashed line). Operators are alert for flooding risk when the inland water level is in excess of -0.32 m (NAP) (red dotted line)." width="600px" height="400px" />
 <p class="caption">
-Schematic of the gravity based sluice at Harlingen. Water can be discharged from the sluice provided there is a water level on the canal belt side is 0.1 m higher or more than the sea water level. The normal height of water in the canal belt system and optimal for operational purposes is -0.52 m (NAP) (Green dashed line). Operators are concerned for flooding risk when the inland water level is in excess of -0.32 m (NAP) (red dotted line).
+Schematic of the gravity based sluice at Harlingen. The normal height of water in the canal belt system and optimal for operational purposes is -0.52 m (NAP) (Green dashed line). Operators are alert for flooding risk when the inland water level is in excess of -0.32 m (NAP) (red dotted line).
 </p>
 </div>
 <p>
@@ -1039,7 +1022,7 @@ katerobsau
 </table>
 </div>
 </div>
-<p>Given the operation of these sluices, the surge-rainfall mechanisms of 1 and 3 are of primary concern to the Netherlands. In these instances, the sluice is not operational. Figure NULL 3 shows two simple examples where the external water level prevents the release of water; one due to a surge evenet and the other due to a high tide.</p>
+<p>Given the operation of these sluices, the surge-rainfall mechanisms of 1 and 3 are of primary concern to the Netherlands. In these instances, the sluice is not operational. Figure NULL 3 shows two simple examples where the external water level prevents the release of water; one due to a surge event and the other due to a high tide.</p>
 <div class="figure" style="text-align: center">
 <img src="figure/compound-event-definition.Rmd/schematics-1.png" alt=" Two examples showing when the sea level (solid back) exceeds the flood risk level (dashed black). The red shaded areas show the period when the gravity-based sluice was not operational. Here the tidal cycle is shown by the dashed blue line, and the surge in the red dotted line. The tide and surge combined give the total level. If there is no storm surge, as in Figure 1B, then the two lines are superimposed. " width="600px" height="400px" />
 <p class="caption">
@@ -1122,56 +1105,24 @@ katerobsau
 <p>An important distinction when assessing the risk of rainfall-surge events is that in the Netherlands the height of the storm-surge does not necessarily need to be extreme. Instead, of concern is</p>
 <ul>
 <li><p>Does the total sea level (tide + surge) exceed the risk threshold?</p></li>
-<li><p>How long does the total level stay above this risk thresehold, preventing discharge from the sluice?</p></li>
+<li><p>How long does the total level stay above this risk threshold, preventing discharge from the sluice?</p></li>
 </ul>
-<p>In this sense the statistical problem becomes a censored one as we are not concerned with the extemeness of the surge height. Once the surge contributes to the total level exceeding the risk threshold, it doesn’t matter by how much the threshold is exceeded. Either way, water can not be discharged. This requires a fundamental reframing of the statistical problem, and move away from the traditional statistical approach of assessing risk by modelling the dependence between surge heights and rainfall amounts.</p>
-<p>The reframing of the problem may also be advantageous. In misspecifying the problem, risk is not reliably assessed. Additionally, the dependence between extreme rainfall and extreme surge heights is asymptotically weak at many locations throughout the world, including the Netherlands. (cite wahl, westra, bevacqua). This weak dependence is difficult to accurately estimate (westra). A rephrasing of the problem may improve the reliability of the estimates for the dependence parameters.</p>
-<!-- This raises the natural question of how strong is the correlations between the duration of a storm surge and it's height. -->
-</div>
-<div id="event-definition" class="section level2">
-<h2>Event Definition</h2>
-<p>In order to estimate the probability of the compound-event occuring, a set of variables needs to be defined to model the problem. These variables are given in Table NULL 4. We have adopted a similar problem specification to Li et al. 2014, who considered an application of wave heights for Dutch storms. Namely in our specification, we are interested in the duration that the gravity based is not operational.</p>
-<table>
-<thead>
-<tr class="header">
-<th align="left">Variable Name</th>
-<th align="left">Variable Type</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td align="left">T_s</td>
-<td align="left">Duration of the storm surge</td>
-</tr>
-<tr class="even">
-<td align="left">M_s</td>
-<td align="left">Maximum surge height during T_s</td>
-</tr>
-<tr class="odd">
-<td align="left">h_t</td>
-<td align="left">Threshold water level that water needs to be discharged to prevent flood risk</td>
-</tr>
-<tr class="even">
-<td align="left">T_d</td>
-<td align="left">Duration that the gravity based sluice is not operational</td>
-</tr>
-<tr class="odd">
-<td align="left">T_p</td>
-<td align="left">Minimum period of time the sluice needs to be operational to relieve flood risk</td>
-</tr>
-</tbody>
-</table>
+<p>In this sense the statistical problem becomes a censored one, as we are not concerned with the extremeness of the surge height. Once the surge contributes to the total level exceeding the risk threshold, it doesn’t matter by how much the threshold is exceeded, the sluice is not operational. This requires a fundamental reframing of the statistical problem, and move away from the traditional statistical approach of assessing risk by modelling the dependence between storm surge heights and rainfall amounts.</p>
+<p>The reframing of the problem may also be advantageous. In misspecifying the problem, risk is not reliably assessed. Additionally, the dependence between extreme rainfall and extreme surge heights is asymptotically weak at many locations throughout the world, including the Netherlands. (cite Wahl, Westra, Bevacqua). This weak dependence is difficult to accurately estimate (Westra) and as a consequence it may even be beneficial to model the events independently despite the compound nature of their impacts. A rephrasing of the problem may be beneficial to improving estimates of dependence parameters and quantifying risk.</p>
 </div>
 <div id="navigation-links" class="section level2">
 <h2>Navigation Links</h2>
 <ul>
-<li><a href="index.html">Project Overview</a><br />
+<li><a href="compound-event-definition.html">Problem Specification</a><br />
 </li>
-<li><a href="details-on-tidal-summaries.html">Sea Level Metadata and Preprocessing</a><br />
+<li><a href="details-on-tidal-summaries.html">Background to Tidal Data</a></li>
+<li><a href="surge_climatology.html">Tidal Climatology</a><br />
 </li>
-<li><a href="details-on-rainfall-data.html">Rainfall Metadata and Preprocessing</a><br />
+<li><a href="ensemble_details.html">Storm Surge Ensemble</a><br />
 </li>
-<li><a href="surge_climatology.html">Surge Climatology</a></li>
+<li><a href="univariate_pp.html">Univariate Post-Processing</a><br />
+</li>
+<li><a href="event-based-verification.html">Event Based Verification</a></li>
 </ul>
 <br>
 <p>
@@ -1196,23 +1147,23 @@ attached base packages:
 [1] stats     graphics  grDevices utils     datasets  methods   base     
 
 other attached packages:
- [1] knitr_1.24      cowplot_1.0.0   forcats_0.4.0   stringr_1.4.0  
+ [1] knitr_1.25      cowplot_1.0.0   forcats_0.4.0   stringr_1.4.0  
  [5] dplyr_0.8.3     purrr_0.3.2     readr_1.3.1     tidyr_1.0.0    
  [9] tibble_2.1.3    ggplot2_3.2.1   tidyverse_1.2.1
 
 loaded via a namespace (and not attached):
- [1] tidyselect_0.2.5 xfun_0.9         haven_2.1.1      lattice_0.20-38 
- [5] colorspace_1.4-1 vctrs_0.2.0      generics_0.0.2   htmltools_0.3.6 
+ [1] tidyselect_0.2.5 xfun_0.10        haven_2.1.1      lattice_0.20-38 
+ [5] colorspace_1.4-1 vctrs_0.2.0      generics_0.0.2   htmltools_0.4.0 
  [9] yaml_2.2.0       rlang_0.4.0      pillar_1.4.2     glue_1.3.1      
 [13] withr_2.1.2      modelr_0.1.5     readxl_1.3.1     lifecycle_0.1.0 
 [17] munsell_0.5.0    gtable_0.3.0     workflowr_1.4.0  cellranger_1.1.0
 [21] rvest_0.3.4      evaluate_0.14    labeling_0.3     highr_0.8       
-[25] broom_0.5.2      Rcpp_1.0.2       scales_1.0.0     backports_1.1.4 
-[29] jsonlite_1.6     fs_1.3.1         hms_0.5.1        digest_0.6.20   
+[25] broom_0.5.2      Rcpp_1.0.2       scales_1.0.0     backports_1.1.5 
+[29] jsonlite_1.6     fs_1.3.1         hms_0.5.1        digest_0.6.21   
 [33] stringi_1.4.3    grid_3.5.2       rprojroot_1.3-2  cli_1.1.0       
 [37] tools_3.5.2      magrittr_1.5     lazyeval_0.2.2   crayon_1.3.4    
-[41] whisker_0.4      pkgconfig_2.0.2  zeallot_0.1.0    xml2_1.2.2      
-[45] lubridate_1.7.4  assertthat_0.2.1 rmarkdown_1.15   httr_1.4.1      
+[41] whisker_0.4      pkgconfig_2.0.3  zeallot_0.1.0    xml2_1.2.2      
+[45] lubridate_1.7.4  assertthat_0.2.1 rmarkdown_1.16   httr_1.4.1      
 [49] rstudioapi_0.10  R6_2.4.0         nlme_3.1-141     git2r_0.26.1    
 [53] compiler_3.5.2  </code></pre>
 </div>

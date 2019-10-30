@@ -16,32 +16,28 @@ source("code/figure_labels.R")
 <!-- library(tidalHelpers) -->
 <!-- ``` -->
 
-Let ${S_t}$ for $t \in \mathbb{R}^+$ be the stochastic process representing the storm surge height and let ${s_t}$ be the related time-series of observations. Similarly define ${h_t}$ as the height of the harmonic tide, where ${h_t}$ is deterministic.[^1] 
-Further, let $S_{t+k}$ be the random variable for the forecast initialised at time $t$ and with lead time $k$. A realisation of the forecast is then given by $\hat{s}^{(m)}_{t+k | t}$, where $m$ is the ensemble member. The corresponding predictive density of that forecast is $\hat{f}_{t+k|t}$, with distributions function $\hat{F}_{t+k|t}$. 
-
-Consider a set of lead times, $t + 1,\, t + 2,\, \dots t + K$. These lead times are regularly sampled in this instance, however this does not need to be true in generality. The multivariate random variable  representing the temporal trajectory of the storm surge can be defined by $\mathbf{S}_t = \left( S_{t+1}, S_{t+2}, \dots, S_{t+K} \right)$. The trajectories of the ensemble members are then given by $\hat{\mathbf{s}}^{(m)}_t = \left( \hat{s}^{(m)}_{t+1}, \hat{s}^{(m)}_{t+2}, \dots, \hat{s}^{(m)}_{t+K} \right)$. The corresponding vector of observations is  $\mathbf{s}_t = \left( s_{t+1}, s_{t+2}, \dots, s_{t+K} \right)$. 
-
-INSERT PLOT OF TRAJECTORIES
-
-In contrast to standard post-processing, we are interested in specific features of these trajectories that are timing and duration dependent. Consider the following examples:
+In contrast to standard post-processing, we are interested in specific features of the trajectories that are timing and duration dependent. Consider the following examples:
 
 * When does the storm surge peak?
 
 $$g(\mathbf{s}_t; k) = \displaystyle{\text{argmax}_{k \in K}} \left( S_{t+k} + h_{t+k} \right)$$
 
+* What is the maximum height of the storm surge?
+
+$$g(\mathbf{s}_t; k) = \displaystyle{\text{max}_{k \in K}} \left( S_{t+k} + h_{t+k} \right)$$
+
 * How long does the storm surge last?
 
-$$g(\mathbf{s}_t; k) = \tfrac{1}{\Delta{k}}\sum_{k \in K} \mathbb{I}\left(S_{t+k} > 0 \right)$$
+$$g(\mathbf{s}_t; k) = \tfrac{1}{K\Delta{k}}\sum_{k \in K} \mathbb{I}\left(S_{t+k} > 0 \right)$$
 
 * How long is the total water level above a given risk threshold,  $r$?
 
-$$g(\mathbf{s}_t; k, r) = \tfrac{1}{\Delta{k}}\sum_{k \in K} \mathbb{I}\left(S_{t+k} - h_{t+k} > r \right)$$
+$$g(\mathbf{s}_t; k, r) = \tfrac{1}{K\Delta{k}}\sum_{k \in K} \mathbb{I}\left(S_{t+k} - h_{t+k} > r \right)$$
 
 These quantitites can empircally be estimated from the raw ensemble:
 
 $$ P_t \left[g(\mathbf{s}_t, \theta)\right] = \tfrac{1}{M} \sum_{m=1}^M g(\mathbf{s}^{(m)}_t, \theta).$$
-
-The questions is now whether to use these scenario based metrics to optimise parameter estimates during post-processing, or evaluate them after. Additionally, of importance to correctly estimating these values is the that there is increasing uncertainty in the forecast with increasing lead time. Therefore the post-processing method needs to adjust for the temporal dependence and increasing variability at longer lead times. 
+Pinson et al. 2012 refers to this as event-based approach. The questions is now whether these scenario based metrics can be used to optimise parameter estimates during post-processing, opposed to evaluation after the fact. Of note is that assessing trajectories with standard skill metrics, like the Brier Skill Score, requires taking this autocorrelation and aggreation into account. We also must adjust for the increasing variability at longer lead times. 
 
 [^1]: 
 Careful with notion here for threshold height
