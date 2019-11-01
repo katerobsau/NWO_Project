@@ -258,7 +258,7 @@ pars = lapply(1:nrow(cv_scenarios),
                   pull(sur)
 
                 df  = data.frame(obs = y_obs, mu , sigma,
-                                 year = rep(year, length(mu)),
+                                 season = rep(season_rm, length(mu)),
                                  lead_time = rep(lead_time, length(mu)))
 
                 return(df)
