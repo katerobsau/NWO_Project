@@ -225,12 +225,12 @@ wrapper_ensemble_members <- function(i, scenarios,
                                      ngr_predictions,
                                      num_members = init_var$num_members){
 
-  year = scenarios$year[i]
+  season_rm = scenarios$season[i]
   lead_time = scenarios$lead_time[i]
   par = ngr_predictions[i]
 
   y_obs <- season_data %>%
-    dplyr::filter(lubridate::year(date) == year) %>%
+    dplyr::filter(season == season_rm) %>%
     dplyr::filter(!is.na(mean_wsur) & !is.na(sur) & !is.na(sd_wsur)) %>%
     dplyr::filter(t == lead_time) %>%
     pull(sur)
@@ -249,10 +249,10 @@ pars = lapply(1:nrow(cv_scenarios),
                 l = ngr_predictions[[i]]
                 mu = l$mu
                 sigma = l$sigma
-                year = cv_scenarios$year[i]
+                season_rm = cv_scenarios$season[i]
                 lead_time = cv_scenarios$lead_time[i]
                 y_obs <- season_data %>%
-                  dplyr::filter(lubridate::year(date) == year) %>%
+                  dplyr::filter(season == season_rm) %>%
                   dplyr::filter(!is.na(mean_wsur) & !is.na(sur) & !is.na(sd_wsur)) %>%
                   dplyr::filter(t == lead_time) %>%
                   pull(sur)
@@ -298,7 +298,7 @@ ggplot(crps_summary) +
   #             alpha = 0.1, fill = "blue") +
   geom_ribbon(aes(x = lead_time , ymin = `1st Qu.`, ymax = `3rd Qu.`),
               alpha = 0.2, fill = "blue") +
-  geom_point(aes(x = lead_time, y = Median)) +
+  geom_point(aes(x = lead_time, y = Median), col = "blue") +
   geom_point(aes(x = lead_time, y = Mean), col = "blue", shape = 3) +
   theme_bw() +
   ylim(0,0.25)
@@ -346,7 +346,11 @@ saveRDS(ensemble_data_filtered,
 ensemble_data_filterd <- readRDS(file = "../../data/ensemble_filtered.rds")
 ensemble_winter <- ensemble_data_filtered %>%
   mutate(date = str_sub(date, 1, 8) %>% lubridate::as_date()) %>%
-    filter(lubridate::month(date) > 10 | lubridate::month(date) < 4)
+  mutate(year = lubridate::year(date), month = lubridate::month(date),
+         day = lubridate::day(date)) %>%
+  filter(month >= 10 | month <= 4) %>%
+  filter(!(month == 10 & day <= 15) & !(month == 4 & day >= 15)) %>%
+  mutate(season = ifelse(month >= 10, year, year - 1))
 
 crps_summary_raw = NULL
 for(lead_time in lead_times){
