@@ -124,6 +124,7 @@ wrapper_ngr_fits <- function(i, season_data, scenarios){
   return(NGR_fit)
 }
 
+
 ngr_fits <- lapply(1:nrow(cv_scenarios),
                    wrapper_ngr_fits,
                    season_data = season_data %>% select(-year),
