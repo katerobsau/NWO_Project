@@ -75,45 +75,43 @@ season_data <- ensemble_summary %>%
   filter(month >= 10 | month <= 4) %>%
   filter(!(month == 10 & day <= 15) & !(month == 4 & day >= 15)) %>%
   mutate(season = ifelse(month >= 10, year, year - 1))
-#
-# print("HACK: current functions reference year not season!!")
+
+# -----------------------------------------------------------------------------
+
+# # deal with NAs (in NGR_fit function)
 # season_data <- season_data %>%
-#   mutate(year = season)
+#   filter(!is.na(sur))
+#
+# if(any(is.na(season_data$mean_wsur))){
+#   min_t = season_data %>%
+#     filter(is.na(mean_wsur)) %>%
+#     pull(t) %>%
+#     min()
+#   if(min_t < 240){
+#     stop("Error in ensemble summaries, should not have NA values")
+#   }else{
+#     season_data <- season_data %>%
+#       filter(!is.na(mean_wsur))
+#   }
+# }
 
 # -----------------------------------------------------------------------------
 
-# deal with NAs
-season_data <- season_data %>%
-  filter(!is.na(sur))
-
-if(any(is.na(season_data$mean_wsur))){
-  min_t = season_data %>%
-    filter(is.na(mean_wsur)) %>%
-    pull(t) %>%
-    min()
-  if(min_t < 240){
-    stop("Error in ensemble summaries, should not have NA values")
-  }else{
-    season_data <- season_data %>%
-      filter(!is.na(mean_wsur))
-  }
-}
-
-# -----------------------------------------------------------------------------
-years = season_data$year %>% unique()
 seasons = season_data$season %>% unique()
 lead_times = seq(1, 10, length.out = 19)*24
-cv_scenarios <- expand.grid(year = years, lead_time = lead_times) %>% as.data.frame()
+cv_scenarios <- expand.grid(season = seasons, lead_time = lead_times) %>% as.data.frame()
 
 wrapper_ngr_fits <- function(i, season_data, scenarios){
 
-  year = scenarios$year[i]
+  season_rm = scenarios$season[i]
   lead_time = scenarios$lead_time[i]
 
   train_data <- season_data %>%
-    dplyr::filter(lubridate::year(date) != year) %>%
+    dplyr::filter(season != season_rm) %>%
     dplyr::filter(!is.na(mean_wsur) & !is.na(sur) & !is.na(sd_wsur)) %>%
     dplyr::filter(t == lead_time)
+  if(nrow(train_data) == 0)
+    stop("Error in filtering for training data")
 
   y = train_data$sur
   cov_matrix = train_data %>%
@@ -127,7 +125,7 @@ wrapper_ngr_fits <- function(i, season_data, scenarios){
 
 ngr_fits <- lapply(1:nrow(cv_scenarios),
                    wrapper_ngr_fits,
-                   season_data = season_data %>% select(-year),
+                   season_data = season_data,
                    scenarios = cv_scenarios)
 
 ## ----------------------------------------------------------
@@ -135,14 +133,17 @@ ngr_fits <- lapply(1:nrow(cv_scenarios),
 wrapper_ngr_predict <- function(i, season_data, scenarios,
                                 ngr_fits){
 
-  year = scenarios$year[i]
+  season_rm = scenarios$season[i]
   lead_time = scenarios$lead_time[i]
   m_fit = ngr_fits[[i]]
 
-  test_data <- season_data %>%
-    dplyr::filter(lubridate::year(date) == year) %>%
+  test_data <-  season_data %>%
+    dplyr::filter(season == season_rm) %>%
     dplyr::filter(!is.na(mean_wsur) & !is.na(sur) & !is.na(sd_wsur)) %>%
     dplyr::filter(t == lead_time)
+
+  if(nrow(test_data) == 0)
+    stop("Error in filtering for test data")
 
   y_predict = test_data$sur
   cov_matrix_predict = test_data %>%
@@ -164,12 +165,12 @@ ngr_predictions <- lapply(1:nrow(cv_scenarios),
 wrapper_predictive_distribution <- function(i, scenarios,
                            season_data, ngr_predictions){
 
-  year = scenarios$year[i]
+  season_rm = scenarios$season[i]
   lead_time = scenarios$lead_time[i]
   par = ngr_predictions[i]
 
   y_obs <- season_data %>%
-    dplyr::filter(lubridate::year(date) == year) %>%
+    dplyr::filter(season == season_rm) %>%
     dplyr::filter(!is.na(mean_wsur) & !is.na(sur) & !is.na(sd_wsur)) %>%
     dplyr::filter(t == lead_time) %>%
     pull(sur)
@@ -197,16 +198,23 @@ for(lead_time in lead_times){
   rank_df = rbind(rank_df, df_lead_time)
 }
 
-bins = 20
-# hgt = 1/bins * length(combined_years)
-ggplot(data = rank_df) +
-  geom_histogram(aes(obs), binwidth = 1/bins,
+p = 1/20
+t = rank_df$lead_time[1]
+n = nrow(rank_df %>% filter(lead_time == t))
+var_hgt = pbinom(c(0.05, 0.95), size = n, prob = p)
+ggplot() +
+  geom_hline(data= NULL,
+             yintercept = qbinom(c(0.05, 0.5, 0.95), n, p),
+             linetype = "dotted") +
+  geom_histogram(data = rank_df, aes(obs),
+                 binwidth = 1/bins,
                  fill = "gray", alpha = 0.75) +
-  # geom_density(aes(obs)) +
-  # geom_hline(yintercept = hgt) +
   facet_wrap(~lead_time) +
   ggtitle("Rank Histograms") +
-  theme_bw()
+  theme_bw() +
+  theme(axis.title = element_blank(),
+        axis.text = element_blank())
+print("Would like to add pvalues for chi-sq test to these")
 
 ## ----------------------------------------------------------
 
