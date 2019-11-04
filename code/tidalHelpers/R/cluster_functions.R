@@ -1,4 +1,3 @@
-
 get_clusters_above_threshold <- function(cluster_col, date_col, time_diff = 10,
                                          min_period = 60, min_cluster_size = 60){
 

@@ -343,7 +343,7 @@ time2 = Sys.time()
 saveRDS(ensemble_data_filtered,
         file = "../../data/ensemble_filtered.rds")
 
-ensemble_data_filterd <- readRDS(file = "../../data/ensemble_filtered.rds")
+ensemble_data_filtered <- readRDS(file = "../../data/ensemble_filtered.rds")
 ensemble_winter <- ensemble_data_filtered %>%
   mutate(date = str_sub(date, 1, 8) %>% lubridate::as_date()) %>%
   mutate(year = lubridate::year(date), month = lubridate::month(date),
