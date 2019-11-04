@@ -1,7 +1,8 @@
 # cluster code
-print("Build this into the package!!!")
-print("Only want the functions in here")
+# print("Build this into the package!!!")
+# print("Only want the functions in here")
 source("../source/surge_exploratory_analyis.R")
+
 na_value = 99
 init_var = utils_init()
 main_data_dir = "/Users/katesaunders/Documents/No_Back_Up_Data/ENS/"
@@ -14,9 +15,10 @@ peak_sur = NULL
 peak_lvl = NULL
 sur_clusters = NULL
 risk_period = NULL
+
 for(date_val in dates_vec){
 
-  # date_val = dates_vec[i]  #"2011112900" #"2012010200" #
+  date_val = dates_vec[i]  #"2011112900" # #"2012010200" #
   data_dir = paste(main_data_dir, date_val, "/", sep = "")
 
   # Get Ensemble data
@@ -48,12 +50,14 @@ for(date_val in dates_vec){
     mutate(date = date_val) %>%
     left_join(ensemble_data) %>%
     mutate(member = "obs")
+
   peak_sur_ens = ensemble_data %>%
     group_by(member) %>%
     slice(which.max(wsur[!is.na(wsur)])) %>%
     mutate(date = date_val) %>%
     ungroup() %>%
     left_join(obs_data)
+
   peak_sur_loop = rbind(peak_sur_obs, peak_sur_ens)
   peak_sur <- rbind(peak_sur, peak_sur_loop)
   if(!is.data.frame(peak_sur)) break
@@ -82,6 +86,7 @@ for(date_val in dates_vec){
                    peak_wtot_ens,
                    peak_wtoc_ens) %>%
     mutate(date = date_val)
+
   peak_lvl = rbind(peak_lvl, peak_lvl_loop)
 
   # ggplot() +
