@@ -62,7 +62,7 @@ for(date_val in dates_vec){
 time2 = Sys.time()
 
 # Save out the mean and sd of the ensemble for ngr fitting
-saveRDS(ensemble_summary, file = "../../data/ensemble_summary_stats.rds")
+# saveRDS(ensemble_summary, file = "../../data/ensemble_summary_stats.rds")
 ensemble_summary <- readRDS(file = "../../data/ensemble_summary_stats.rds")
 
 # -----------------------------------------------------------------------------
@@ -198,7 +198,8 @@ for(lead_time in lead_times){
   rank_df = rbind(rank_df, df_lead_time)
 }
 
-p = 1/20
+bins = 20
+p = 1/bins
 t = rank_df$lead_time[1]
 n = nrow(rank_df %>% filter(lead_time == t))
 var_hgt = pbinom(c(0.05, 0.95), size = n, prob = p)
@@ -220,6 +221,7 @@ print("Would like to add pvalues for chi-sq test to these")
 
 library(Rcpp)
 sourceCpp("Helpers/crps_ensemble.cpp")
+# sourceCpp("code/tidalHelpers/Helpers/crps_ensemble.cpp")
 
 wrapper_ensemble_members <- function(i, scenarios,
                                      ngr_predictions,
@@ -251,15 +253,17 @@ pars = lapply(1:nrow(cv_scenarios),
                 sigma = l$sigma
                 season_rm = cv_scenarios$season[i]
                 lead_time = cv_scenarios$lead_time[i]
-                y_obs <- season_data %>%
+                filtered_data <- season_data %>%
                   dplyr::filter(season == season_rm) %>%
                   dplyr::filter(!is.na(mean_wsur) & !is.na(sur) & !is.na(sd_wsur)) %>%
-                  dplyr::filter(t == lead_time) %>%
-                  pull(sur)
+                  dplyr::filter(t == lead_time) #
+                y_obs = filtered_data %>% pull(sur)
+                dates = filtered_data %>% pull(date)
 
                 df  = data.frame(obs = y_obs, mu , sigma,
                                  season = rep(season_rm, length(mu)),
-                                 lead_time = rep(lead_time, length(mu)))
+                                 lead_time = rep(lead_time, length(mu)),
+                                 dates = dates)
 
                 return(df)
               }, ngr_predictions = ngr_predictions,
@@ -340,10 +344,11 @@ for(date_val in dates_vec){
 time2 = Sys.time()
 
 # Save out the mean and sd of the ensemble for ngr fitting
-saveRDS(ensemble_data_filtered,
-        file = "../../data/ensemble_filtered.rds")
-
+# saveRDS(ensemble_data_filtered,
+#         file = "../../data/ensemble_filtered.rds")
+#
 ensemble_data_filtered <- readRDS(file = "../../data/ensemble_filtered.rds")
+# ensemble_data_filtered <- readRDS(file = "data/ensemble_filtered.rds")
 ensemble_winter <- ensemble_data_filtered %>%
   mutate(date = str_sub(date, 1, 8) %>% lubridate::as_date()) %>%
   mutate(year = lubridate::year(date), month = lubridate::month(date),
@@ -390,6 +395,79 @@ ggplot() +
   geom_point(data = crps_summary_raw, aes(x = lead_time, y = Mean), col = "red", shape = 3) +
   theme_bw() +
   ylim(0,0.25)
+
+# -----------------------------------------------------------------------------
+
+# got a bit of a mess with the members
+drawn_members <- ensemble_members %>%
+  dplyr::bind_cols(pars) %>%
+  mutate(t = lead_time, date = dates)
+
+# get template
+ensemble_wider <- ensemble_data_filtered %>%
+  mutate(date = str_sub(date, 1, 8) %>% lubridate::as_date()) %>%
+  filter(date %in% (drawn_members$dates %>% unique())) %>%
+  # filter(date == "2012-10-28" & t == 24) %>%
+  select(-sur) %>%
+  pivot_wider(names_from = c("member"), values_from = "wsur")
+
+ensemble_template <- apply(ensemble_wider %>% dplyr::select(-date, -t), 1, order) %>%
+  t() %>%
+  as.data.frame() %>%
+  mutate(date = ensemble_wider$date) %>%
+  mutate(t = ensemble_wider$t)
+
+ecc_data <- full_join(drawn_members, ensemble_template,
+                      by = c("t", "date")) %>%
+  filter(!is.na(fc001) & !is.na(V1))
+
+reordered <- lapply(1:nrow(ecc_data), function(i, ecc_data){
+  uni_pp = ecc_data %>%
+    select(starts_with("fc")) %>%
+    slice(i) %>%
+    as.numeric() %>%
+    sort()
+  template = ecc_data %>%
+    select(starts_with("V")) %>%
+    slice(i) %>%
+    as.numeric()
+  reorder = uni_pp[template]
+  return(reorder)
+}, ecc_data = ecc_data)
+
+reordered_df = as.data.frame(reordered) %>%
+  t() %>%
+  as.data.frame()
+names(reordered_df) = names(ensemble_members) %>% setdiff("obs")
+reordered_df = reordered_df %>%
+  mutate(date = ecc_data$date, t = ecc_data$t)
+
+days = lubridate::as_date("2012-10-28") + 1:10
+
+# day_obs <- drawn_members %>%
+#   filter(date == "2015-11-03") %>%
+#   select(t, obs)
+
+day_ecc <- reordered_df %>%
+  filter(date == "2012-10-28") %>%
+  pivot_longer(cols = starts_with("fc"), names_to = "member", values_to = "wsur") %>%
+  mutate(dep_type = "ecc") %>%
+  select(-date)
+
+day_raw <- ensemble_data_filtered %>%
+  filter(date == "2012102800") %>%
+  mutate(dep_type = "raw") %>%
+  select(-sur, -date)
+
+plot_data = bind_rows(day_ecc, day_raw)
+ggplot(data = plot_data) +  #%>%
+         #filter(member %in% paste0("fc02",1:9))) +
+  geom_path(aes(x = t, y = wsur, group = member, col = member),
+            alpha = 0.5) +
+  # geom_path(data = day_obs, aes(x = t, y = obs)) +
+  facet_wrap(~dep_type) +
+  theme_bw() +
+  theme(legend.position = "none")
 
 # -----------------------------------------------------------------------------
 

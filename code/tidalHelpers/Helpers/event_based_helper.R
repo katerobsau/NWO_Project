@@ -11,13 +11,14 @@ member_ref = get_ensemble_ref(init_var$num_members)
 risk_level = -0.42
 
 # -----------------------------------------------------------------------------
-num_days = 100 #length(dates_vec)
+
+num_days = length(dates_vec)
 peak_surge_ens <- peak_surge_obs <- vector("list", num_days)
 peak_level_ens <- peak_level_obs <- vector("list", num_days)
 duration_surge_ens <- duration_surge_obs <- vector("list", num_days)
 duration_risk_ens <- duration_risk_obs <- vector("list", num_days)
 
-for(i in 1:100){ # num_days
+for(i in 1:num_days){
 
   date_val = dates_vec[i]  #"2011112900" # #"2012010200" #
   data_dir = paste(main_data_dir, date_val, "/", sep = "")
@@ -85,113 +86,16 @@ duration_surge_obs[[i]] <- get_duration(df = obs_data, type = "obs",
 
 }
 
-# look at the summaries
-peak_sur_summary = peak_sur %>%
-  mutate(var = if_else(member == "obs", "obs", "ens")) %>%
-  filter(var != "obs") %>%
-  group_by(date, var) %>%
-  summarise(mean_wsur = mean(wsur),
-            max_wsur = max(wsur)) %>%
-  left_join(peak_sur %>% filter(member == "obs") %>% select(date, sur) %>% distinct())
-
-ggplot(peak_sur_summary) +
-  # geom_point(aes(x = sur, y = max_wsur), alpha = 0.2, col = "purple") +
-  geom_point(aes(x = sur, y = mean_wsur), alpha = 0.2, col = "orange") +
-  geom_abline(slope = 1, intercept = 0) +
-  theme_bw()
-
-peak_lvl_summary = peak_lvl %>%
-  group_by(date, var) %>%
-  summarise(mean_obs = mean(obs),
-            mean_wtot = mean(wtot),
-            mean_wtoc = mean(wtoc)) %>%
-  ungroup()
-
-ggplot(peak_lvl_summary) +
-  geom_point(aes(x = mean_obs, y = mean_wtot), col = "blue", alpha  = 0.2) +
-  # geom_point(aes(x = mean_obs, y = mean_wtoc), col = "red", alpha  = 0.2) +
-  geom_abline(slope = 1, intercept = 0) +
-  theme_bw()
-
-sur_clusters_summary = sur_clusters %>%
-  filter(member != "obs") %>%
-  group_by(date) %>%
-  summarise(mean_len = mean(lengths)) %>%
-  left_join(sur_clusters %>%
-              filter(member == "obs") %>%
-              select(date, lengths)) %>%
-  mutate(obs_len = lengths)
-
-ggplot(sur_clusters_summary) +
-  geom_point(aes(x = obs_len, y = mean_len)) +
-  geom_abline(slope = 1, intercept = 0) +
-  theme_bw()
-
-risk_period_summary = risk_period %>%
-  group_by(date, var) %>%
-  summarise(mean_period = mean(period)) %>%
-  pivot_wider(names_from = var, values_from = mean_period)
-
-ggplot(risk_period_summary) +
-  geom_point(aes(x = obs, y = wtot), col = "blue") +
-  geom_point(aes(x = obs, y = wtoc), col = "red") +
-  geom_abline(slope = 1, intercept = 0) +
-  theme_bw()
-
-#
-# ### ---------------------------------------------------------------------------
-#
-# # Recuded size data sets
-#   # Reduce to hourly observations
-#   # Summary used to max water level not max surge
-#   reduced_obs <- obs_data %>%
-#     mutate(hour = floor(t)) %>%
-#     group_by(hour) %>%
-#     summarise(obs = max(obs)) %>%
-#     left_join(obs_data)
-#   dim(reduced_obs)
-#   print("Careful possible to have multiple maxima in a given hour.")
-#   # Due to harm1 + sur1 = harm2 + sur2 = max_obs
-#
-#   # Reduce to hourly ensemble data
-#   grouped_ensemble <- ensemble_data %>%
-#     mutate(hour = floor(t)) %>%
-#     group_by(hour, member)
-#
-#   ensemble_tides <- ensemble_data %>%
-#     select(t, wsur, htid, wtid) %>%
-#     distinct() %>%
-#     mutate(hour = floor(t))
-#
-#   wsur_reduced <- grouped_ensemble %>%
-#     summarise(wsur = max(wsur)) %>%
-#     left_join(ensemble_tides)
-#
-#   # Couldn't decide which one to maximise so combined all of them
-#   reduced_ensemble = wsur_reduced %>%
-#     mutate(wtot = wsur + htid, wtoc = wsur + wtid) %>%
-#     left_join(obs_data)
-#   dim(reduced_ensemble_data)
-#
-# ### ---------------------------------------------------------------------------
-#
-#   # Plot the trajectory
-#   ggplot(data = reduced_ensemble) +
-#     geom_line(aes(x = hour, y = wsur, group = member), col = "gray") +
-#     # geom_line(aes(x = hour, y = harm), col = "black", size = 0.3) +
-#     # geom_line(aes(x = hour, y = obs), col = "red", size = 0.3) +
-#     geom_line(aes(x = hour, y = sur), col = "blue", size = 0.3) +
-#     # geom_point(aes(x = hour, y = sur), col = "blue", size = 0.3) +
-#     geom_hline(yintercept = 0, col = "gray", linetype = "dashed") +
-#     geom_hline(yintercept = -0.42, linetype = "dashed") +
-#     # geom_point(aes(x = hour, y = wtot), col = "gray") +
-#     theme_bw() +
-#     ylim(c(-4,4))
-#
-# ### ---------------------------------------------------------------------------
-
-
 ### --------------------------------------------------------------------------------
+
+peak_surge_obs_all <- do.call("rbind", peak_surge_obs)
+ggplot(peak_surge_obs_all %>%
+         group_by(member) %>%
+         summarise(mean_wsur = mean(wsur)) %>%
+         ungroup()) +
+  geom_point(aes(x = wsur, y = sur, col = t)) +
+  scale_color_distiller(palette = "Spectral") +
+  geom_abline(slope = 1, intercept = 0, linetype = "dotted")
 
 # for each of the g functions I want to pull out the data from the raw ensemble
 # ie. the mean value

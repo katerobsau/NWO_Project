@@ -20,11 +20,11 @@ In contrast to standard post-processing, we are interested in specific features 
 
 * When does the storm surge peak?
 
-$$g(\mathbf{s}_t; k) = \displaystyle{\text{argmax}_{k \in K}} \left( S_{t+k} + h_{t+k} \right)$$
+$$g(\mathbf{s}_t; k) = \displaystyle{\text{argmax}_{k \in K}} \left( S_{t+k} \right)$$
 
 * What is the maximum height of the storm surge?
 
-$$g(\mathbf{s}_t; k) = \displaystyle{\text{max}_{k \in K}} \left( S_{t+k} + h_{t+k} \right)$$
+$$g(\mathbf{s}_t; k) = \displaystyle{\text{max}_{k \in K}} \left( S_{t+k} \right)$$
 
 * How long does the storm surge last?
 
@@ -32,7 +32,7 @@ $$g(\mathbf{s}_t; k) = \tfrac{1}{K\Delta{k}}\sum_{k \in K} \mathbb{I}\left(S_{t+
 
 * How long is the total water level above a given risk threshold,  $r$?
 
-$$g(\mathbf{s}_t; k, r) = \tfrac{1}{K\Delta{k}}\sum_{k \in K} \mathbb{I}\left(S_{t+k} - h_{t+k} > r \right)$$
+$$g(\mathbf{s}_t; k, r) = \tfrac{1}{K\Delta{k}}\sum_{k \in K} \mathbb{I}\left(S_{t+k} + h_{t+k} > r \right)$$
 
 These quantitites can empircally be estimated from the raw ensemble:
 
