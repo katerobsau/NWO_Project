@@ -223,63 +223,6 @@ ggplot() +
 
 # -----------------------------------------------------------------------------
 #
-# # Get the fit for all the data
-# # Lazy, instead of keeping the original fitted parameters
-#
-# un_groups <- unique(groups)
-# mu_formula <- paste("Values ~", paste(cv_data$vars_mu[,un_groups == best_group],
-#                                collapse="+"),sep="") %>% as.formula()
-# sigma_formula <- paste("~", paste(cv_data$vars_sigma[,un_groups == best_group],
-#                                collapse="+"),sep="") %>% as.formula()
-# nu_formula <- paste("~", paste(cv_data$vars_nu[,un_groups == best_group],
-#                                   collapse="+"),sep="") %>% as.formula()
-#
-# over_all_fit <- gamlss::gamlss(formula = mu_formula,
-#                            sigma.formula =sigma_formula,
-#                            nu.formula = nu_formula,
-#                            data = fit_data,
-#                            family = gamlss.dist::ZAGA,
-#                            silent=T)
-#
-# over_all_pars <- predict_ZAGA_parameters(fit_data, over_all_fit) %>%
-#   as.data.frame()
-
-# There are some serious outliers - how does one deal with these in practice
-# Where the model fit fails disasterously ?
-
-# Should I be using the fitted parameters,
-# or am I corrrect to refit using all the data?
-# Is this dumb ?
-
-# -----------------------------------------------------------------------------
-#
-# # get obs
-# y_obs <- lead_time_data$RH6
-#
-# # simulate an ensemble
-# over_all_pars = over_all_pars[seq(1,nrow(over_all_pars), num_members), ] # One distribution per member
-# sim_ensemble <- mapply(rZAGA, mu = over_all_pars$mu,
-#                        sigma = over_all_pars$sigma,
-#                        nu = over_all_pars$nu,
-#                        USE.NAMES = TRUE,
-#                        MoreArgs = list(n = num_members)) %>% t()
-#
-# # get crps for emos
-# crps_emos <- crps_ensemble(ens = sim_ensemble, obs = y_obs)
-#
-# # get raw ensemble
-# raw_ensemble = lead_time_data %>%
-#   dplyr::select(starts_with("ENS")) %>%
-#   as.matrix()
-#
-# # get crps for emos
-# crps_raw <- crps_ensemble(ens = raw_ensemble, obs = y_obs)
-#
-# # combine
-# crps_data <- data.frame(crps_raw, crps_emos)
-#
-# # -----------------------------------------------------------------------------
-#
 # # plot crps scores
 # crps_plot <- ggplot(crps_data) +
 #   geom_point(aes(x = crps_raw, y = crps_emos)) +
@@ -292,43 +235,6 @@ ggplot() +
 # ggplotly(crps_plot)
 #
 # sum(crps_raw < crps_emos)/length(crps_raw)
-
-# -----------------------------------------------------------------------------
-#
-# obs = lead_time_data %>% pull(RH6)
-# zero_ind = which(obs == 0)
-# F_y_obs = mapply(pZAGA, q = obs, mu, sigma, nu)#[zero_ind]
-# # F_y_obs[zero_ind] = runif(length(zero_ind))*nu[zero_ind]
-# y_p = ecdf(lead_time_data %>% pull(RH6))(lead_time_data %>% pull(RH6))
-#
-# n = length(F_y_obs)
-# p = 1/bins
-# bins = 20
-# hist_plot_F <- ggplot() +
-#   geom_hline(data= NULL,
-#              yintercept = qbinom(c(0.05, 0.5, 0.95), n, p),
-#              linetype = "dotted") +
-#   geom_histogram(data = NULL, aes(F_y_obs),
-#                  binwidth = 1/bins,
-#                  fill = "gray", alpha = 0.75) +
-#   ggtitle("Rank Histograms EMOS") +
-#   theme_bw() +
-#   theme(axis.title = element_blank(),
-#         axis.text = element_blank())
-#
-# hist_plot_raw <- ggplot() +
-#   geom_hline(data= NULL,
-#              yintercept = qbinom(c(0.05, 0.5, 0.95), n, p),
-#              linetype = "dotted") +
-#   geom_histogram(data = NULL, aes(y_p),
-#                  binwidth = 1/bins,
-#                  fill = "gray", alpha = 0.75) +
-#   ggtitle("Rank Histograms raw") +
-#   theme_bw() +
-#   theme(axis.title = element_blank(),
-#         axis.text = element_blank())
-#
-# hist_plot_F | hist_plot_raw
 
 # -----------------------------------------------------------------------------
 

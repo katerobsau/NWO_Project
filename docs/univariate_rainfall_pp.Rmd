@@ -6,6 +6,8 @@ output: html_document
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE)
 library(tidyverse)
+library(plotly)
+library(MASS)
 ```
 
 ## Event Definition 
@@ -38,14 +40,31 @@ The parameters of this distribution are modelled using covariates estimated from
 
 Belongs in a separate section but needs to be done
 
+## Calibration
+
+For an initisalisation time of 00:00 and the Winter season, a selection rank histograms are shown. The lead times are given by the facet labels on the y-axis. The calibration of the post-processed data is much improved compared with the raw ensemble.
+
+```{r echo = F}
+save_dir <- getwd()
+rank_hist <- readRDS(paste0(save_dir, "/../data/plot_rainfall_rank_histograms.rds"))
+rank_hist
+```
+
 ## Scoring 
 
-CRPS - (by date)
+To compare how well the distribution of the post-processed ensemble and the raw ensemble we have estimated the continous ranked probability scores (CRPS). The distribution is skew as the median (lower two lines) is not a consistent estimator for the mean (upper two lines).^[want to fix the legend for this] Based on the median, the post-processed ensemble consistently scores better than the raw for the lowest quartiles. The differences in the mean score are less pronounced, but improvement is still clearly visible in the post-processed ensemble at longer lead times. However, a greater spread of scores is visible in the upper 95% confidence interval. There is a diurnal cyclic present in the scores which could be incorporated into the post-processing. 
 
-Rank Histograms
+```{r echo = F}
+save_dir <- getwd()
+crps_plot <- readRDS(paste0(save_dir, "/../data/plot_rainfall_crps.rds"))
+crps_plot
+```
+
+## Brier Skill Scores 
 
 Brier Skill Scores By Lead Time
 
+## Diebold-Mariano
 
 
 

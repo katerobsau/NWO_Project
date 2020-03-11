@@ -2,6 +2,7 @@
 
 data_dir = "~/Documents/No_Back_Up_Data/Leeuwarden_Data/"
 score_summary <- readRDS(paste0(data_dir, "rainfall_score_summary.rds"))
+lead_time_list <- readRDS(paste0(data_dir, "rainfall_lead_times.rds"))
 
 rank_info <- 1:length(score_summary) %>%
   lapply(function(i){
