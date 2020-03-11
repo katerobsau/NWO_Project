@@ -115,12 +115,11 @@ cv_list <- lapply(lead_time_list, function(lead_time_data){
 })
 
 # read in the data
-saveRDS(cv_list, paste0(data_dir, "rainfall_gamlss_fits.rds"))
-saveRDS(lead_time_list, paste0(data_dir, "rainfall_gamlss_fits.rds"))
+# saveRDS(cv_list, paste0(data_dir, "rainfall_gamlss_fits.rds"))
+# saveRDS(lead_time_list, paste0(data_dir, "rainfall_lead_times.rds"))
 
 lead_time_list <- readRDS(paste0(data_dir, "rainfall_lead_times.rds"))
 cv_list <- readRDS(paste0(data_dir, "rainfall_gamlss_fits.rds"))
-
 
 # -----------------------------------------------------------------------------
 
@@ -178,45 +177,8 @@ score_summary <- 1:length(cv_list) %>% as.list() %>%
 
 })
 
-# -----------------------------------------------------------------------------
-
-lt_names = iterations %>% do.call("rbind", .) %>% pull(lead_time)
-
-emos_rank <- lapply(score_summary, function(l) l$emos_rank) %>%
-  do.call("cbind", .) %>%
-  as.data.frame() %>%
-  setNames(lt_names) %>%
-  mutate(PP = "EMOS")
-
-raw_rank <- lapply(score_summary, function(l) l$raw_rank) %>%
-  do.call("cbind", .) %>%
-  as.data.frame() %>%
-  setNames(lt_names) %>%
-  mutate(PP = "Raw")
-
-rank_df = rbind(emos_rank, raw_rank) %>%
-  pivot_longer(cols = -PP, names_to = "lead_time", values_to = "Value")
-
-breaks = seq(0.5, num_members + 1.5)
-num_breaks = length(breaks)
-cis = c(0.01, 0.99)
-num_obs = lapply(lead_time_list, nrow) %>% unlist()
-q = num_obs %>%
-  sapply(qbinom, p = cis, prob = 1/num_breaks) %>%
-  t() %>%
-  as.data.frame() %>%
-  setNames(paste('CI', 1:2, sep = "")) %>%
-  mutate(lead_time = lt_names)
-q = rbind(q %>% mutate(PP = 'EMOS'),
-          q %>% mutate(PP ='RAW'))
-
-rank_hist <- ggplot() +
-  geom_histogram(data = rank_df, aes(Value), breaks = breaks) +
-  # geom_hline(data = q, aes(yintercept = CI1), col = "red", linetype = "dashed") +
-  facet_grid(lead_time ~ PP) +
-  geom_hline(yintercept = c(q$CI1, q$CI2), col = "red", linetype = "dashed") +
-  theme_bw()
-rank_hist
+saveRDS(score_summary, paste0(data_dir, "rainfall_score_summary.rds"))
+score_summary <- readRDS(paste0(data_dir, "rainfall_score_summary.rds"))
 
 # -----------------------------------------------------------------------------
 
