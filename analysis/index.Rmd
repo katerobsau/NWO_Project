@@ -18,6 +18,7 @@ Wetterskip Fryslân, one of the Dutch water boards, and is interested in forecas
 * [Background to Tidal Data](details-on-tidal-summaries.html) 
 * [Tidal Climatology](surge_climatology.html)  
 * [Storm Surge Ensemble](ensemble_details.html)  
-* [Univariate Post-Processing](univariate_pp.html)  
+* [Univariate Surge Post-Processing](univariate_pp.html)  
+* [Univariate Rainfall Post-Processing](univariate_rainfall_pp.html)  
 * [Event Based Verification](event-based-verification.html)
 

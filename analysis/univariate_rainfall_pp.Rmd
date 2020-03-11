@@ -10,11 +10,6 @@ library(plotly)
 library(MASS)
 ```
 
-## Event Definition 
-
-Rainfall notion
-? Comment on Hemri / Scheurer / Pinson trajectories
-
 ## Univariate Model 
 
 It is common to observe days without any rainfall. Therefore when modelling rainfall, the distribution used needs to account for the presence of zero-inflated observations, such as the Zero adjusted gamma distribution (ZAGA). Within the Netherlands, this distribution has been used for the statistical post-processing of rainfall, with improved predictive performance demonstrated over the raw ensemble (Whan and Schmeits 2018). Possible alternative distributions include the Censored Shifted Guassion distribution (CSG) (Scheuerer et al. 2017), and the lognormal or inverse Gaussian distributions (Bentzien and Friederichs 2012). However, as we are primarily interested in bivariate processing, we use the ZAGA distribution as our baseline and leave comparisons with other univariate distributions for a different study.
