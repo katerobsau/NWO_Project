@@ -64,6 +64,7 @@ time2 = Sys.time()
 # Save out the mean and sd of the ensemble for ngr fitting
 # saveRDS(ensemble_summary, file = "../../data/ensemble_summary_stats.rds")
 ensemble_summary <- readRDS(file = "../../data/ensemble_summary_stats.rds")
+ensemble_summary <- readRDS(file = "data/ensemble_summary_stats.rds")
 
 # -----------------------------------------------------------------------------
 
@@ -191,7 +192,7 @@ predictive_ecdf_obs <- lapply(1:nrow(cv_scenarios),
 rank_df = NULL
 for(lead_time in lead_times){
   i = which(cv_scenarios$lead_time == lead_time)
-  combined_years =predictive_ecdf_obs[i] %>% unlist()
+  combined_years = predictive_ecdf_obs[i] %>% unlist()
   df_lead_time = data.frame(
     lead_time = rep(lead_time, length(combined_years)),
     obs = combined_years)
@@ -215,13 +216,14 @@ ggplot() +
   theme_bw() +
   theme(axis.title = element_blank(),
         axis.text = element_blank())
+
 print("Would like to add pvalues for chi-sq test to these")
 
 ## ----------------------------------------------------------
 
 library(Rcpp)
-sourceCpp("Helpers/crps_ensemble.cpp")
-# sourceCpp("code/tidalHelpers/Helpers/crps_ensemble.cpp")
+# sourceCpp("Helpers/crps_ensemble.cpp")
+sourceCpp("code/tidalHelpers/Helpers/crps_ensemble.cpp")
 
 wrapper_ensemble_members <- function(i, scenarios,
                                      ngr_predictions,
