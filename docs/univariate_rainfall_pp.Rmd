@@ -1,0 +1,51 @@
+---
+title: "Rainfall: Univariate Post-processing"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+library(tidyverse)
+```
+
+## Event Definition 
+
+Rainfall notion
+? Comment on Hemri / Scheurer / Pinson trajectories
+
+## Univariate Model 
+
+It is common to observe days without any rainfall. Therefore when modelling rainfall, the distribution used needs to account for the presence of zero-inflated observations, such as the Zero adjusted gamma distribution (ZAGA). Within the Netherlands, this distribution has been used for the statistical post-processing of rainfall, with improved predictive performance demonstrated over the raw ensemble (Whan and Schmeits 2018). Possible alternative distributions include the Censored Shifted Guassion distribution (CSG) (Scheuerer et al. 2017), and the lognormal or inverse Gaussian distributions (Bentzien and Friederichs 2012). However, as we are primarily interested in bivariate processing, we use the ZAGA distribution as our baseline and leave comparisons with other univariate distributions for a different study.
+
+The Zero adjusted Gamma distribution is 
+
+$$ f(y \mid \mu, \sigma, \nu) = 
+\begin{cases} 
+    \nu, & \text{for } y = 0 \\
+    (1 - \nu) g(y \mid  \mu, \sigma, \nu) , & \text{for } y > 0, 
+\end{cases}$$
+
+where $g(\cdot)$ is the gamma distribution
+
+$$g(y \mid \mu,\sigma,\nu) =   \dfrac{y^{1/ \sigma^2 - 1} \exp\left(-y  / (\sigma^2\mu) \right) }{(\mu\sigma^2)^{1/ \sigma^2} \Gamma(1/\sigma^2)}$$,
+
+with support $y \in (0,\infty)$, and parameters $\mu>0$, $\sigma>0$ and $0<\nu<1$.
+
+Parameters of this distribution are fitted using a generalised additive model for distibutions in the location, scale and shape family (gamlss) (R. A. Rigby and D. M. Stasinopoulos et al. 2007). 
+The parameters of this distribution are modelled using covariates estimated from the raw ensemble, which include the ensemble mean, ensemble standard deviation and an empirically estimated $\nu$. Inclusion of these covariates in the gamlss model is determined using forward selection and the AIC. There is scope to include more detailed predictors later, see Whan and Schmeits 2018, but for this research we simply require a base model that improves upon the performance of the raw ensemble.^[I created a simulated example where overfitting was a concern and the correct predictors were not always selected. I need to explore this further]
+
+## Climatology 
+
+Belongs in a separate section but needs to be done
+
+## Scoring 
+
+CRPS - (by date)
+
+Rank Histograms
+
+Brier Skill Scores By Lead Time
+
+
+
+
