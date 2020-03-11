@@ -9,9 +9,10 @@
 <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
 
+<meta name="author" content="Kate Saunders" />
 
 
-<title>Event Based Verification</title>
+<title>Temporal Trajectories</title>
 
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -383,7 +384,9 @@ div.section {
 
 
 
-<h1 class="title toc-ignore">Event Based Verification</h1>
+<h1 class="title toc-ignore">Temporal Trajectories</h1>
+<h4 class="author">Kate Saunders</h4>
+<h4 class="date">25/02/2020</h4>
 
 </div>
 
@@ -569,152 +572,16 @@ Message
 Rmd
 </td>
 <td>
-<a href="https://github.com/katerobsau/NWO_Project/blob/52c74688ed588ebdcce96dc3599a4f2c3b9e3908/analysis/event-based-verification.Rmd" target="_blank">52c7468</a>
+<a href="https://github.com/katerobsau/NWO_Project/blob/2b0604f439bb346858dd78b51a6043b3204710ac/analysis/multivariate-scoring.Rmd" target="_blank">2b0604f</a>
 </td>
 <td>
 Kate Saunders
 </td>
 <td>
-2020-02-20
+2020-03-11
 </td>
 <td>
-Small edits
-</td>
-</tr>
-<tr>
-<td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/katerobsau/NWO_Project/ae14a6eed83fc6dc2fb264162a1a5224d6687584/docs/event-based-verification.html" target="_blank">ae14a6e</a>
-</td>
-<td>
-Kate Saunders
-</td>
-<td>
-2019-11-01
-</td>
-<td>
-small changes
-</td>
-</tr>
-<tr>
-<td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/katerobsau/NWO_Project/397f336aa6bf07a7e0b997a61f0113e97938b659/docs/event-based-verification.html" target="_blank">397f336</a>
-</td>
-<td>
-Kate Saunders
-</td>
-<td>
-2019-11-01
-</td>
-<td>
-Meeting notes from Pier
-</td>
-</tr>
-<tr>
-<td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/katerobsau/NWO_Project/1599c2299fbb99707c7da424149c8b29548635ba/docs/event-based-verification.html" target="_blank">1599c22</a>
-</td>
-<td>
-katerobsau
-</td>
-<td>
-2019-10-30
-</td>
-<td>
-Build site.
-</td>
-</tr>
-<tr>
-<td>
-Rmd
-</td>
-<td>
-<a href="https://github.com/katerobsau/NWO_Project/blob/5f715eeb5c51c484e75c9fc45c87a0e4637ef5a5/analysis/event-based-verification.Rmd" target="_blank">5f715ee</a>
-</td>
-<td>
-katerobsau
-</td>
-<td>
-2019-10-30
-</td>
-<td>
-updating the site
-</td>
-</tr>
-<tr>
-<td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/katerobsau/NWO_Project/5f715eeb5c51c484e75c9fc45c87a0e4637ef5a5/docs/event-based-verification.html" target="_blank">5f715ee</a>
-</td>
-<td>
-katerobsau
-</td>
-<td>
-2019-10-30
-</td>
-<td>
-updating the site
-</td>
-</tr>
-<tr>
-<td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/katerobsau/NWO_Project/b8920db12b94fa95a35ee156fd7c97f947537caa/docs/event-based-verification.html" target="_blank">b8920db</a>
-</td>
-<td>
-katerobsau
-</td>
-<td>
-2019-10-17
-</td>
-<td>
-Build site.
-</td>
-</tr>
-<tr>
-<td>
-Rmd
-</td>
-<td>
-<a href="https://github.com/katerobsau/NWO_Project/blob/eec58cd9922347a482ef37d6e21b8e73da1e56fa/analysis/event-based-verification.Rmd" target="_blank">eec58cd</a>
-</td>
-<td>
-katerobsau
-</td>
-<td>
-2019-10-17
-</td>
-<td>
-added event based verification page
-</td>
-</tr>
-<tr>
-<td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/katerobsau/NWO_Project/eec58cd9922347a482ef37d6e21b8e73da1e56fa/docs/event-based-verification.html" target="_blank">eec58cd</a>
-</td>
-<td>
-katerobsau
-</td>
-<td>
-2019-10-17
-</td>
-<td>
-added event based verification page
+Notes on temporal trajectories
 </td>
 </tr>
 </tbody>
@@ -724,30 +591,15 @@ added event based verification page
 </div>
 </div>
 </div>
-<!-- ```{r tidalPackage read, echo = FALSE, warning = FALSE, message = FALSE} -->
-<!-- package_dir = "code/tidalHelpers" -->
-<!-- install.packages(pkgs = "code/tidalHelpers", repos = NULL, type = "source") -->
-<!-- library(tidalHelpers) -->
-<!-- ``` -->
-<p>In contrast to standard post-processing, we are interested in specific features of the trajectories that are timing and duration dependent. Consider the following examples:</p>
-<ul>
-<li>When does the storm surge peak?</li>
-</ul>
-<p><span class="math display">\[g(\mathbf{s}_t; k) = \displaystyle{\text{argmax}_{k \in K}} \left( S_{t+k} \right)\]</span></p>
-<ul>
-<li>What is the maximum height of the storm surge?</li>
-</ul>
-<p><span class="math display">\[g(\mathbf{s}_t; k) = \displaystyle{\text{max}_{k \in K}} \left( S_{t+k} \right)\]</span></p>
-<ul>
-<li>How long does the storm surge last?</li>
-</ul>
-<p><span class="math display">\[g(\mathbf{s}_t; k) = \tfrac{1}{K\Delta{k}}\sum_{k \in K} \mathbb{I}\left(S_{t+k} &gt; 0 \right)\]</span></p>
-<ul>
-<li>How long is the total water level above a given risk threshold, <span class="math inline">\(r\)</span>?</li>
-</ul>
-<p><span class="math display">\[g(\mathbf{s}_t; k, r) = \tfrac{1}{K\Delta{k}}\sum_{k \in K} \mathbb{I}\left(S_{t+k} + h_{t+k} &gt; r \right)\]</span></p>
-<p>These quantitites can empircally be estimated from the raw ensemble:</p>
-<p><span class="math display">\[ P_t \left[g(\mathbf{s}_t, \theta)\right] = \tfrac{1}{M} \sum_{m=1}^M g(\mathbf{s}^{(m)}_t, \theta).\]</span> Pinson et al. 2012 refers to this as event-based approach. The questions is now whether these scenario based metrics can be used to optimise parameter estimates during post-processing, opposed to evaluation after the fact. Of note is that assessing trajectories with standard skill metrics, like the Brier Skill Score, requires taking this autocorrelation and aggreation into account. We also must adjust for the increasing variability at longer lead times.</p>
+<div id="scoring-temporal-trajectories" class="section level2">
+<h2>Scoring temporal trajectories</h2>
+<p>Hydrological based models require the full temporal trajectory of the rainfall and storm surge forecast to estimate the discharge of water and consequently flood risk. The ability of the forecasts to reliably reproduce the temporal dependence within the observations is therefore very important.</p>
+<p>Standard scoring methods can be used to assess the reliability of the multivariate forecast. These include the energy score (cite), diebold-sebastiani(cite), multivariate rank-historgrams (cite), diebold-mariano (cite) and variogram score (cite). Unfortunately, there is no singular and definitive scoring method, and a combination is always recommended (cite/textbook).</p>
+<p>Scheuerer and Hamill (2015) advocate for the p-variogram, showing it has strong discriminative power for estimating the correct correlation structure. The variogram score however is not strictly proper, and therefore has limitations. (i) It only depends on the pth absolute moment and is not sensitive to differences in the other moments. (ii) It can not detect bias that cancels out in all components. (iii) The magnitude and variability of weakly correlated components contributes more to the total score than more strongly correlated components. These three factors have very real implication for the scoring of temporal trajectories related to storm surge forecasts.</p>
+<p> When lagged temporal weights are used, there is a marked improvement in discrimation between the different methods of restoring dependence. This unsurprising as weights given the importance of weights and user knowledge in the variogram score. Significant autocorrelation within the observations was used estimate these temporally lagged weights.</p>
+<p>Further, if we take a rolling window of two days and estimate the variogram score, we observe a decrease in score at longer lead times. Given that weakly correlated components can reduce and mask the importance within the score of more strongly correlated components, decreases in weights at longer lead times is necessary. The skill of the univariate forecast at longer lead times was used to relatively decrease the importance of these weights at longer lead times.</p>
+<p> Intially, we were surprised to observe little difference in the variogram score for the raw ensemble and the other methdos with restored dependence. Particularly, given we know univariate post-processing improves the skill of the forecast. Examining the energy score the raw ensemble is rejected in favour of the other methods. This reflects the inability of the variogram to detect large scale biases.</p>
+<p> We note the energy score should not be used solely given its poor discrimination when the correlation is misspecified (Scheuerer and Hammill 2005). We observe this as the energy doesn’t discriminate correctly between that the univariate method without correctly restored dependence and the other multivariate post-processed methods. A combination of the p-variogram score and energy score is necessary in this instance.</p>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
@@ -771,25 +623,15 @@ attached base packages:
 [1] stats     graphics  grDevices utils     datasets  methods   base     
 
 other attached packages:
- [1] cowplot_1.0.0   forcats_0.4.0   stringr_1.4.0   dplyr_0.8.4    
- [5] purrr_0.3.3     readr_1.3.1     tidyr_1.0.2     tibble_2.1.3   
- [9] ggplot2_3.2.1   tidyverse_1.3.0 workflowr_1.4.0
+[1] workflowr_1.4.0
 
 loaded via a namespace (and not attached):
- [1] tidyselect_1.0.0 xfun_0.12        haven_2.2.0      lattice_0.20-38 
- [5] colorspace_1.4-1 vctrs_0.2.3      generics_0.0.2   htmltools_0.4.0 
- [9] yaml_2.2.1       rlang_0.4.4      pillar_1.4.3     withr_2.1.2     
-[13] glue_1.3.1       DBI_1.1.0        dbplyr_1.4.2     modelr_0.1.6    
-[17] readxl_1.3.1     lifecycle_0.1.0  munsell_0.5.0    gtable_0.3.0    
-[21] cellranger_1.1.0 rvest_0.3.5      evaluate_0.14    knitr_1.28      
-[25] fansi_0.4.1      broom_0.5.4      Rcpp_1.0.3       backports_1.1.5 
-[29] scales_1.1.0     jsonlite_1.6.1   fs_1.3.1         hms_0.5.3       
-[33] digest_0.6.25    stringi_1.4.6    grid_3.5.2       rprojroot_1.3-2 
-[37] cli_2.0.1        tools_3.5.2      magrittr_1.5     lazyeval_0.2.2  
-[41] crayon_1.3.4     whisker_0.4      pkgconfig_2.0.3  xml2_1.2.2      
-[45] reprex_0.3.0     lubridate_1.7.4  assertthat_0.2.1 rmarkdown_2.1   
-[49] httr_1.4.1       rstudioapi_0.11  R6_2.4.1         nlme_3.1-141    
-[53] git2r_0.26.1     compiler_3.5.2  </code></pre>
+ [1] Rcpp_1.0.3      digest_0.6.25   rprojroot_1.3-2 backports_1.1.5
+ [5] git2r_0.26.1    magrittr_1.5    evaluate_0.14   rlang_0.4.4    
+ [9] stringi_1.4.6   fs_1.3.1        whisker_0.4     rmarkdown_2.1  
+[13] tools_3.5.2     stringr_1.4.0   glue_1.3.1      xfun_0.12      
+[17] yaml_2.2.1      compiler_3.5.2  htmltools_0.4.0 knitr_1.28     </code></pre>
+</div>
 </div>
 
 
