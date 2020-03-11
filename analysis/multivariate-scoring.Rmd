@@ -1,0 +1,35 @@
+---
+title: "Temporal Trajectories"
+author: "Kate Saunders"
+date: "25/02/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Scoring temporal trajectories
+
+Hydrological based models require the full temporal trajectory of the rainfall and storm surge forecast to estimate the discharge of water and consequently flood risk. The ability of the forecasts to reliably reproduce the temporal dependence within the observations is therefore very important. 
+
+Standard scoring methods can be used to assess the reliability of the multivariate forecast. These include the energy score (cite), diebold-sebastiani(cite), multivariate rank-historgrams (cite), diebold-mariano (cite) and variogram score (cite). Unfortunately, there is no singular and definitive scoring method, and a combination is always recommended (cite/textbook). 
+
+Scheuerer and Hamill (2015) advocate for the p-variogram, showing it has strong discriminative power for estimating the correct correlation structure. The variogram score however is not strictly proper, and therefore has limitations. (i) It only depends on the pth absolute moment and is not sensitive to  differences in the other moments. (ii) It can not detect bias that cancels out in all components. (iii) The magnitude and variability of weakly correlated components contributes more to the total score than more strongly correlated components. These three factors have very real implication for the scoring of temporal trajectories related to storm surge forecasts.
+
+\textit{On weights:}
+When lagged temporal weights are used, there is a marked improvement in discrimation between the different methods of restoring dependence. This unsurprising as weights given the importance of weights and user knowledge in the variogram score. Significant autocorrelation within the observations was used estimate these temporally lagged weights. 
+
+Further, if we take a rolling window of two days and estimate the variogram score, we observe a decrease in score at longer lead times. Given that weakly correlated components can reduce and mask the importance within the score of more strongly correlated components, decreases in weights at longer lead times is necessary. The skill of the univariate forecast at longer lead times was used to relatively decrease the importance of these weights at longer lead times.
+
+\textit{On undetectable bias:}
+Intially, we were surprised to observe little difference in the variogram score for the raw ensemble and the other methdos with restored dependence. Particularly, given we know univariate post-processing improves the skill of the forecast. Examining the energy score the raw ensemble is rejected in favour of the other methods. This reflects the inability of the variogram to detect large scale biases. 
+
+\textit{On multipe scores:} 
+We note the energy score should not be used solely given its poor discrimination when the correlation is misspecified (Scheuerer and Hammill 2005). We observe this as the energy doesn't discriminate correctly between that the univariate method without correctly restored dependence and the other multivariate post-processed methods. A combination of the p-variogram score and energy score is necessary in this instance.
+
+
+
+
+
+
