@@ -22,6 +22,7 @@ unzip_element_data <- function(zip_dir, date_str, lead_time, stn_str,
 
   element_data <- Convert_element_to_data_frame(element_list = element_list)
 
-  Write_element_data(element_data = element_data, output_dir = output_dir, file_name = file_name)
+  Write_element_data(element_data = element_data, output_dir = output_dir,
+                     file_name = file_name)
 
 }

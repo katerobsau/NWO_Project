@@ -148,5 +148,6 @@ Write_element_data <- function(element_data, output_dir, file_name){
 
   output_path  = paste(output_dir, file_name, ".csv", sep = "")
   write_csv(x = element_data, path = output_path, append = FALSE)
+
 }
 
