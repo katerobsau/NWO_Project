@@ -41,9 +41,10 @@ predictor_data <- combined_data %>%
         Group = lubridate::year(Forecast_Date) +
            -1*(lubridate::month(Forecast_Date) <=2))
 warning("Hard coded end of Winter")
-#
-# ggplot(data= predictor_data %>% filter(Season == 0)) +
-#   geom_hex(aes(x = sd, y = nu_empirical))
+
+# read in the data
+saveRDS(predictor_data, paste0(data_dir, "rainfall_predictor_data.rds"))
+predictor_data <- readRDS(paste0(data_dir, "rainfall_predictor_data.rds"))
 
 # -----------------------------------------------------------------------------
 
@@ -179,64 +180,4 @@ score_summary <- 1:length(cv_list) %>% as.list() %>%
 
 saveRDS(score_summary, paste0(data_dir, "rainfall_score_summary.rds"))
 score_summary <- readRDS(paste0(data_dir, "rainfall_score_summary.rds"))
-
-# -----------------------------------------------------------------------------
-
-group_summaries <- lapply(score_summary, function(l){l$crps_summary})
-
-crps_data_all <- 1:length(score_summary) %>%
-  lapply(function(i){
-    l =score_summary[[i]]
-    df = l$crps
-    return(df)
-  }) %>%
-  do.call("rbind", .)
-  as.data.frame() %>%
-  setNames(lt_names) %>%
-  pivot_longer(cols = 1:2, names_to = "lead_time", values_to = "CRPS")
-
-ggplot() +
-  # geom_ribbon(aes(x = lead_time , ymin = `Min.`, ymax = `Max.`),
-  #             alpha = 0.1, fill = "blue") +
-  geom_ribbon(data = crps_summary, aes(x = lead_time , ymin = `1st Qu.`, ymax = `3rd Qu.`),
-              alpha = 0.2, fill = "blue") +
-  geom_point(data = crps_summary,aes(x = lead_time, y = Median), col = "blue") +
-  geom_point(data = crps_summary,aes(x = lead_time, y = Mean), col = "blue", shape = 3) +
-  geom_ribbon(data = crps_summary_raw, aes(x = lead_time , ymin = `1st Qu.`, ymax = `3rd Qu.`),
-              alpha = 0.2, fill = "red") +
-  geom_point(data = crps_summary_raw, aes(x = lead_time, y = Median), col = "red") +
-  geom_point(data = crps_summary_raw, aes(x = lead_time, y = Mean), col = "red", shape = 3) +
-  theme_bw() +
-  ylim(0,0.25)
-
-# # Some models did not fit!!
-# # Check the presence of outliers doesn't influence this
-# col_sd <- apply(pars, 2, sd)
-# col_median <- apply(pars, 2, median)
-# outlier_criterion <- rep(c(col_median + col_sd*3), times = nrow(pars)) %>%
-#   matrix(ncol = 3, byrow = TRUE)
-# rm_rows <- which(pars[,1] > outlier_criterion[,1]) %>% unique()
-# best_group_no_outliers <- crps_data[-rm_rows, ] %>%
-#   group_by(group) %>%
-#   summarise(mean = mean(crps_emos), median = median(crps_emos)) %>%
-#   ungroup()
-
-# -----------------------------------------------------------------------------
-#
-# # plot crps scores
-# crps_plot <- ggplot(crps_data) +
-#   geom_point(aes(x = crps_raw, y = crps_emos)) +
-#   geom_abline(slope = 1, intercept = 0) +
-#   coord_fixed() +
-#   ylim(range(crps_raw))
-# crps_plot
-#
-# library(plotly)
-# ggplotly(crps_plot)
-#
-# sum(crps_raw < crps_emos)/length(crps_raw)
-
-# -----------------------------------------------------------------------------
-
-
 

@@ -123,7 +123,6 @@ wrapper_ngr_fits <- function(i, season_data, scenarios){
   return(NGR_fit)
 }
 
-
 ngr_fits <- lapply(1:nrow(cv_scenarios),
                    wrapper_ngr_fits,
                    season_data = season_data,
@@ -272,6 +271,8 @@ pars = lapply(1:nrow(cv_scenarios),
               cv_scenarios = cv_scenarios) %>%
   bind_rows()
 
+# saveRDS(pars, file = "data/surge_pars.rds")
+
 ensemble_members <- lapply(1:nrow(cv_scenarios),
                               wrapper_ensemble_members,
                               scenarios = cv_scenarios,
@@ -349,8 +350,8 @@ time2 = Sys.time()
 # saveRDS(ensemble_data_filtered,
 #         file = "../../data/ensemble_filtered.rds")
 #
-ensemble_data_filtered <- readRDS(file = "../../data/ensemble_filtered.rds")
-# ensemble_data_filtered <- readRDS(file = "data/ensemble_filtered.rds")
+# ensemble_data_filtered <- readRDS(file = "../../data/ensemble_filtered.rds")
+ensemble_data_filtered <- readRDS(file = "data/ensemble_filtered.rds")
 ensemble_winter <- ensemble_data_filtered %>%
   mutate(date = str_sub(date, 1, 8) %>% lubridate::as_date()) %>%
   mutate(year = lubridate::year(date), month = lubridate::month(date),

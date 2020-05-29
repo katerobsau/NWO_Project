@@ -13,6 +13,17 @@ min_na_threshold = 3
 
 #  ----------------------------------------------------------------------------
 
+surge_ensemble_editted <- readRDS(file = "data/ensemble_filtered.rds")
+pars <- readRDS(file = "data/surge_pars.rds")
+
+ensemble_winter <- surge_ensemble_editted %>%
+  mutate(date = str_sub(date, 1, 8) %>% lubridate::as_date()) %>%
+  mutate(year = lubridate::year(date), month = lubridate::month(date),
+         day = lubridate::day(date)) %>%
+  filter(month >= 10 | month <= 4) %>%
+  filter(!(month == 10 & day <= 15) & !(month == 4 & day >= 15)) %>%
+  mutate(season = ifelse(month >= 10, year, year - 1))
+
 raw_ensemble <- ensemble_winter %>%
   dplyr::select(date, t, member, wsur) %>%
   pivot_wider(names_from = c("member"), values_from = "wsur") %>%
@@ -23,21 +34,20 @@ par_info = pars %>% mutate(date = dates) %>%
   mutate(mean = mu, sd = sigma)
 
 Y_obs <- ensemble_winter %>%
-  select(sur, date, t) %>%
+  dplyr::select(sur, date, t) %>%
   distinct() %>%
   pivot_wider(values_from = sur, names_from = date) %>%
-  select(-t)
+  dplyr::select(-t)
 # Need to handle t vs lead_time better
 
 #  ----------------------------------------------------------------------------
 
 # Raw Ensemble
-
 dates <- raw_ensemble %>% pull(date) %>% unique()
 X_raw <- lapply(dates, function(date_val){
   raw_ensemble %>%
-    filter(date == date_val) %>%
-    select(starts_with("fc")) %>%
+    dplyr::filter(date == date_val) %>%
+    dplyr::select(starts_with("fc")) %>%
     as.matrix()
 })
 names(X_raw) = dates
@@ -45,14 +55,13 @@ names(X_raw) = dates
 #  ----------------------------------------------------------------------------
 
 # ECC methods
-
 set.seed(1)
 Y_uni_eccR <- lapply(dates, function(date_val){
   depPPR::sample_ecc_members(num_members = num_members,
                           function_type = rnorm,
                           pars = par_info %>%
-                            filter(date == date_val) %>%
-                            select(mean, sd),
+                            dplyr::filter(date == date_val) %>%
+                            dplyr::select(mean, sd),
                           ecc_type = 'R')
 })
 names(Y_uni_eccR) = dates
@@ -61,8 +70,8 @@ Y_uni_eccQ <- lapply(dates, function(date_val){
   depPPR::sample_ecc_members(num_members = num_members,
                           function_type = qnorm,
                           pars = par_info %>%
-                            filter(date == date_val) %>%
-                            select(mean, sd),
+                            dplyr::filter(date == date_val) %>%
+                            dplyr::select(mean, sd),
                           ecc_type = 'Q')
 })
 names(Y_uni_eccQ) = dates
@@ -137,12 +146,24 @@ d = length(obs_list[[1]])
 dependence_types = c("ECC-Q", "ECC-R",  "Schaake",
                      "Uni-PP", "Raw")
 
+lead_times = unique(raw_ensemble$lead_time)
+
+filtering = 11:19
+d = length(filtering)
+w_vs <- matrix(1, nrow = d, ncol = d)
+max_d_diff = 10
+# for(d1 in 1:d){for(d2 in 1:d){
+#   d_dist = d1 - d2
+#   if(d_dist > max_d_diff) d_dist = 0
+#   w_vs[d1,d2] <- 0.5^abs(d_dist)
+# }}
+
 score_df <- NULL
 for(i in 1:length(obs_list)){
 
   print(names(obs_list)[i])
   y = obs_list[[i]] %>% unlist() %>% as.vector()
-  y = y[3:8]
+  y = y[filtering]
   if(any(is.na(y))) next
 
   date_val  = names(obs_list)[i]
@@ -159,10 +180,11 @@ for(i in 1:length(obs_list)){
 
     dat = list_obj[[j]]
     if(any(is.na(dat))) next
-    if(nrow(dat) != d) next
+    if(nrow(dat) != length(lead_times)) next
 
-    dat = dat[3:8, ]
-    vs_score = vs_sample(y = y, dat = dat)# , w = w_vs)
+    dat = dat[filtering, ]
+    if(nrow(dat) != d) next
+    vs_score = vs_sample(y = y, dat = dat , w = w_vs)
     es_score = es_sample(y = y, dat = dat)
     score_df_i <- data.frame(vs  = vs_score, es = es_score,
                            date = date_val,
@@ -177,24 +199,26 @@ score_df %>%
   summarise(vs_med = median(vs),
             es_med = median(es)) %>%
   ungroup() %>%
-  arrange(es_med)
+  arrange(vs_med)
 
-plot_score_df <- score_df  %>%
-  filter(vs <= 10 & es <= 10)
+plot_score_df <- score_df  #%>%
+  # filter(vs <= 10 & es <= 10)
+x_axis_max <- quantile(score_df$es, 0.99)
 
-ggplot(plot_score_df, aes(vs, col = dep_type)) +
+ggplot(plot_score_df, aes(es, col = dep_type)) +
   # geom_boxplot(aes(y = vs)) +
   geom_density(aes(fill = dep_type), alpha = 0.2)+
   # aes(fill = vs),  position = "fill", alpha = 0.2
-  # xlim(c(0, 10)) +
+  scale_fill_discrete(name = "Dependence") +
+  scale_color_discrete(name = "Dependence") +
+  xlab("Energy Score") +
+  xlim(c(0, x_axis_max)) +
+  ylab("Density") +
+  ggtitle(paste(lead_times[filtering] %>% range(), collapse = "-")) +
   theme_bw()
-
 
 # -----------------------------------------------------------------------------
 #
-# d = nrow(day_obs)
-# w_vs <- matrix(NA, nrow = d, ncol = d)
-# for(d1 in 1:d){for(d2 in 1:d){w_vs[d1,d2] <- 0.5^abs(d1-d2)}}
 #
 # p_score_pp = vs_sample(y = day_obs$sur,
 #                     dat = day_pp %>%
