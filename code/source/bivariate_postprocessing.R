@@ -34,9 +34,9 @@ surge_ensemble <- surge_ensemble_editted %>%
   pivot_wider(names_from = MEMBER, values_from = FRC_SUR) %>%
   dplyr::mutate(INIT_TIME = 0) %>%
   dplyr::mutate(INIT_TIME = paste(INIT_TIME, ":0:0", sep = "")) %>%
-  dplyr::mutate(INIT_TIME = lubridate::hms(INIT_TIME)) %>%
+  dplyr::mutate(INIT_TIME = lubridate::as.duration(lubridate::hms(INIT_TIME))) %>%
   dplyr::mutate(LEAD_TIME = paste(LEAD_TIME, ":0:0", sep = "")) %>%
-  dplyr::mutate(LEAD_TIME = lubridate::hms(LEAD_TIME)) %>%
+  dplyr::mutate(LEAD_TIME = lubridate::as.duration(lubridate::hms(LEAD_TIME))) %>%
   dplyr::mutate(FORECAST_DATE = substr(FORECAST_DATE,1, 8)) %>%
   dplyr::mutate(FORECAST_DATE = lubridate::as_date(FORECAST_DATE))
 
@@ -48,24 +48,15 @@ surge_pars <- surge_pars_raw %>%
   dplyr::mutate(ELEMENT = "SUR") %>%
   dplyr::mutate(INIT_TIME = 0) %>%
   dplyr::mutate(INIT_TIME = paste(INIT_TIME, ":0:0", sep = "")) %>%
-  dplyr::mutate(INIT_TIME = lubridate::hms(INIT_TIME)) %>%
+  dplyr::mutate(INIT_TIME = lubridate::as.duration(lubridate::hms(INIT_TIME))) %>%
   dplyr::mutate(LEAD_TIME = paste(LEAD_TIME, ":0:0", sep = "")) %>%
-  dplyr::mutate(LEAD_TIME = lubridate::hms(LEAD_TIME)) %>%
+  dplyr::mutate(LEAD_TIME = lubridate::as.duration(lubridate::hms(LEAD_TIME))) %>%
   dplyr::mutate(FORECAST_DATE = lubridate::as_date(FORECAST_DATE))
 
 surge_data <- full_join(
-  surge_ensemble %>%
-    dplyr::mutate(INIT_TIME = as.character(INIT_TIME),
-      LEAD_TIME = as.character(LEAD_TIME)),
-  surge_pars %>%
-    dplyr::mutate(INIT_TIME = as.character(INIT_TIME),
-      LEAD_TIME = as.character(LEAD_TIME)),
-    by = c("FORECAST_DATE", "INIT_TIME", "LEAD_TIME", "ELEMENT")) %>%
-  dplyr::mutate(INIT_TIME = ifelse(INIT_TIME == "0S", "0H 0M 0S", INIT_TIME)) %>%
-  dplyr::mutate(INIT_TIME = lubridate::hms(INIT_TIME),
-                LEAD_TIME = lubridate::hms(LEAD_TIME))
-
-warning("WHY DO IT NEED TO DO THIS ITS STUPID CHAR VS DATE RUBBISH!!!")
+  surge_ensemble,
+  surge_pars,
+  by = c("FORECAST_DATE", "INIT_TIME", "LEAD_TIME", "ELEMENT"))
 
 ## RAINFALL -------------------------------------------------------------------
 
@@ -83,7 +74,9 @@ rainfall_ensemble = rainfall_ensemble_editted %>%
                 FORECAST_DATE = Forecast_Date,
                 starts_with("ENS"),
                 OBS = RH6) %>%
-  dplyr::mutate(ELEMENT = "PRCP") #%>%
+  dplyr::mutate(ELEMENT = "PRCP") %>%
+  dplyr::mutate(INIT_TIME = lubridate::as.duration(INIT_TIME),
+                LEAD_TIME = lubridate::as.duration(LEAD_TIME))
   # dplyr::rename_at(vars(starts_with("ENS")), funs(str_replace(., "ENS" ,"ENS_RF")))
 
 ### UNIVARIATE PARS
@@ -92,32 +85,31 @@ rainfall_pars <- rainfall_pars_raw %>%
                 LEAD_TIME = lead_time,
                 FORECAST_DATE  =  Forecast_Date,
                 mu = mu, sigma = sigma, nu = nu) %>%
-  dplyr::mutate(ELEMENT = "PRCP")
+  dplyr::mutate(ELEMENT = "PRCP") %>%
+  dplyr::mutate(INIT_TIME = lubridate::as.duration(INIT_TIME),
+                LEAD_TIME = lubridate::as.duration(LEAD_TIME))
 
 rainfall_data <- full_join(
-  rainfall_ensemble %>%
-    dplyr::mutate(INIT_TIME = as.character(INIT_TIME),
-                  LEAD_TIME = as.character(LEAD_TIME)),
-  rainfall_pars %>%
-    dplyr::mutate(INIT_TIME = as.character(INIT_TIME),
-                  LEAD_TIME = as.character(LEAD_TIME)),
-  by = c("FORECAST_DATE", "INIT_TIME", "LEAD_TIME", "ELEMENT")) %>%
-  dplyr::mutate(INIT_TIME = ifelse(INIT_TIME == "0S", "0H 0M 0S", INIT_TIME)) %>%
-  dplyr::mutate(INIT_TIME = lubridate::hms(INIT_TIME),
-                LEAD_TIME = lubridate::hms(LEAD_TIME))
+  rainfall_ensemble,
+  rainfall_pars,
+  by = c("FORECAST_DATE", "INIT_TIME", "LEAD_TIME", "ELEMENT"))
 
 ## SURGE + RAINFALL ENSEMBLE --------------------------------------------------
 
-bivar_ensemble = bind_rows(
-  surge_data %>%
-    dplyr::mutate(INIT_TIME = as.character(INIT_TIME),
-                  LEAD_TIME = as.character(LEAD_TIME)),
-  rainfall_data %>%
-    dplyr::mutate(INIT_TIME = as.character(INIT_TIME),
-                  LEAD_TIME = as.character(LEAD_TIME))) %>%
-  dplyr::mutate(INIT_TIME = ifelse(INIT_TIME == "0S", "0H 0M 0S", INIT_TIME)) %>%
-  dplyr::mutate(INIT_TIME = lubridate::hms(INIT_TIME),
-                LEAD_TIME = lubridate::hms(LEAD_TIME))
+bivar_ensemble = bind_rows(surge_data, rainfall_data) %>%
+  dplyr::mutate(INIT_TIME = lubridate::as.duration(INIT_TIME)) %>%
+  dplyr::mutate(LEAD_TIME = lubridate::as.duration(LEAD_TIME))
+
+# bivar_ensemble = bind_rows(
+#   surge_data %>%
+#     dplyr::mutate(INIT_TIME = as.character(INIT_TIME),
+#                   LEAD_TIME = as.character(LEAD_TIME)),
+#   rainfall_data %>%
+#     dplyr::mutate(INIT_TIME = as.character(INIT_TIME),
+#                   LEAD_TIME = as.character(LEAD_TIME))) %>%
+#   dplyr::mutate(INIT_TIME = ifelse(INIT_TIME == "0S", "0H 0M 0S", INIT_TIME)) %>%
+#   dplyr::mutate(INIT_TIME = lubridate::hms(INIT_TIME),
+#                 LEAD_TIME = lubridate::hms(LEAD_TIME))
 
 ## SAMPLE FROM UNIVARIATE POST-PROCESSSED PDF ---------------------------------
 
@@ -149,16 +141,20 @@ names(rainfall_sampled_ens) <-
 rainfall_sampled_ens <- bind_cols(bivar_ensemble %>% filter(ELEMENT == "PRCP"),
                                   rainfall_sampled_ens) # joined the important stuff back in
 
-bivar_sampled_ens = bind_rows(
-  surge_sampled_ens %>%
-    dplyr::mutate(INIT_TIME = as.character(INIT_TIME),
-                  LEAD_TIME = as.character(LEAD_TIME)),
-  rainfall_sampled_ens %>%
-    dplyr::mutate(INIT_TIME = as.character(INIT_TIME),
-                  LEAD_TIME = as.character(LEAD_TIME))) %>%
-  dplyr::mutate(INIT_TIME = ifelse(INIT_TIME == "0S", "0H 0M 0S", INIT_TIME)) %>%
-  dplyr::mutate(INIT_TIME = lubridate::hms(INIT_TIME),
-                LEAD_TIME = lubridate::hms(LEAD_TIME))
+bivar_sampled_ens = bind_rows(surge_sampled_ens, rainfall_sampled_ens) %>%
+  dplyr::mutate(INIT_TIME = lubridate::as.duration(INIT_TIME)) %>%
+  dplyr::mutate(LEAD_TIME = lubridate::as.duration(LEAD_TIME))
+
+# bivar_sampled_ens = bind_rows(
+#   surge_sampled_ens %>%
+#     dplyr::mutate(INIT_TIME = as.character(INIT_TIME),
+#                   LEAD_TIME = as.character(LEAD_TIME)),
+#   rainfall_sampled_ens %>%
+#     dplyr::mutate(INIT_TIME = as.character(INIT_TIME),
+#                   LEAD_TIME = as.character(LEAD_TIME))) %>%
+#   dplyr::mutate(INIT_TIME = ifelse(INIT_TIME == "0S", "0H 0M 0S", INIT_TIME)) %>%
+#   dplyr::mutate(INIT_TIME = lubridate::hms(INIT_TIME),
+#                 LEAD_TIME = lubridate::hms(LEAD_TIME))
 
 # Ideally, I'd like to do this all in one hit
 # Problem have to select the parameters (could do it in a list)
@@ -211,11 +207,12 @@ ECC_forecast2 <- bind_cols(bivar_sampled_ens1 %>%
 # Get the observation for each forecast day
 obs_data_long <- bivar_sampled_ens1 %>%
   dplyr::select(-starts_with("ENS"), -starts_with("SMP"),
-                -mean, -sd, -mu, -sigma, -nu) %>%
-  dplyr::mutate(LEAD_TIME = as.character(LEAD_TIME),
-                INIT_TIME = as.character(INIT_TIME))
+                -mean, -sd, -mu, -sigma, -nu) #%>%
+  # dplyr::mutate(LEAD_TIME = as.character(LEAD_TIME),
+                # INIT_TIME = as.character(INIT_TIME))
 obs_data <- obs_data_long %>%
-  pivot_wider(names_from = FORECAST_DATE, values_from = OBS)
+  # pivot_wider(names_from = c(FORECAST_DATE, INIT_TIME), values_from = OBS)
+  pivot_wider(names_from = c(FORECAST_DATE), values_from = OBS)
 
 # Check NA values
 na_cols = which(colSums(is.na(obs_data)) == 0)
@@ -233,10 +230,10 @@ print("I'd like to plot these (ie. surge, prcp, both)")
 bivar_split <- bivar_sampled_ens1 %>%
   dplyr::select(-starts_with("ENS"),
                 -mu, -sigma, -mean, -sd, -nu) %>%
-  dplyr::mutate(INIT_TIME = as.character(INIT_TIME)) %>%
+  # dplyr::mutate(INIT_TIME = as.character(INIT_TIME)) %>%
   group_by(FORECAST_DATE, INIT_TIME) %>%
   group_split(keep = TRUE)
-warning("Really need to fix the date thing! The worst")
+print(length(bivar_split))
 warning("Need a way of call the fixed variables togther")
 
 ## Get the dates
@@ -273,14 +270,9 @@ warning("Also manually handling the NAs here")
 schaake_shuffled <- lapply(1:length(bivar_split),
                            function(i){
                              print(i)
-                             # make this clearer elsewhere
-                             X1 <-  bivar_split[[i]] %>%
-                               dplyr::mutate(INIT_TIME = as.character(INIT_TIME),
-                                             LEAD_TIME = as.character(LEAD_TIME))
-                             if(length(schaake_obs[[i]]) == 1) return(NULL)
-                             Y1 <- schaake_obs[[i]] %>%
-                               dplyr::mutate(INIT_TIME = as.character(INIT_TIME),
-                                             LEAD_TIME = as.character(LEAD_TIME))
+                             if(length(schaake_template[[i]]) == 1) return(NULL)
+                             X1 <-  bivar_split[[i]]
+                             Y1 <- schaake_template[[i]]
                              combined <- inner_join(X1, Y1)
                               X = combined %>%
                                 dplyr::select(starts_with("SMP")) %>%
@@ -299,7 +291,7 @@ schaake_shuffled <- lapply(1:length(bivar_split),
                                                     LEAD_TIME, OBS))
                            return(shuffled)
                            })
- warning("Need to generalist template strings, ie SCH /ECC = TMP")
+warning("Need to generalist template strings, ie SCH /ECC = TMP")
 warning("Combining is a mess cause of dates")
 warning("USed a tryCathc but gotta handle NA in Y")
 
@@ -322,7 +314,7 @@ t_i = which(both_var == TRUE)
 # 1/ When do I have suitable data?
 #(This might require going back over the preprocessed stuff for storm surge)
 # 2/ Do I need more data?? - Email Kiri - This will be a blocker :(
-# 3/ Fix the god damn date issue!!!
+# 3/ (DONE THANK FUCK!!!) Fix the god damn date issue!!!
 
 # NEXT STEPS::
 # 1/ Score the dates I do have
