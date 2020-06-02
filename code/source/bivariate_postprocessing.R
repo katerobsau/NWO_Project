@@ -310,12 +310,6 @@ t_i = which(both_var == TRUE)
 
 ### ---------------------------------------------------------------------------
 
-# URGENT::
-# 1/ When do I have suitable data?
-#(This might require going back over the preprocessed stuff for storm surge)
-# 2/ Do I need more data?? - Email Kiri - This will be a blocker :(
-# 3/ (DONE THANK FUCK!!!) Fix the god damn date issue!!!
-
 # NEXT STEPS::
 # 1/ Score the dates I do have
 # 2/ Simple question - how many of these paired days have rainfall?
@@ -325,6 +319,12 @@ t_i = which(both_var == TRUE)
 # 2/ Write up Schaake
 # 3/ Require writing up group split tutorial or background
 # ?/ Will this method be too slow for large data
+
+# COMPLETE::
+# 1/ (DONE) When do I have suitable data?
+#(This might require going back over the preprocessed stuff for storm surge)
+# 2/ (NOPE - ALL GOOD!) Do I need more data?? - Email Kiri - This will be a blocker :(
+# 3/ (DONE THANK FUCK!!!) Fix the god damn date issue!!!
 
 ### ---------------------------------------------------------------------------
 
