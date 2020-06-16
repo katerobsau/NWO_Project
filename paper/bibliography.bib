@@ -1,0 +1,218 @@
+
+@article{wahl_increasing_2015,
+	title = {Increasing risk of compound flooding from storm surge and rainfall for major {US} cities},
+	volume = {5},
+	copyright = {2015 Nature Publishing Group},
+	issn = {1758-6798},
+	url = {https://www.nature.com/articles/nclimate2736},
+	doi = {10.1038/nclimate2736},
+	abstract = {When storm surge and heavy precipitation co-occur, the potential for flooding in low-lying coastal areas is often much greater than from either in isolation. Knowing the probability of these compound events and understanding the processes driving them is essential to mitigate the associated high-impact risks1,2. Here we determine the likelihood of joint occurrence of these two phenomena for the contiguous United States (US) and show that the risk of compound flooding is higher for the Atlantic/Gulf coast relative to the Pacific coast. We also provide evidence that the number of compound events has increased significantly over the past century at many of the major coastal cities. Long-term sea-level rise is the main driver for accelerated flooding along the US coastline3,4; however, under otherwise stationary conditions (no trends in individual records), changes in the joint distributions of storm surge and precipitation associated with climate variability and change also augment flood potential. For New York City (NYC)—as an example—the observed increase in compound events is attributed to a shift towards storm surge weather patterns that also favour high precipitation. Our results demonstrate the importance of assessing compound flooding in a non-stationary framework and its linkages to weather and climate.},
+	language = {en},
+	number = {12},
+	urldate = {2019-01-09},
+	journal = {Nature Climate Change},
+	author = {Wahl, Thomas and Jain, Shaleen and Bender, Jens and Meyers, Steven D. and Luther, Mark E.},
+	month = dec,
+	year = {2015},
+	pages = {1093--1097},
+	annote = {Honestly, this was very denseI don't like the visualisations - they tried to put too much in each figure.I also don't know whether I would draw the same conclusions from the data, particularly the rolling windows and the "cyclone" coincidence.
+I can appreciate pop-science articles, but this was not thorough enough for me.
+However, I do like the event specification:For mechanism (1), in estuarine regions, the joint occurrence of both may elevate water levels to a point where flooding is initiated or its impacts exacerbated. Mechanism (2) occurs when a destructive storm surge already causes widespread flooding, such that any significant rainfall on top of this—even if it is not an extreme event on its own—increases the flood depth and/or extent of the inundated area. Mechanism (3) occurs during a moderate storm surge which does not directly cause flooding, but is high enough to fully block or slow down gravity- fed storm water drainage, such that precipitation is more likely to cause flooding. 
+I also like the case definition. This could be useful for us
+
+
+
+Case I we search for the highest annual storm surge, and then take the highest precipitation within a time range of ±1 days of this event (covers mechanisms (1) and (2)); in Case II we search for the highest annual precipitation, and then take the highest storm surge within a time range of ±1 days 
+Paper also investigated whether the dependence strength in time was changing between compound events, highlighting that increasing in synoptic mechanism driving compound events may be changing.Basically, this is just a cite for the sake of citing a compound event paper.
+ 
+
+
+},
+	file = {Full Text PDF:/Users/katesaunders/Zotero/storage/99SUIDI3/Wahl et al. - 2015 - Increasing risk of compound flooding from storm su.pdf:application/pdf;Snapshot:/Users/katesaunders/Zotero/storage/8MS4BIEX/nclimate2736.html:text/html}
+}
+
+@article{li_probabilistic_2014,
+	title = {Probabilistic modelling of extreme storms along the {Dutch} coast},
+	volume = {86},
+	issn = {0378-3839},
+	url = {http://www.sciencedirect.com/science/article/pii/S0378383913002159},
+	doi = {10.1016/j.coastaleng.2013.12.009},
+	abstract = {Due to the unprecedented growth in population and economic development along the coastal zone all over the world, knowledge about future extreme oceanographic events will assist in ensuring human and property safety. This will be a task with increasing significance in the light of projected climate change impacts. A joint estimation of extreme storm events' variates of deep water wave conditions was performed. It can be used for multivariate descriptions of wave climate variates, such as wave height, period, steepness, and storm duration. The storm sequences can be simulated and extrapolated from limited observational data for optimal structure protection strategies and various disaster risk analysis, like erosion or overtopping. The analysis not only shows the effectiveness of the proposed statistical approaches for improving multivariate modelling of the storm parameters but also highlights the most compatible approach for the Dutch wave climate data from 1979 to 2009. We used the Monte-Carlo method and four methods to construct the dependency structures, based on copula functions, physical relationship and extreme value theory. The marginal probabilistic distribution functions of wave climate variables and the joint probability were then obtained. The simulated data group performs a reasonable similarity to the field measurements according to the goodness-of-fit test, and the Gaussian copula model was found to be the best wave climate simulation method for the Dutch coast.},
+	urldate = {2019-01-09},
+	journal = {Coastal Engineering},
+	author = {Li, F. and van Gelder, P. H. A. J. M. and Ranasinghe, R. and Callaghan, D. P. and Jongejan, R. B.},
+	month = apr,
+	year = {2014},
+	keywords = {Copulas, Dependence, Multivariate analysis, Sea storm simulation, Wave climate},
+	pages = {1--13},
+	annote = {I really only skim-read this article.However there was a very useful multivariate event definition with an accompying schematic that could be useful.* H\_\{s,max\} (Maximum significant wave height)* T\_p (peak wave period)* h (peak sea level)* {\textbackslash}theta\_p (wave direction)* D (storm duration)* I (inter-arrival time)* F\_s (storm frequency)Other papers have considered the joint distributions of (H\_\{s,max\} , h), (H\_\{s,max\} , T\_p) and (H\_\{s,max\} , D) and higher order variants thereof. This papers considers all four variables.Used data from Den Helder and Noordwijk aan Zee which they pool. Pre-process the data to identify individual storms and ensure independence.Split into Winter and Summer due to seasonal influences.3.1.1 Fit a Generalised Pareto (use a method of RMSE to decide on the threshold compared with other more standard methods)3.1.2 Empirical estimate the wave direction and storm frequency (need a non-stationary Poisson process)3.2 Four methods for constructing (fitting) the dependence structureI skimmed these3.2.1 Archimedean copulas (eg Clayton, Frank, Gumbel and different tail depenence)3.2.2 Gaussian3.2.3 Physics combined Gaussian3.2.4 Logistic model3.3 Storm sequence simulation (read again)3.4 Goodness of fit K-s and {\textbackslash}Chi (good for multivariate)Very light on actual results. Guassian {\textgreater} log {\textgreater} physics {\textgreater} archimedean by the Chi-square results (also easiest)Caveat is this method implies asymptotic independence, which doesn't look likely given the data.Conclusions:Paper demonstrates a methods for simulating and extrapolating storm sequences from limited data.Conclude use of Guassian copula, but emphasis choice should be data dependent.Potential to use these simulation methods.},
+	file = {ScienceDirect Full Text PDF:/Users/katesaunders/Zotero/storage/4RIUV6B7/Li et al. - 2014 - Probabilistic modelling of extreme storms along th.pdf:application/pdf;ScienceDirect Snapshot:/Users/katesaunders/Zotero/storage/XZXDD79P/S0378383913002159.html:text/html}
+}
+
+@article{muis_global_2016,
+	title = {A global reanalysis of storm surges and extreme sea levels},
+	volume = {7},
+	copyright = {2016 Nature Publishing Group},
+	issn = {2041-1723},
+	url = {https://www.nature.com/articles/ncomms11969},
+	doi = {10.1038/ncomms11969},
+	abstract = {Extreme sea levels, caused by storm surges and high tides, can have devastating societal impacts. To effectively protect our coasts, global information on coastal flooding is needed. Here we present the first global reanalysis of storm surges and extreme sea levels (GTSR data set) based on hydrodynamic modelling. GTSR covers the entire world's coastline and consists of time series of tides and surges, and estimates of extreme sea levels. Validation shows that there is good agreement between modelled and observed sea levels, and that the performance of GTSR is similar to that of many regional hydrodynamic models. Due to the limited resolution of the meteorological forcing, extremes are slightly underestimated. This particularly affects tropical cyclones, which requires further research. We foresee applications in assessing flood risk and impacts of climate change. As a first application of GTSR, we estimate that 1.3\% of the global population is exposed to a 1 in 100-year flood.},
+	language = {en},
+	urldate = {2018-12-11},
+	journal = {Nature Communications},
+	author = {Muis, Sanne and Verlaan, Martin and Winsemius, Hessel C. and Aerts, Jeroen C. J. H. and Ward, Philip J.},
+	month = jun,
+	year = {2016},
+	pages = {11969},
+	annote = {Good reference for storm surge impacts, ie. in the Netherlands 8.4 million people, 53\% of the total population exposed to flood risk from a 1 in 100. However, despite the exposure rates, the risk is mitigated by flood defences built for a 1 in 10,000 year period.
+The reanalysis underestimates extremes, which means it may not be useful for our application. However, this potentially this could be corrected by post-processing. All of the extremes analysis underpinning the results are made based on very general assumptions, such as stationarity and Gumbel tail. The Gumbel may be reasonable if surge is normally distributed as this is the appropriate domain of attraction - but I am unsure if this is true. Also stationarity of sea levels is clearly not appropriate.No mention of post-processing.},
+	file = {Full Text PDF:/Users/katesaunders/Zotero/storage/9LSA89BG/Muis et al. - 2016 - A global reanalysis of storm surges and extreme se.pdf:application/pdf;Snapshot:/Users/katesaunders/Zotero/storage/WRVKSXER/ncomms11969.html:text/html}
+}
+
+@article{zheng_modeling_2014,
+	title = {Modeling dependence between extreme rainfall and storm surge to estimate coastal flooding risk},
+	volume = {50},
+	copyright = {© 2014. American Geophysical Union. All Rights Reserved.},
+	issn = {1944-7973},
+	url = {https://agupubs.onlinelibrary.wiley.com/doi/abs/10.1002/2013WR014616},
+	doi = {10.1002/2013WR014616},
+	abstract = {Accounting for dependence between extreme rainfall and storm surge can be critical for correctly estimating coastal flood risk. Several statistical methods are available for modeling such extremal dependence, but the comparative performance of these methods for quantifying the exceedance probability of rare coastal floods is unknown. This paper compares three classes of statistical methods—threshold-excess, point process, and conditional—in terms of their ability to quantify flood risk. The threshold-excess method offers approximately unbiased estimates for dependence parameters, but its application for quantifying flood risk is limited because it is unable to handle situations where only one of the two variables is extreme. In contrast, the point process method (with the logistic and negative logistic models) and the conditional method describe the full distribution of extremes, but they overestimate and underestimate the dependence strength, respectively. We conclude that the point process method is the most suitable approach for modeling dependence between extreme rainfall and storm surge when the dependence is relatively strong, while none of the three methods produces satisfactory results for bivariate extremes with very weak dependence. It is therefore important to take the bias of each method into account when applying them to flood estimation problems. A case study is used to demonstrate the three statistical methods and illustrate the implication of dependence to flood risk.},
+	language = {en},
+	number = {3},
+	urldate = {2018-12-11},
+	journal = {Water Resources Research},
+	author = {Zheng, Feifei and Westra, Seth and Leonard, Michael and Sisson, Scott A.},
+	month = mar,
+	year = {2014},
+	keywords = {asymptotic dependence, dependence, flood risk, statistical models},
+	pages = {2050--2071},
+	annote = {Core contribution to the paper is demonstrate the selection of the bivariate evd needs to take into account the dependence strength.Threshold methods presented only suitable for modelling joint extremes - therefore point process and conditional exceedance method should be consider in the case of storm surge/ precipitation extremes.Only problem is that for very weak dependence neither of these methods appropriately fitted the joint tail where both variables were extreme.Within the literature there maybe some alternative now to these three methods - but it is an important point to consider.Useful points:
+
+background to bivariate prcp/surge literature
+may want to look at Ledford and Tawn '97 and Ramos and Ledord '11 for coefficient of tail dependence in the threshold-excess and PP models which extend bivariate extremes to include independence case.
+some more flexible parameteric bivariate forms compared with the logistic are mentioned - see Boldi and Davison '03, Sabourin and Naveau '13 and Cooley '10
+Heffernan and Tawn '04 have a semiparametric approach as well
+important point that should be noted to explain to others  - "alpha measures the dependence between two random variables at extreme levels, and differs from the correlation coefficient rho, which measure the overall linear association between the full distribution fo two variables (dupois and jones '06)"
+Performed a simulation study - concern this does not cover the full spectrum of cases for bivariate dependence, but conclusions regarding weak dependence are still insightful
+Another comment of note - "joe '92 stated that the dependence parameter estimation unders such a characterization will show a tendency to be biased toward stronger dependence when the majority of the spectral measure mass is not in the interior but on the axes (ie weak dependence). This makes sense due to how the optimisation would work
+Use structure function to compare PP and conditional methods
+Stopped reading the fitted example as the conclusions of the simulated study are more or less mirrored.
+
+Should read:
+
+A review of threshold selection techniques - Scarrott and MacDonald '12
+Coles and Tawn '94 selection of (threshold) r\_0 for PP
+Lee '13 bayesian method of selection for r\_0
+Only skimmed the conditional section in methods (read properly)
+},
+	file = {Full Text PDF:/Users/katesaunders/Zotero/storage/XJFQHHI4/Zheng et al. - 2014 - Modeling dependence between extreme rainfall and s.pdf:application/pdf;Snapshot:/Users/katesaunders/Zotero/storage/Z9ZMG9BA/2013WR014616.html:text/html}
+}
+
+@article{zheng_quantifying_2013,
+	title = {Quantifying the dependence between extreme rainfall and storm surge in the coastal zone},
+	volume = {505},
+	issn = {0022-1694},
+	url = {http://www.sciencedirect.com/science/article/pii/S0022169413007075},
+	doi = {10.1016/j.jhydrol.2013.09.054},
+	abstract = {Summary
+The interaction between extreme rainfall and storm surge can be critical in determining flood risk in the coastal zone. This paper investigates the presence of dependence between these two processes along the Australian coastline using the most extensive observational records of rainfall and storm surge events currently available. A bivariate logistic threshold-excess model was employed to conduct the dependence study. Statistically significant dependence was observed for the majority of locations that were analysed, although regional variations as well as seasonal variations of the dependence strength are also apparent. The dependence remains significant even at distances of several hundred kilometres between the tide gauge and the rainfall gauge, indicating that dependence arises largely due to synoptic scale meteorological forcings. The strength of dependence varies as a function of storm burst duration, with an increase in dependence when going from one hour through to 24h storm bursts. The dependence strength also varies with the lag between the extreme rainfall and the storm surge event, with the greatest level of dependence when extreme events occurred in the same time step for storm burst durations exceeding six hours, or for lags up to ±10h for storm bursts durations below six hours. These findings have important implications for flood risk assessments in the coastal zone, showing that the two processes must be considered jointly if flood risk is to be quantified correctly.},
+	urldate = {2018-12-11},
+	journal = {Journal of Hydrology},
+	author = {Zheng, Feifei and Westra, Seth and Sisson, Scott A.},
+	month = nov,
+	year = {2013},
+	keywords = {Dependence between extremes, Extreme rainfall, Extreme storm surge, Flood risk estimation},
+	pages = {172--187},
+	annote = {I thought at first the content in this paper would be overwhelming - and it was too short to represent all this detail. Pleasantly surprised by how succinctly and clearly the content was covered.Paper fitted a bivariate logistic threshold-excess model to model dependence between extreme rainfall and storm surge.Goals of the paper were:(1) Are Prcp + Storm asym ind or dep?(2) Is dep affected by spatial and seasonal variability?(3) Does the distance between rainfall and tide gauge influence dependence strength?(4) What is the impact on burst (accumulation) duration on the dependence?(5) What is the lag affect on the dependence?Results - (1) Prcp + surge were found to be weakly asymptotically dependent. This dependence was statistically significant as shown by resampling.(2) Both spatial and seasonal variability were observed in the dependence results. Spatial variability could occur on very small scales, which was attributed to bathymetry and estuaries. Seasonal variations due to changes in synoptic behaviours.(3) There was a weakening of dependence with greater distance - however this influence was not uniform and there is clear anisotrophy in the response.(4) Depending on the location, but accumulations of 48 - 96 were found to be significant, sometimes 24 hours(5) A lag impact was also present, again location specificWhat this means for our research - * We need to think about range, duration and lag.* Also if we wanted to model in continuous space, bathymetry and estuaries need to be accounted for* Also should pick "stationary" season with care* reference of use regarding IPCC and compound events*covariates of interest wind and low pressure systems* BIG CAUTION - using astronomical tide disguised the dependence between the prcp and surge storm as the tide dominated the relationship (see papers referenced)* might want to look at Lian 2013 copula models * paper also considered short-range dependence, but found the influence neglible* like the method of sampling to show whether the dependence was significant* mention sensitivity to threshold and give some sensitivity results
+ },
+	file = {ScienceDirect Full Text PDF:/Users/katesaunders/Zotero/storage/VLSMWB6A/Zheng et al. - 2013 - Quantifying the dependence between extreme rainfal.pdf:application/pdf;ScienceDirect Snapshot:/Users/katesaunders/Zotero/storage/HZCTDNCW/S0022169413007075.html:text/html}
+}
+
+@article{ridder_role_2018,
+	title = {The {Role} of {Atmospheric} {Rivers} in compound events consisting of heavy precipitation and high storm surges along the {Dutch} coast},
+	issn = {1561-8633},
+	url = {https://www.nat-hazards-earth-syst-sci-discuss.net/nhess-2018-204/},
+	doi = {https://doi.org/10.5194/nhess-2018-204},
+	abstract = {{\textless}p{\textgreater}{\textless}strong{\textgreater}Abstract.{\textless}/strong{\textgreater} Atmospheric river (AR) systems play a significant role in the simultaneous occurrence of high coastal water levels and heavy precipitation in the Netherlands. Based on observed precipitation values (E-OBS) and the output of a numerical storm surge model (WAQUA/DSCMv5) forced with ERA-Interim sea level pressure and wind fields, we find that the majority of compound events between 1979\&ndash;2015 has been accompanied by the presence of an AR over the Netherlands. By isolating and assessing the prevailing sea level pressure (SLP) and sea surface temperature (SST) conditions up to seven days before the events with and without AR involvement, we show that the presence of ARs constitutes a specific type of forcing conditions that (i) resemble the SLP anomaly patterns during the positive phase of the North Atlantic Oscillation (NAO+) with a North-South pressure dipole over the North Atlantic and (ii) cause a warming of the western boundary of the North Atlantic. These conditions are clearly distinguishable from those conditions during compound events without the influence of local ARs which occur under SLP conditions resembling the East Atlantic (EA) pattern with a West-East pressure dipole over Northern Europe and are accompanied by a cooling of the West Atlantic. Thus, this study provides a useful tool for the early identification of possible harmful meteorological conditions over the Netherlands and supports effort for the establishment of an early warning system.{\textless}/p{\textgreater}},
+	language = {English},
+	urldate = {2018-12-07},
+	journal = {Natural Hazards and Earth System Sciences Discussions},
+	author = {Ridder, Nina and Vries, Hylke de and Drijfhout, Sybren},
+	month = jul,
+	year = {2018},
+	pages = {1--25},
+	annote = {Skim read the paper.Developed an intuition for atmospheric rivers.Increased frequency of compound events consisting of high precipitation and storm surges in the presence of atmospheric rivers. However, while this relationship was present for the bulk of the distribution. However, it was inconclusive whether atmospheric rivers have an impact on the extremes of these compound events.Conditions that cause atmospheric rivers may make for good predictors - particularly for the bulk of the distribution.Details are included in this paper about WAQUA and related forcings.There is a nice visualistion of the bivariate relationship between max 3 days water level and max 3 day preciptaiton.Comment from Kiri: The temporal definition of atmospheric rivers was 'generous' causing these events occur far too frequently by the papers definition.},
+	file = {Full Text PDF:/Users/katesaunders/Zotero/storage/2Y3TX584/Ridder et al. - 2018 - The Role of Atmospheric Rivers in compound events .pdf:application/pdf;Snapshot:/Users/katesaunders/Zotero/storage/JW4XBRY4/nhess-2018-204.html:text/html}
+}
+
+@article{zscheischler_dependence_2017,
+	title = {Dependence of drivers affects risks associated with compound events},
+	volume = {3},
+	issn = {2375-2548},
+	url = {http://advances.sciencemag.org/lookup/doi/10.1126/sciadv.1700263},
+	doi = {10.1126/sciadv.1700263},
+	language = {en},
+	number = {6},
+	urldate = {2019-03-07},
+	journal = {Science Advances},
+	author = {Zscheischler, Jakob and Seneviratne, Sonia I.},
+	month = jun,
+	year = {2017},
+	pages = {e1700263},
+	file = {Zscheischler and Seneviratne - 2017 - Dependence of drivers affects risks associated wit.pdf:/Users/katesaunders/Zotero/storage/BFVQHKUI/Zscheischler and Seneviratne - 2017 - Dependence of drivers affects risks associated wit.pdf:application/pdf}
+}
+
+@article{wu_mapping_2018,
+	title = {Mapping {Dependence} {Between} {Extreme} {Rainfall} and {Storm} {Surge}},
+	volume = {123},
+	issn = {21699275},
+	url = {http://doi.wiley.com/10.1002/2017JC013472},
+	doi = {10.1002/2017JC013472},
+	abstract = {Dependence between extreme storm surge and rainfall can have signiﬁcant implications for ﬂood risk in coastal and estuarine regions. To supplement limited observational records, we use reanalysis surge data from a hydrodynamic model as the basis for dependence mapping, providing information at a resolution of approximately 30 km along the Australian coastline. We evaluated this approach by comparing the dependence estimates from modeled surge to that calculated using historical surge records from 79 tide gauges around Australia. The results show reasonable agreement between the two sets of dependence values, with the exception of lower seasonal variation in the modeled dependence values compared to the observed data, especially at locations where there are multiple processes driving extreme storm surge. This is due to the combined impact of local bathymetry as well as the resolution of the hydrodynamic model and its meteorological inputs. Meteorological drivers were also investigated for different combinations of extreme rainfall and surge—namely rain-only, surge-only, and coincident extremes—ﬁnding that different synoptic patterns are responsible for each combination. The ability to supplement observational records with high-resolution modeled surge data enables a much more precise quantiﬁcation of dependence along the coastline, strengthening the physical basis for assessments of ﬂood risk in coastal regions.},
+	language = {en},
+	number = {4},
+	urldate = {2019-08-12},
+	journal = {Journal of Geophysical Research: Oceans},
+	author = {Wu, Wenyan and McInnes, Kathleen and O'Grady, Julian and Hoeke, Ron and Leonard, Michael and Westra, Seth},
+	month = apr,
+	year = {2018},
+	pages = {2461--2474},
+	annote = {I like the ideas of this paper, but I have a few issues with the execution.Spatial coverage of tidal gauges is sparse in Australia, so they opt to use a reanalysis dataset to improve the coverage. The paper makes a hand-wavie comparison that the results from the reanalysis are comparable.
+What was of considerable novelty for me was the idea to split the compound event space into rain-only, surge-only and coincident, and to relate these events to there driving synoptic patterns. This strongly suggests that the underlying dependence is non-stationary - which they demonstrated by considering seasonal dependence and showing it was different. The link is that different synoptic patterns are more likely in different seasons. INTRO Nice motivation paragraph:* IPCC compound event definition* background on meteorological forcing of compound events* risk to coastal communities, particularly those that are densely populated* how failing to correctly model interaction leads to increased flood riskPaper referenced Wahl 2015, as a citation for meteorological processes driving different extreme conditions (really starting to fall into this regime dependent framework)DATA* Rainfall records from BoM - used long ({\textgreater} 10 years) and complete records ({\textless}10\% missing)* 79 tidal gauges around Australia* 15 Sea level gauges - subtracted astronomical tide and sea level trendUsed ROMS (regional ocean modelling system) for the reanalysis surge data to give coverage of the entire Australian coast.Used mean sea level pressure fields for synoptic classification of weather events. (US National Centers for Environmental Protection data)CONCERN : To assess dependence between tidal gauges they averaged the dependence between all stations within 100 km. Ignores reduction in dependence strength at greater spatial distances, creates potentially spurious conclusions. State that radius does not have a significant impact - I disagree strongly!!!METHODSUsed a bivariate threshold excess model - logisticFitting used a censored likelihoodCONCERN  : Logistic method assumes symmetry - very very suspicious that this is not a well founded assumption for all of Australia. The citation they use for this model is also an early paper by themselves, which really doesn't discuss the suitability of the model in details from my recollection.
+Use a correlation based method for synoptic typing across 9 x 9 grid and  standardised MSP anomalies (simple, no translation or rotational component) Classified patterns into key day types (in an ordered highest first kinda way).Some days were left unclassified based on a threshold. The threshold for correlation was lower (0.6 compared with 0.8) for compound days.RESULTS:The alpha value from the logistic was plotted for around Australia for the raw gauges and the reanalysis stations- visual comparison only.The alpha values were also binned fro plotting where {\textbackslash}alpha {\textless} 0.9 was relatively strong and {\textbackslash}alpha {\textbackslash}leq 0.99 was moderate.CONCERN: By any other definition in the extremes literature this would be weak at best and arguable very close to asymptotically independent.Broke the results down into different meteorological drivers and very weakly linked these drivers to seasonal dependence (see above comments) Discussed bathymetric impacts using examples like Hervey Bay.CONCLUSIONS:* ROMS showed good agreement with station data (could have been shown in a much more robust way)* Dependence varies along the Australian coastline* Key meteorological forcings behind rain-only, surge-only and combined were found to be different. (Different cities around Australia were considered)* Seasonality was found to influence dependence strength* Care should be taken were bathymetry varies if we are to generalise results spatially. This is relevant for missing stations and highlights the need for reanalysis data.},
+	file = {Wu et al. - 2018 - Mapping Dependence Between Extreme Rainfall and St.pdf:/Users/katesaunders/Zotero/storage/AQWPTQFL/Wu et al. - 2018 - Mapping Dependence Between Extreme Rainfall and St.pdf:application/pdf}
+}
+
+@article{bevacqua_higher_2019,
+	title = {Higher probability of compound flooding from precipitation and storm surge in {Europe} under anthropogenic climate change},
+	volume = {5},
+	issn = {2375-2548},
+	url = {http://advances.sciencemag.org/lookup/doi/10.1126/sciadv.aaw5531},
+	doi = {10.1126/sciadv.aaw5531},
+	language = {en},
+	number = {9},
+	urldate = {2019-09-20},
+	journal = {Science Advances},
+	author = {Bevacqua, E. and Maraun, D. and Vousdoukas, M. I. and Voukouvalas, E. and Vrac, M. and Mentaschi, L. and Widmann, M.},
+	month = sep,
+	year = {2019},
+	pages = {eaaw5531},
+	file = {Bevacqua et al. - 2019 - Higher probability of compound flooding from preci.pdf:/Users/katesaunders/Zotero/storage/7DTIAVA4/Bevacqua et al. - 2019 - Higher probability of compound flooding from preci.pdf:application/pdf}
+}
+
+@article{van_den_hurk_analysis_2015,
+	title = {Analysis of a compounding surge and precipitation event in the {Netherlands}},
+	volume = {10},
+	issn = {1748-9326},
+	url = {http://stacks.iop.org/1748-9326/10/i=3/a=035001?key=crossref.9080cad177ea657620d5b8d94c3b9dcb},
+	doi = {10.1088/1748-9326/10/3/035001},
+	language = {en},
+	number = {3},
+	urldate = {2019-12-01},
+	journal = {Environmental Research Letters},
+	author = {van den Hurk, Bart and van Meijgaard, Erik and de Valk, Paul and van Heeringen, Klaas-Jan and Gooijer, Jan},
+	month = mar,
+	year = {2015},
+	pages = {035001},
+	file = {van den Hurk et al. - 2015 - Analysis of a compounding surge and precipitation .pdf:/Users/katesaunders/Zotero/storage/2EW5VT4G/van den Hurk et al. - 2015 - Analysis of a compounding surge and precipitation .pdf:application/pdf}
+}

@@ -1,0 +1,215 @@
+---
+title: "Paper_Draft"
+author: "Kate Saunders"
+date: "12/06/2020"
+output: 
+  pdf_document:
+    keep_tex: TRUE
+bibliography: bibliography.bib
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+<!-- # Abstract -->
+<!-- stuff [@wahl_increasing_2015] -->
+
+# Introduction
+
+<!-- * Under climate change the Netherlands is at increased risk of compound flooding due to the co-occurence of heavy precipitation and storm surge  [@bevacqua_higher_2019] -->
+
+<!-- * Based on global reanalysis the Netherlands is one of most vulnerable countries to flood risk from storm surge [muis_global_2016] (53% to a 1 in 100 year flood, but 1 in 10,000 year flood defencnes). Operating flood defencnes optimally and early warnings are therefore vital to flood preparedness. -->
+
+<!-- The probability of flooding from rainfall-surge compound events is also expected to increase in many European countries under climate change [@bevacqua_higher_2019]. -->
+
+<!-- * Compound events together worse -->
+Individually both extreme rainfall and storm surge pose a flood risk. If these events co-occur, they create a compound event [@IPCC] and the risk may be magnified compared to if either event occurred individually. To reliably assess the flood risk from rainfall and surge events, the dependence relationship between these events must be accurately modelled [@zheng_modeling_2014, @zscheischler_dependence_2017]. 
+
+<!-- * Rainfall and Storm surge (global to local) -->
+
+<!-- * Prepare / Forecast the event  -->
+The same is true for weather forecasts. To ensure communties aren't caught unprepared, the accuracy of the joint forecast of must be considered. These joint forecasts are needed to provide advance warnings, so that the flood impacts are mitigated and water can be released in advance from devices, such as sluces or pumps.
+
+Weather processes however, are highly chaotic and complex. Therefore forecasts from numerical weather models (NWP) can only serve as our best, most-informed guesses of what the future weather will be. Even at the high resolutions, these models contain systematic errors due to simplyfing assumptions in their equations and compuational capacity limits the number of future possible forecasts, so the full predictive distribution can not be simulated. Statistical post-processing is therefore needed to improve upon the reliabilitiy and accuracy of the forecasts by reducing systematic errors, such as bias or dispersion errors  (@Whan, @SurgeSomething). 
+
+Provide a post-processing summary and fill the gap 
+
+<!-- * Rainfall-Storm Surge Mechanisms -->
+For forecasting the co-occurrence of bivariate events, such as rainfall and storm surge, it is important to understand the driving mechanism behind these events. [@wahl_increasing_2015]
+breaks the compound event mechanism into three types: 
+
+<!-- (MAKE THIS A KABLE) -->
+* **Mechanism (1)** in estuarine regions, the joint occurrence of both may elevate water levels to a point where flooding is initiated or its impacts exacerbated.   
+* **Mechanism (2)** occurs when a destructive storm surge already causes widespread flooding, such that any significant rainfall on top of this—even if it is not an extreme event on its own—increases the flood depth and/or extent of the inundated area.   
+* **Mechanism (3)** occurs during a moderate storm surge which does not directly cause flooding, but is high enough to fully block or slow down gravity-fed storm water drainage, such that precipitation is more likely to cause flooding.
+
+```{r region a, echo = FALSE}
+library(ggplot2)
+delta = 0.8
+theta = seq(0, pi/2, length.out = 90)
+theta_rain = theta[theta >= pi/2*3/5]
+theta_surge = theta[theta <= pi/2*2/5]
+theta_both = setdiff(theta, c(theta_rain, theta_surge))
+
+x_rain = c(delta*cos(theta_rain), 0, cos(min(theta_rain)))
+y_rain = c(delta*sin(theta_rain), 1, 1)
+x_surge = c(delta*cos(theta_surge), 1, 1)
+y_surge = c(delta*sin(theta_surge), sin(max(theta_surge)), 0)
+x_both = c(delta*cos(theta_both), cos(max(theta_both)), 1, 1)
+y_both = c(delta*sin(theta_both), 1, 1, sin(min(theta_both)))
+# plot(x_both, y_both)
+            
+regions_circle <- data.frame(
+  Risk = rep(c("M3: Rain-only", "M1: Both", "M2: Surge-only"), 
+             times = c(length(x_rain),length(x_both),length(x_surge))),
+  x = c(x_rain, x_both, x_surge),
+  y = c(y_rain, y_both, y_surge)
+)
+
+region_b <- ggplot() + 
+  geom_polygon(data = regions_circle, aes(x = x, y = y, fill = Risk), alpha = 0.75) +
+  geom_line(data = NULL, aes(x = delta*cos(theta), y = delta*sin(theta))) + 
+  geom_line(data = NULL, aes(x = c(delta*cos(min(theta_rain)), cos(min(theta_rain))),
+                             y = c(delta*sin(min(theta_rain)) , 1))) +
+  geom_line(data = NULL, aes(x = c(delta*cos(max(theta_surge)), 1),
+                             y = c(delta*sin(max(theta_surge)) , sin(max(theta_surge))))) +
+  xlim(c(0,1)) +
+  ylim(c(0,1)) + 
+  xlab("Surge Height") + 
+  ylab("Rainfall Amount") +
+  theme_bw() +
+  theme(#axis.title = element_blank(),
+        axis.text = element_blank(),
+        legend.position = c(0.3, 0.2))
+region_b
+```
+
+
+* Event based statistics
+ - Aggregate rainfall
+ - Period a sluice gate is open
+
+* Why we need to consider temporal trajectories
+and dependence in the plume 
+ 
+# Case Study
+
+* Lake Lauwersoog (two sluices)
+
+* Show a plot of culmulative rainfall / surge / tide 
+
+* How the sluice works (- 10)
+
+* Mechanisms in the Netherlands
+
+* Extremes don't necessary mean big - Duration is important 
+
+* Largest != Longest 
+
+* Define a surge period (clustering)
+
+* Importance of scoring the whole / understand trajectory
+
+# Data
+
+* Rainfall 
+
+* Storm Surge 
+
+* We treat tide (deterministic) and surge (random) 
+
+* Caveat of wind (ignoring at present)
+
+* Seasonality 
+
+# Statistical Post-processing Methods
+
+### Univariate Methods
+
+* NGR
+
+### Univariate Scoring 
+
+* Rank Histograms 
+
+* CRPS 
+
+* BSS
+
+## Multivariate Methods
+
+* ECC 
+
+* Schaake (Analogs)
+
+## Multivariate Scoring
+
+* ES 
+
+* Variogram
+
+* Weights
+
+* David-Sebastiani (Not here)
+
+# Results
+
+## Surge Univariate
+
+* CRPS
+
+* BSS 
+
+* Rank Histograms
+
+* Reliability (optional)
+
+## Rainfall Univariate 
+
+* CRPS
+
+* BSS 
+
+* Rank Histograms
+
+* Reliability (optional)
+
+## Surge Trajectory
+
+* ES 
+
+* VS
+
+* weights 
+
+* relaximing to climatology (loose univariate skill)
+
+* best methods for restoring dependence 
+
+## Rainfall Trajectory
+
+* ES 
+
+* VS
+
+* weights 
+
+* relaximing to climatology (loose univariate skill)
+
+* best methods for restoring dependence 
+
+## Combined Surge and Rainfall Trajectories
+
+
+# Discussion 
+
+# Conclusions
+
+# Future Directions 
+
+* Wind
+
+* Bivariate post-processing (then restore dependence)
+
+* Lag relations (zheng/westra - explore)
