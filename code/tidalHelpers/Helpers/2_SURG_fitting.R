@@ -1,28 +1,3 @@
-surge_dir = "/Users/katesaunders/Documents/No_Back_Up_Data/SURGE/"
-num_members = 50
-na_value = 99.99
-location_ref = "HARL" #"LAUW"
-element_ref = "SURG"
-print_my_warnings = FALSE
-overwrite_saved = FALSE
-selected_season = "WINTER"
-combine_winter = c(2015,2017)
-omit_years = c(2010,2019)
-
-ensemble_path <- paste(surge_dir, "reduced_ENS_",location_ref, ".rds", sep = "")
-pred_file_path = paste(getwd(), "/data/", location_ref, "_pred.rds", sep = "")
-ens_pp_path = paste(getwd(), "/data/", location_ref, "_pp_ens.rds", sep = "")
-
-# -----------------------------------------------------------------------------
-
-# PACKAGES AND FUNCTIONS
-library(tidyverse)
-library(gamlss)
-library(Rcpp)
-sourceCpp("code/tidalHelpers/Helpers/crps_ensemble.cpp")
-source("code/tidalHelpers/Helpers/LAUW_fitting_utils.R")
-gotta source this! NGR_functions.R
-
 # -----------------------------------------------------------------------------
 
 # READ IN THE ENSEMBLE DATA
@@ -132,3 +107,31 @@ ensemble_data_extended <- combined_data %>%
 
 ## ADD A FINAL SAVE STEP HERE
 saveRDS(ensemble_data_extended, ens_pp_path)
+
+# -----------------------------------------------------------------------------
+
+# # OLD INITIALISATION
+# surge_dir = "/Users/katesaunders/Documents/No_Back_Up_Data/SURGE/"
+# num_members = 50
+# na_value = 99.99
+# location_ref = "HARL" #"LAUW"
+# element_ref = "SURG"
+# print_my_warnings = FALSE
+# overwrite_saved = FALSE
+# selected_season = "WINTER"
+# combine_winter = c(2015,2017)
+# omit_years = c(2010,2019)
+#
+# ensemble_path <- paste(surge_dir, "reduced_ENS_",location_ref, ".rds", sep = "")
+# pred_file_path = paste(getwd(), "/data/", location_ref, "_pred.rds", sep = "")
+# ens_pp_path = paste(getwd(), "/data/", location_ref, "_pp_ens.rds", sep = "")
+#
+# # -----------------------------------------------------------------------------
+#
+# # PACKAGES AND FUNCTIONS
+# library(tidyverse)
+# library(gamlss)
+# library(Rcpp)
+# sourceCpp("code/tidalHelpers/Helpers/crps_ensemble.cpp")
+# source("code/tidalHelpers/Helpers/LAUW_fitting_utils.R")
+# # gotta source this! NGR_functions.R

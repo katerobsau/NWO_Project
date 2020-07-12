@@ -21,9 +21,10 @@ library(Rcpp)
 library(moments)
 
 # FUNCTIONS
+warning("Relative directories")
 sourceCpp("code/tidalHelpers/Helpers/crps_ensemble.cpp")
-source("code/tidalHelpers/Helpers/LAUW_fitting_utils.R")
-# gotta source this! NGR_functions.R
+source("code/tidalHelpers/Helpers/SURG_utils.R")
+source("code/tidalHelpers/Helpers/NGR_functions.R")
 
 # DIRECTORY INPUTS
 tidal_dir = "/Users/katesaunders/Documents/No_Back_Up_Data/SURGE/"

@@ -1,34 +1,5 @@
 warning("You are naughty ungroup your shit")
 
-surge_dir = "/Users/katesaunders/Documents/No_Back_Up_Data/SURGE/"
-num_members = 50
-na_value = 99.99
-location_ref = "LAUW"
-element_ref = "SURG"
-print_my_warnings = FALSE
-overwrite_saved = FALSE
-# selected_season = "WINTER"
-# combine_winter = c(2015,2017)
-# omit_years = c(2010,2019)
-num_samples = 500
-fixed_vars = c("INIT_TIME", "LEAD_TIME", "SEASON")
-
-ens_pp_path = paste(getwd(), "/data/", location_ref, "_pp_ens.rds", sep = "")
-ens_score_path = paste(getwd(), "/data/", location_ref, "_score_ens.rds", sep = "")
-ens_score_bootsrap_path = paste(getwd(), "/data/", location_ref, "_score_bootstrap.rds", sep = "")
-
-# ---------------------------------------------------------------------------------
-
-crpss_bootstrap_plot_path = paste(getwd(), "/data/", location_ref, "_crpss_bootstrap_plot.rds", sep = "")
-rank_compare_plot_path = paste(getwd(), "/data/", location_ref, "_rankCompare_plot.rds", sep = "")
-# rank9_plot_path = paste(getwd(), "/data/", location_ref, "_rank9_plot.rds", sep = "")
-# rank3_plot_path = paste(getwd(), "/data/", location_ref, "_rank3_plot.rds", sep = "")
-
-# ---------------------------------------------------------------------------------
-
-library(tidyverse)
-library(ggplot2)
-
 ensemble_data_extended <- readRDS(ens_score_path)
 scores_bootstrapped <- readRDS(ens_score_bootsrap_path)
 
@@ -279,3 +250,35 @@ warning("NA weirdness - I think it's the thresholds in different seasons")
 warning("Need to rewrite the BSS code")
 
 # -----------------------------------------------------------------------------
+
+# # OLD INITIALISTION
+#
+# surge_dir = "/Users/katesaunders/Documents/No_Back_Up_Data/SURGE/"
+# num_members = 50
+# na_value = 99.99
+# location_ref = "LAUW"
+# element_ref = "SURG"
+# print_my_warnings = FALSE
+# overwrite_saved = FALSE
+# # selected_season = "WINTER"
+# # combine_winter = c(2015,2017)
+# # omit_years = c(2010,2019)
+# num_samples = 500
+# fixed_vars = c("INIT_TIME", "LEAD_TIME", "SEASON")
+#
+# ens_pp_path = paste(getwd(), "/data/", location_ref, "_pp_ens.rds", sep = "")
+# ens_score_path = paste(getwd(), "/data/", location_ref, "_score_ens.rds", sep = "")
+# ens_score_bootsrap_path = paste(getwd(), "/data/", location_ref, "_score_bootstrap.rds", sep = "")
+#
+# # ---------------------------------------------------------------------------------
+#
+# crpss_bootstrap_plot_path = paste(getwd(), "/data/", location_ref, "_crpss_bootstrap_plot.rds", sep = "")
+# rank_compare_plot_path = paste(getwd(), "/data/", location_ref, "_rankCompare_plot.rds", sep = "")
+# # rank9_plot_path = paste(getwd(), "/data/", location_ref, "_rank9_plot.rds", sep = "")
+# # rank3_plot_path = paste(getwd(), "/data/", location_ref, "_rank3_plot.rds", sep = "")
+#
+# # ---------------------------------------------------------------------------------
+#
+# library(tidyverse)
+# library(ggplot2)
+
