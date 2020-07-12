@@ -1,3 +1,5 @@
+warning("Couple of assumptions/hardcodes")
+
 # --------------------------------------------------------------------------------
 
 # FILE STRUCTURE
@@ -22,18 +24,20 @@ library(readr)
 library(magrittr)
 library(stringr)
 library(dplyr)
+library(tidyr)
 
 # --------------------------------------------------------------------------------
 
 # INITIAL DIRECTORIES / VARIABLES
-tidal_ens_dir = "/Users/katesaunders/Documents/No_Back_Up_Data/SURGE/lauwersoog_raw/ENS/"
-tidal_processed_dir = "/Users/katesaunders/Documents/No_Back_Up_Data/SURGE/lauwersoog_processed/"
+tidal_dir = "/Users/katesaunders/Documents/No_Back_Up_Data/SURGE/"
+tidal_ens_dir = paste(tidal_dir, "lauwersoog_raw/ENS/", sep = "")
+tidal_processed_dir = paste(tidal_dir, "lauwersoog_processed/", sep = "")
 num_members = 50
 na_value = 99.99
 location_ref = "LAUW"
 element_ref = "SURG"
 print_my_warnings = FALSE
-overwrite_saved = FALSE
+overwrite_saved = TRUE
 
 # --------------------------------------------------------------------------------
 
@@ -73,6 +77,7 @@ date_folders = list.files(tidal_ens_dir)
 # START OF DATE WRAPPER
 missing_member_files = NULL
 for(date_index in 1:length(date_folders)){
+
   print(date_index)
 
   # -----------------------------------------
@@ -87,7 +92,7 @@ for(date_index in 1:length(date_folders)){
   # date_index = 1
   date_folder = paste(tidal_ens_dir, date_folders[date_index], "/", sep = "")
   if(!dir.exists(date_folder)) stop("Can't find the forecast folder")
-  save_path = paste(tidal_processed_dir, date_folders[date_index], ".rds")
+  save_path = paste(tidal_processed_dir, date_folders[date_index], ".rds", sep = "")
   if(file.exists(save_path) & !overwrite_saved){
     print(paste("Already reformatted and saved the ensemble from ", date_ref))
     next
@@ -140,7 +145,11 @@ for(date_index in 1:length(date_folders)){
     dplyr::select(-htid, -wtoc, -wkal, -wtok, -wtkc) %>%
     dplyr::mutate(wtid = dplyr::if_else(wtid == na_value, NA_real_, wtid),
                   wsur = dplyr::if_else(wsur == na_value, NA_real_, wsur),
-                  wtot = dplyr::if_else(wtot == na_value, NA_real_, wtot))
+                  wtot = dplyr::if_else(wtot == na_value, NA_real_, wtot),
+                  harm = dplyr::if_else(harm == na_value, NA_real_, harm),
+                  sur = dplyr::if_else(sur == na_value, NA_real_, sur),
+                  obs = dplyr::if_else(harm == na_value, NA_real_, obs))
+  print("HACKED A FIX FOR NA OBS IN HERE NEED TO DOUBLE CHECK THIS CODE SNIPPET ")
   if(print_my_warnings){
     warning("Column names that were not necessary were disgarded")
     warning("Changed a numeric value for missing to NA_real_")
@@ -167,7 +176,7 @@ for(date_index in 1:length(date_folders)){
     ) %>%
     dplyr::select(-t, -member, -wtot, -obs) %>%
     # removing totals (wtot/obs) as we can get that from the other columns
-    pivot_wider(names_from = MEMBER, values_from = wsur) %>%
+    tidyr::pivot_wider(names_from = MEMBER, values_from = wsur) %>%
     dplyr::rename(OBS = sur, HARM = harm, WTID = wtid)
   if(print_my_warnings)
     warning("May need to adjust lead time to numeric in mutate call here for new lead times")
@@ -177,29 +186,48 @@ for(date_index in 1:length(date_folders)){
   # ADD THE ENSEMBLE SUMMARY STATISTICS
   ensemble_summary = ensemble_data %>%
     dplyr::select(starts_with("ENS")) %>%
-    dplyr::mutate(ENS_MEAN = rowMeans(.), ENS_SIGMA = apply(., 1, sd)) %>%
-    dplyr::select(ENS_MEAN, ENS_SIGMA)
+    dplyr::mutate(PAR_MEAN = rowMeans(.), PAR_SIGMA = apply(., 1, sd)) %>%
+    dplyr::select(PAR_MEAN, PAR_SIGMA)
 
   ensemble_data <- cbind(ensemble_data, ensemble_summary)
 
   # -----------------------------------------
 
   # SAVE THE FORMATTED ENSEMBLE DATA
-  saveRDS(ensemble_data, save_path, sep = "")
+  saveRDS(ensemble_data, save_path)
 
-} # WRAPPER END
+} # WRAPPER END (/FOR LOOP END)
 
 # --------------------------------------------------------------------------------
 
-# COMBINE IT ALL TOGETHER
+# COMBINE IT ALL TOGETHER (~ 10 minutes)
+Sys.time()
 formatted_files <- list.files(tidal_processed_dir) %>%
   paste(tidal_processed_dir, . , sep = "")
 list_ensemble_data <- vector("list", length(formatted_files))
 for(i in 1:length(formatted_files)){
+  print(i)
   list_ensemble_data[[i]] <- readRDS(formatted_files[i])
 }
 all_ensemble_data <- do.call("rbind", list_ensemble_data)
-saveRDS(all_ensemble_data, paste(tidal_processed_dir, "ENS_",location_ref, ".rds", sep = ""))
+Sys.time()
+
+# --------------------------------------------------------------------------------
+
+# FILTER IT DOWN (KEEP HOURLY) AND REMOVE LATE LEAD TIMES
+max_lead_time = 60*60*24*10
+lead_times_numeric = unique(all_ensemble_data$LEAD_TIME)
+index_keep_times = which(lead_times_numeric%%(60*60) == 0 &
+                           lead_times_numeric < max_lead_time)
+filter_times = lead_times_numeric[index_keep_times] %>%
+  lubridate::as.duration()
+reduced_ensemble_data <- all_ensemble_data %>%
+  dplyr::filter(LEAD_TIME %in% filter_times)
+
+# --------------------------------------------------------------------------------
+
+saveRDS(all_ensemble_data, paste(tidal_dir, "ENS_",location_ref, ".rds", sep = ""))
+saveRDS(reduced_ensemble_data, paste(tidal_dir, "reduced_ENS_",location_ref, ".rds", sep = ""))
 
 # could do it in R - but I just manually zipped up the individual days
 
